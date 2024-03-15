@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <ImageView
+        android:id="@+id/img_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/logox"
+        android:layout_gravity="center_vertical"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/ll_rcv">
+
+        <TextView
+            android:id="@+id/tv_taikhoan_bl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:padding="6dp"
+            android:gravity="left"
+            android:text="trong09@gmail.com"/>
+        <TextView
+            android:id="@+id/tv_nd_bl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_marginLeft="45dp"
+            android:textSize="16dp"
+            android:padding="3dp"
+            android:gravity="left"
+            android:text="Truyện hay quá!"/>
+        <TextView
+            android:id="@+id/tv_ngaybinhluan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2021-10-10"
+            android:textSize="12dp"
+            android:padding="3dp"/>
+    </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

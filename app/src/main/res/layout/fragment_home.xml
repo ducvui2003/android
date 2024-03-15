@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical">-->
+
+<!--        -->
+
+        <androidx.drawerlayout.widget.DrawerLayout
+            android:id="@+id/drlo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+            <com.google.android.material.navigation.NavigationView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/nvv"
+                app:menu="@menu/menu"
+                android:layout_gravity="start"/>
+            <!--        app:headerLayout="@layout/header"-->
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="50dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        app:title=" "
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize">
+                        <TextView
+                            android:id="@+id/tv_TimKiemHome"
+                            android:layout_width="200dp"
+                            android:layout_height="35dp"
+                            android:text="Tim kiem truyen"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/khung"
+                            android:paddingLeft="35dp"
+                            android:drawableLeft="@drawable/ic_baseline_search_24" />
+                        <TextView
+                            android:id="@+id/tv_diemdanh"
+                            android:layout_width="40dp"
+                            android:layout_height="35dp"
+                            android:layout_marginLeft="25dp"
+                            android:text="Điểm danh"
+                            android:textSize="8dp"
+                            android:gravity="center"
+                            app:drawableTopCompat="@drawable/ic_reward" />
+                    </androidx.appcompat.widget.Toolbar>
+
+                    <ViewFlipper
+                        android:id="@+id/vf"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="10dp">
+                    </ViewFlipper>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_xephang"
+                            android:layout_width="85dp"
+                            android:layout_height="75dp"
+                            android:text="Xếp hạng"
+                            android:textSize="12dp"
+                            android:gravity="center"
+                            android:drawableTop="@drawable/ic_baseline_leaderboard40"/>
+                        <TextView
+                            android:id="@+id/tv_theloai"
+                            android:layout_width="85dp"
+                            android:layout_height="75dp"
+                            android:text="Thể loại"
+                            android:textSize="12dp"
+                            android:gravity="center"
+                            android:drawableTop="@drawable/ic_category"/>
+                        <TextView
+                            android:id="@+id/tv_diemthuong"
+                            android:layout_width="85dp"
+                            android:layout_height="75dp"
+                            android:text="Điểm thưởng"
+                            android:textSize="12dp"
+                            android:gravity="center"
+                            android:drawableTop="@drawable/ic_points"/>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_name_cat_rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:textColor="@color/black"
+                            android:background="@drawable/khung"
+                            android:textSize="18dp"
+                            android:text="Truyện Mới"
+                            android:textStyle="normal"
+                            android:gravity="center"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginBottom="10dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_name_cat_rv2"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:textColor="@color/black"
+                            android:background="@drawable/khung"
+                            android:textSize="18dp"
+                            android:text="Top Truyện"
+                            android:textStyle="normal"
+                            android:gravity="center"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginBottom="10dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:background="@color/white"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_name_cat_rv3"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:textColor="@color/black"
+                            android:background="@drawable/khung"
+                            android:textSize="18dp"
+                            android:text="Truyện Full"
+                            android:textStyle="normal"
+                            android:gravity="center"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginBottom="10dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </ScrollView>
+
+        </androidx.drawerlayout.widget.DrawerLayout>
+<!--    </LinearLayout>-->
+</FrameLayout>

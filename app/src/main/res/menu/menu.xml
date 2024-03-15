@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Chức năng Quản trị"
+        android:id="@+id/it_chucnangquantri">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/it_quanlytaikhoan"
+                    android:title="Quản lý tài khoản"
+                    android:icon="@drawable/account"/>
+                <item android:id="@+id/it_quanlytruyen"
+                    android:title="Quản lý truyện"
+                    android:icon="@drawable/account"/>
+                <item android:id="@+id/it_quanlybinhluan"
+                    android:title="Quản lý bình luận"
+                    android:icon="@drawable/account"/>
+                <item android:id="@+id/it_quanlythongke"
+                    android:title="Thống kê"
+                    android:icon="@drawable/account"/>
+            </group>
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/it_theloai"
+            android:title="Thể loại"
+            android:icon="@drawable/ic_format_list"/>
+        <item android:id="@+id/it_xephang"
+            android:title="Xếp hạng"
+            android:icon="@drawable/ic_leaderboard"/>
+    </group>
+
+
+
+        <item android:title="Ứng dụng">
+            <menu>
+                <group android:checkableBehavior="single">
+                <item android:id="@+id/it_danhgia"
+                    android:title="Đánh giá 5 sao"
+                    android:icon="@drawable/ic_stars"/>
+                <item android:id="@+id/it_phanhoi"
+                    android:title="Gửi phản hồi"
+                    android:icon="@drawable/ic_email"/>
+                <item android:id="@+id/it_ttud"
+                    android:title="Thông tin ứng dụng"
+                    android:icon="@drawable/ic_info"/>
+                </group>
+            </menu>
+        </item>
+
+</menu>

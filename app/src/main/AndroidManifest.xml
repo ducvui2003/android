@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.truyenapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="Argon Comic"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppDocTruyen">
+        <activity
+            android:name="com.example.truyenapp.TheLoai"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.QuenMK"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.MKMoi"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.DangKy"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.SignIn"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.Home"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.CTTruyen"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.TimKiem"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.XepHang"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.DocChapter"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.DiemThuong"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.CuaHang"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.ShowDanhGia"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.ShowBinhLuan"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.QuanLyTaiKhoan"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.QuanLyBinhLuan"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.QuanLyThongKe"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.QuanLyTruyen"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.ShowThongTinTaiKhoan"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.ShowThongTinBinhLuan"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.ShowThongTinThongKe"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.ShowThongTinTruyen"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.admin.ShowThongTinChapter"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.DoiMatKhau"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.ThongTinTaiKhoan"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.activity.LichSuNhanDiem"
+            android:exported="true" />
+        <activity
+            android:name="com.example.truyenapp.Introduce"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
