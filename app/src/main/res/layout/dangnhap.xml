@@ -36,11 +36,6 @@
             android:textSize="32dp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="50px"
-            android:layout_height="50px"
-            android:src="@drawable/user_icon"
-            tools:ignore="ExtraText" />
 
         <EditText
             android:id="@+id/edt_dn_email"
@@ -48,7 +43,6 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/khung"
-            android:drawableLeft="@drawable/user_icon"
             android:drawablePadding="20dp"
             android:drawableTint="@color/green"
             android:ems="10"
@@ -57,7 +51,8 @@
             android:padding="10dp"
             android:textColor="@color/black"
             android:textSize="14dp"
-            android:textStyle="normal" />
+            android:textStyle="normal"
+            tools:ignore="ExtraText" />
 
         <EditText
             android:id="@+id/edt_dn_pass"
