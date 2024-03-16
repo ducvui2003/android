@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.truyenapp.activity.SignIn;
+import com.example.truyenapp.view.activity.HomeActivity;
+import com.example.truyenapp.view.activity.Authenticate;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.SendMailTask;
 import com.example.truyenapp.model.TaiKhoan;
@@ -81,7 +82,7 @@ public class MKMoi extends AppCompatActivity implements View.OnClickListener{
                         if(updateMK==false){
                             Toast.makeText(this,"Cập nhật không thành công",Toast.LENGTH_SHORT).show();
                         }else{
-                            Intent dialog_box = new Intent(this, SignIn.class);
+                            Intent dialog_box = new Intent(this, Authenticate.class);
                             dialog_box.putExtra("email", tv_emailxn.getText().toString());
                             dialog_box.putExtra("pass", edt_mkm.getText().toString());
                             Toast.makeText(this,"Lấy lại mật khẩu thành công!",Toast.LENGTH_SHORT).show();
@@ -102,7 +103,7 @@ public class MKMoi extends AppCompatActivity implements View.OnClickListener{
                 break;
             }
             case R.id.imgv_logo:
-                Intent dialog_box1 = new Intent(this, Home.class);
+                Intent dialog_box1 = new Intent(this, HomeActivity.class);
                 startActivity(dialog_box1);
                 finish();
                 break;

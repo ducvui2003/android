@@ -15,9 +15,9 @@ public class Test extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_test);
-
-        textView=findViewById(R.id.tv_test);
+//        setContentView(R.layout.activity_test);
+//
+//        textView=findViewById(R.id.tv_test);
 
         String a="ĐỆ NHẤT DANH SÁCH\n" +
                 "VÕ LUYỆN ĐỈNH PHONG\n" +

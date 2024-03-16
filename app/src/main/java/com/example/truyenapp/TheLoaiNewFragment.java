@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.truyenapp.adapter.TheLoaiAdapter;
+import com.example.truyenapp.view.adapter.TheLoaiAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.PLTruyen;
 import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.view.fragment.BXHVoteFragment;
 
 import java.util.ArrayList;
 

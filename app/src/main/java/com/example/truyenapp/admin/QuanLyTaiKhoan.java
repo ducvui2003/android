@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.adapter.AdapterAdmin.QLTaiKhoanAdapter;
+import com.example.truyenapp.view.adapter.admin.QLTaiKhoanAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.TaiKhoan;
 

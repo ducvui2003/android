@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.adapter.TimKiemAdapter;
+import com.example.truyenapp.view.adapter.TimKiemAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Model_TimKiem;
 

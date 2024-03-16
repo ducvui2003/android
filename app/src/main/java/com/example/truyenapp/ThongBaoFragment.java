@@ -10,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.truyenapp.adapter.ThongBaoAdapter;
+import com.example.truyenapp.view.adapter.ThongBaoAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.TaiKhoan;
 import com.example.truyenapp.model.ThongBao;
+import com.example.truyenapp.view.fragment.TaiKhoanFragment;
 
 import java.util.ArrayList;
 

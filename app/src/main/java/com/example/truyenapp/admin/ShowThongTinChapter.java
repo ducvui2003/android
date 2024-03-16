@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.adapter.AdapterAdmin.QLNDChapterAdapter;
+import com.example.truyenapp.view.adapter.admin.QLNDChapterAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.model.NoiDungChapter;

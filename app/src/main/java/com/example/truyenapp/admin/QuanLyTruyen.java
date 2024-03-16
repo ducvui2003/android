@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.adapter.AdapterAdmin.QLTruyenAdapter;
+import com.example.truyenapp.view.adapter.admin.QLTruyenAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Truyen;
 

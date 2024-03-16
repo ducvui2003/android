@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.truyenapp.adapter.LuotXemApdapter;
+import com.example.truyenapp.view.adapter.LuotXemApdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.PLTruyen;
+import com.example.truyenapp.view.fragment.BXHLuotXemFragment;
 
 import java.util.ArrayList;
 

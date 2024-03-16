@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.adapter.AdapterAdmin.QLThongKeAdapter;
+import com.example.truyenapp.view.adapter.admin.QLThongKeAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ThongKe;
 

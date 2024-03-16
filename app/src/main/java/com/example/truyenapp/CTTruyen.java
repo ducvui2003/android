@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.view.fragment.FragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;

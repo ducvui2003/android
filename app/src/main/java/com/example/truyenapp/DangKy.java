@@ -13,7 +13,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.truyenapp.activity.SignIn;
+import com.example.truyenapp.view.activity.HomeActivity;
+import com.example.truyenapp.view.activity.Authenticate;
 import com.example.truyenapp.database.Database;
 
 import java.text.Normalizer;
@@ -35,8 +36,8 @@ public class DangKy extends AppCompatActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dangky);
 
-        Anhxa();
-        setOnClickListener();
+//        Anhxa();
+//        setOnClickListener();
 
         db=new Database(this);
 
@@ -46,17 +47,17 @@ public class DangKy extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View view)
     {
         switch (view.getId()) {
-            case R.id.tv_cotk:
-                Intent dialog_box = new Intent(this, SignIn.class);
+            case R.id.change_fragment_sign_in:
+                Intent dialog_box = new Intent(this, Authenticate.class);
                 startActivity(dialog_box);
                 finish();
                 break;
             case R.id.imgv_logo:
-                Intent dialog_box1 = new Intent(this, Home.class);
+                Intent dialog_box1 = new Intent(this, HomeActivity.class);
                 startActivity(dialog_box1);
                 finish();
                 break;
-            case R.id.bt_dk:
+            case R.id.button_sign_up:
             {
                 String email=edt_dk_email.getText().toString();
                 email=removeAccent(email);
@@ -82,7 +83,7 @@ public class DangKy extends AppCompatActivity implements View.OnClickListener{
                                 Boolean insert = db.insertTaikhoan(email,pass);
                                 if(insert==true){
                                     Toast.makeText(this,"Đăng ký thành công!",Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(this, SignIn.class);
+                                    Intent intent=new Intent(this, Authenticate.class);
                                     intent.putExtra("email",email);
                                     intent.putExtra("pass",edt_dk_pass.getText().toString());
                                     startActivity(intent);
@@ -118,16 +119,16 @@ public class DangKy extends AppCompatActivity implements View.OnClickListener{
         bt_dk.setOnClickListener(this);
     }
 
-    private void Anhxa(){
-        textView = findViewById(R.id.tv_cotk);
-        edt_dk_email=findViewById(R.id.edt_dk_email);
-        edt_dk_pass=findViewById(R.id.edt_dk_pass);
-        edt_dk_nlpass=findViewById(R.id.edt_dk_nlpass);
-        bt_dk=findViewById(R.id.bt_dk);
-        imgv_logo=findViewById(R.id.imgv_logo);
-        rb_check=findViewById(R.id.rb_check);
-
-    }
+//    private void Anhxa(){
+//        textView = findViewById(R.id.tv_cotk);
+//        edt_dk_email=findViewById(R.id.edt_dk_email);
+//        edt_dk_pass=findViewById(R.id.edt_dk_pass);
+//        edt_dk_nlpass=findViewById(R.id.edt_dk_nlpass);
+//        bt_dk=findViewById(R.id.bt_dk);
+//        imgv_logo=findViewById(R.id.imgv_logo);
+////        rb_check=findViewById(R.id.rb_check);
+//
+//    }
 
     public static boolean vailidatePass(String pass) {
         String expression = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";

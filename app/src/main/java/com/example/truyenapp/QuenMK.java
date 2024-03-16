@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.SendMailTask;
+import com.example.truyenapp.view.activity.HomeActivity;
 
 import java.text.Normalizer;
 import java.util.Arrays;
@@ -88,7 +89,7 @@ public class QuenMK extends AppCompatActivity implements View.OnClickListener{
                 break;
             }
             case R.id.imgv_logo:
-                Intent dialog_box1 = new Intent(this, Home.class);
+                Intent dialog_box1 = new Intent(this, HomeActivity.class);
                 startActivity(dialog_box1);
                 finish();
                 break;

@@ -24,10 +24,10 @@
             android:name="com.example.truyenapp.DangKy"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.SignIn"
+            android:name="com.example.truyenapp.view.activity.Authenticate"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.Home"
+            android:name="com.example.truyenapp.view.activity.HomeActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.CTTruyen"
@@ -39,19 +39,19 @@
             android:name="com.example.truyenapp.XepHang"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.DocChapter"
+            android:name="com.example.truyenapp.view.activity.DocChapter"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.DiemThuong"
+            android:name="com.example.truyenapp.view.activity.DiemThuong"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.CuaHang"
+            android:name="com.example.truyenapp.view.activity.CuaHang"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.ShowDanhGia"
+            android:name="com.example.truyenapp.view.activity.ShowDanhGia"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.ShowBinhLuan"
+            android:name="com.example.truyenapp.view.activity.ShowBinhLuan"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.QuanLyTaiKhoan"
@@ -81,16 +81,16 @@
             android:name="com.example.truyenapp.admin.ShowThongTinChapter"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.DoiMatKhau"
+            android:name="com.example.truyenapp.view.activity.DoiMatKhau"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.ThongTinTaiKhoan"
+            android:name="com.example.truyenapp.view.activity.ThongTinTaiKhoan"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.activity.LichSuNhanDiem"
+            android:name="com.example.truyenapp.view.activity.LichSuNhanDiem"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.Introduce"
+            android:name="com.example.truyenapp.view.activity.IntroduceActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
