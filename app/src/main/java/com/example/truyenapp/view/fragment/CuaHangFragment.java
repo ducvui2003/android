@@ -16,8 +16,8 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.view.activity.CuaHang;
 import com.example.truyenapp.view.adapter.CuaHangAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.VatPham;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Item;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ public class CuaHangFragment extends Fragment {
 
     View view;
     Database db;
-    TaiKhoan taiKhoan;
+    Account account;
     public RecyclerView rcv;
     public CuaHangAdapter rcv_adapter;
     String email;
@@ -87,7 +87,7 @@ public class CuaHangFragment extends Fragment {
 
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
         cuaHang=new CuaHang();
 
         recyclerViewCuaHang();
@@ -98,9 +98,9 @@ public class CuaHangFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        String lenhSqlite_vatpham="select * from vatpham where id not in (select idvatpham from doithuong where idtaikhoan="+taiKhoan.getId()+")";
-        ArrayList<VatPham> vatPham=db.getVatPham(lenhSqlite_vatpham);
-        rcv_adapter=new CuaHangAdapter(getActivity(),vatPham,taiKhoan,db, cuaHang);
+        String lenhSqlite_vatpham="select * from vatpham where id not in (select idvatpham from doithuong where idtaikhoan="+ account.getId()+")";
+        ArrayList<Item> item =db.getVatPham(lenhSqlite_vatpham);
+        rcv_adapter=new CuaHangAdapter(getActivity(), item, account,db, cuaHang);
         rcv.setAdapter(rcv_adapter);
     }
 

@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.ShowDanhGiaAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.DanhGia;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Evaluate;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class ShowDanhGia extends AppCompatActivity {
 
     private RecyclerView rcv_danhgia;
     private ShowDanhGiaAdapter rcv_adapter;
-    TaiKhoan taiKhoan;
+    Account account;
     String email;
     TextView tv_danhgia_tong;
 
@@ -35,9 +35,9 @@ public class ShowDanhGia extends AppCompatActivity {
         Anhxa();
         Intent intent=getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
-        int tongdanhgia=db.getTongDanhGia(taiKhoan.getId());
+        int tongdanhgia=db.getTongDanhGia(account.getId());
         tv_danhgia_tong.setText("Tổng đánh giá: "+tongdanhgia);
         recyclerViewDanhGia();
     };
@@ -45,8 +45,8 @@ public class ShowDanhGia extends AppCompatActivity {
     private void recyclerViewDanhGia(){
         LinearLayoutManager linearLayoutManager2=new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         rcv_danhgia.setLayoutManager(linearLayoutManager2);
-        ArrayList<DanhGia> listDanhGia=db.getShowDanhGia(taiKhoan.getId());
-        rcv_adapter=new ShowDanhGiaAdapter(this,listDanhGia,db);
+        ArrayList<Evaluate> listEvaluate =db.getShowDanhGia(account.getId());
+        rcv_adapter=new ShowDanhGiaAdapter(this, listEvaluate,db);
         rcv_danhgia.setAdapter(rcv_adapter);
     }
 

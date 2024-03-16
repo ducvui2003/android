@@ -19,7 +19,7 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.admin.QLChapterAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Chapter;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Story;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class ShowThongTinTruyen extends AppCompatActivity implements View.OnClic
     EditText edt_tacgia,edt_mota,edt_theloai,edt_linkanh,edt_trangthai,edt_tentruyen,edt_tenchapter_newchapter;
     Button bt_chinhsua,bt_them,bt_huy,bt_xacnhantruyen,bt_huychinhsuatruyen;
     Database db;
-    Truyen truyen;
+    Story story;
     int id;
     CardView cv_themchapter;
     private RecyclerView rcv;
@@ -47,7 +47,7 @@ public class ShowThongTinTruyen extends AppCompatActivity implements View.OnClic
         db=new Database(this);
         Intent intent=getIntent();
         id=intent.getIntExtra("id_truyen",1);
-        truyen=db.getTruyenById(id);
+        story =db.getTruyenById(id);
 
         setEnable(0);
         setData();
@@ -65,14 +65,14 @@ public class ShowThongTinTruyen extends AppCompatActivity implements View.OnClic
     }
 
     private void setData(){
-        Glide.with(this).load(truyen.getLinkhanh()).into(img_truyen);
-        edt_tentruyen.setText(truyen.getTentruyen());
-        edt_tacgia.setText(truyen.getTacgia());
-        edt_mota.setText(truyen.getMota());
-        edt_theloai.setText(truyen.getTheloai());
-        edt_trangthai.setText(""+truyen.getTrangthai());
-        tv_id.setText(""+truyen.getId());
-        edt_linkanh.setText(truyen.getLinkhanh());
+        Glide.with(this).load(story.getLinkImage()).into(img_truyen);
+        edt_tentruyen.setText(story.getNameStory());
+        edt_tacgia.setText(story.getAuthor());
+        edt_mota.setText(story.getDescribe());
+        edt_theloai.setText(story.getCategory());
+        edt_trangthai.setText(""+ story.getStatus());
+        tv_id.setText(""+ story.getId());
+        edt_linkanh.setText(story.getLinkImage());
     }
 
     private void setOnClickListener(){
@@ -128,7 +128,7 @@ public class ShowThongTinTruyen extends AppCompatActivity implements View.OnClic
                 String key_search=removeAccent(tentruyen).trim();
                 if(!tentruyen.isEmpty() && !tacgia.isEmpty() && !mota.isEmpty() && !theloai.isEmpty() && !linkanh.isEmpty() && !trangthai.isEmpty()){
                     if(tt==1 || tt==0){
-                        db.updateTruyen(truyen.getId(),tentruyen,tacgia,mota,theloai,linkanh,tt,key_search);
+                        db.updateTruyen(story.getId(),tentruyen,tacgia,mota,theloai,linkanh,tt,key_search);
                         Toast.makeText(this,"Đã cập nhật thông tin truyện",Toast.LENGTH_SHORT).show();
                         reload();
                     }else {

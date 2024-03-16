@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.ShowBinhLuanAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class ShowBinhLuan extends AppCompatActivity {
 
     private RecyclerView rcv_binhluan;
     private ShowBinhLuanAdapter rcv_adapter;
-    TaiKhoan taiKhoan;
+    Account account;
     String email;
     TextView tv_binhluan_tong;
 
@@ -35,9 +35,9 @@ public class ShowBinhLuan extends AppCompatActivity {
         Anhxa();
         Intent intent=getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
-        int tongbinhluan=db.getTongBinhLuan(taiKhoan.getId());
+        int tongbinhluan=db.getTongBinhLuan(account.getId());
         tv_binhluan_tong.setText("Tổng bình luận: "+tongbinhluan);
         recyclerViewBinhLuan();
     };
@@ -45,7 +45,7 @@ public class ShowBinhLuan extends AppCompatActivity {
     private void recyclerViewBinhLuan(){
         LinearLayoutManager linearLayoutManager2=new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
         rcv_binhluan.setLayoutManager(linearLayoutManager2);
-        ArrayList<BinhLuan> listBinhLuan=db.getShowBinhLuan(taiKhoan.getId());
+        ArrayList<Comment> listBinhLuan=db.getShowBinhLuan(account.getId());
         rcv_adapter=new ShowBinhLuanAdapter(this,listBinhLuan,db);
         rcv_binhluan.setAdapter(rcv_adapter);
     }

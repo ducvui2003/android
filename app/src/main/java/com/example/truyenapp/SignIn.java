@@ -21,7 +21,7 @@ import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DangKy extends AppCompatActivity implements View.OnClickListener{
+public class SignIn extends AppCompatActivity implements View.OnClickListener{
 
     TextView textView;
     EditText edt_dk_email, edt_dk_pass,edt_dk_nlpass;

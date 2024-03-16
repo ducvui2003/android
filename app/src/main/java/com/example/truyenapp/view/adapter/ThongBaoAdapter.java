@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.ThongBao;
+import com.example.truyenapp.model.Notification;
 
 import java.util.ArrayList;
 
 public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ThongBaoViewHolder>{
     private Context context;
-    private ArrayList<ThongBao> list;
+    private ArrayList<Notification> list;
 
-    public ThongBaoAdapter(Context context, ArrayList<ThongBao> list) {
+    public ThongBaoAdapter(Context context, ArrayList<Notification> list) {
         this.context = context;
         this.list = list;
     }
@@ -32,14 +32,14 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.ThongB
 
     @Override
     public void onBindViewHolder(@NonNull ThongBaoViewHolder holder, int position) {
-        ThongBao thongBao=list.get(position);
-        if(thongBao==null){
+        Notification notification =list.get(position);
+        if(notification ==null){
             return;
         }
 
-        holder.tv_ndtb.setText(thongBao.getNoidung());
-        holder.tv_tieude.setText(thongBao.getTieude());
-        holder.tv_ngaydangtb.setText(thongBao.getNgaydang());
+        holder.tv_ndtb.setText(notification.getContent());
+        holder.tv_tieude.setText(notification.getTitle());
+        holder.tv_ngaydangtb.setText(notification.getPostingDate());
     }
 
     @Override

@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.DiemThuong;
+import com.example.truyenapp.model.RewardPoints;
 
 import java.util.ArrayList;
 
 public class LSNhanDiemAdapter extends RecyclerView.Adapter<LSNhanDiemAdapter.LSNhanDiemViewHolder>{
     private Context context;
-    private ArrayList<DiemThuong> list;
+    private ArrayList<RewardPoints> list;
 
-    public LSNhanDiemAdapter(Context context, ArrayList<DiemThuong> list) {
+    public LSNhanDiemAdapter(Context context, ArrayList<RewardPoints> list) {
         this.context = context;
         this.list = list;
     }
@@ -32,13 +32,13 @@ public class LSNhanDiemAdapter extends RecyclerView.Adapter<LSNhanDiemAdapter.LS
 
     @Override
     public void onBindViewHolder(@NonNull LSNhanDiemViewHolder holder, int position) {
-        DiemThuong diemThuong=list.get(position);
-        if(diemThuong==null){
+        RewardPoints rewardPoints =list.get(position);
+        if(rewardPoints ==null){
             return;
         }
 
-        holder.tv_diem.setText("+ "+diemThuong.getDiem()+ " điểm");
-        holder.tv_ngaynhan.setText(diemThuong.getNgaynhan());
+        holder.tv_diem.setText("+ "+ rewardPoints.getPoint()+ " điểm");
+        holder.tv_ngaynhan.setText(rewardPoints.getRecievedDate());
     }
 
     @Override

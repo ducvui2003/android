@@ -10,14 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.ThongKe;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Statistical;
+import com.example.truyenapp.model.Story;
 
 public class ShowThongTinThongKe extends AppCompatActivity {
     ImageView img;
     TextView tv_qltk_tentruyen,tv_qltk_id,tv_qltk_chapter,tv_qltk_danhgia,tv_qltk_tongdanhgia,tv_qltk_tongluotxem,tv_qltk_tongbinhluan;
     Database db;
-    ThongKe thongKe;
+    Statistical statistical;
     int id;
 
     @Override
@@ -29,22 +29,22 @@ public class ShowThongTinThongKe extends AppCompatActivity {
         db=new Database(this);
         Intent intent=getIntent();
         id=intent.getIntExtra("id_thongke",1);
-        thongKe=db.getThongKeById(id);
+        statistical =db.getThongKeById(id);
 
         setData();
     }
 
     private void setData(){
-        Truyen truyen=db.getTruyenById(thongKe.getIdtruyen());
+        Story story =db.getTruyenById(statistical.getIdStory());
 
-        Glide.with(this).load(truyen.getLinkhanh()).into(img);
-        tv_qltk_tentruyen.setText(truyen.getTentruyen());
-        tv_qltk_id.setText(""+thongKe.getId());
-        tv_qltk_danhgia.setText(""+db.TBDanhGiaTruyen(thongKe.getIdtruyen()));
-        tv_qltk_tongdanhgia.setText(""+db.getTongDanhGiaTruyen(thongKe.getIdtruyen()));
-        tv_qltk_chapter.setText(""+db.getSumChapter(thongKe.getIdtruyen()));
-        tv_qltk_tongluotxem.setText(""+db.TongLuotXemTruyen(thongKe.getIdtruyen()));
-        tv_qltk_tongbinhluan.setText(""+db.getTongBinhLuanTruyen(thongKe.getIdtruyen()));
+        Glide.with(this).load(story.getLinkImage()).into(img);
+        tv_qltk_tentruyen.setText(story.getNameStory());
+        tv_qltk_id.setText(""+ statistical.getId());
+        tv_qltk_danhgia.setText(""+db.TBDanhGiaTruyen(statistical.getIdStory()));
+        tv_qltk_tongdanhgia.setText(""+db.getTongDanhGiaTruyen(statistical.getIdStory()));
+        tv_qltk_chapter.setText(""+db.getSumChapter(statistical.getIdStory()));
+        tv_qltk_tongluotxem.setText(""+db.TongLuotXemTruyen(statistical.getIdStory()));
+        tv_qltk_tongbinhluan.setText(""+db.getTongBinhLuanTruyen(statistical.getIdStory()));
 
     }
 

@@ -16,9 +16,9 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.LichSuDocTruyen;
-import com.example.truyenapp.model.PLTruyen;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.ReadingHistory;
+import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ import java.util.ArrayList;
  */
 public class GoiYTruyenFragment extends Fragment implements View.OnClickListener{
 
-    TaiKhoan taiKhoan;
+    Account account;
     String email;
     Database db;
     TextView tv_tentruyenmoi,tv_tentruyenluotxem,tv_tentruyendanhgia, tv_theloaimoi,tv_theloailuotxem,tv_theloaidanhgia,tv_ngaydang,tv_luotxem,tv_danhgia;
@@ -88,7 +88,7 @@ public class GoiYTruyenFragment extends Fragment implements View.OnClickListener
         db=new Database(getActivity());
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         setData();
         setOnClickListener();
@@ -115,7 +115,7 @@ public class GoiYTruyenFragment extends Fragment implements View.OnClickListener
     }
 
     public void setData(){
-        ArrayList<LichSuDocTruyen> listtruyendadoc=db.getListTruyenDaDoc(taiKhoan.getId());
+        ArrayList<ReadingHistory> listtruyendadoc=db.getListTruyenDaDoc(account.getId());
         ArrayList<Integer> listidtruyen=new ArrayList<>();
         if(listtruyendadoc.size()==0){
             for(int i=0;i<listtruyendadoc.size();i++){
@@ -124,7 +124,7 @@ public class GoiYTruyenFragment extends Fragment implements View.OnClickListener
         }
 
 
-        ArrayList<String> listtheloai=db.getTheLoaiYeuThich(taiKhoan.getId());
+        ArrayList<String> listtheloai=db.getTheLoaiYeuThich(account.getId());
         theloai=listtheloai.get(0);
 
         String lenhSQLite1="select truyen.id, thongke.tongluotxem, thongke.sosaotb, truyen.tentruyen, chapter.ngaydang, truyen.theloai, truyen.linkanh from truyen inner join chapter on truyen.id=chapter.idtruyen inner join thongke on truyen.id=thongke.idtruyen where chapter.tenchapter='Chapter 1' and truyen.theloai='"+theloai+"' order by chapter.ngaydang desc limit 1";
@@ -140,47 +140,47 @@ public class GoiYTruyenFragment extends Fragment implements View.OnClickListener
         String lenhSQLite6="select truyen.id, thongke.tongluotxem, thongke.sosaotb, truyen.tentruyen, chapter.ngaydang, truyen.theloai, truyen.linkanh from truyen inner join chapter on truyen.id=chapter.idtruyen inner join thongke on truyen.id=thongke.idtruyen where chapter.tenchapter='Chapter 1' order by thongke.sosaotb desc, chapter.ngaydang desc limit 1";
 
         if(theloai!="theloai"){
-            ArrayList<PLTruyen> truyen1=db.getListPLTruyen(lenhSQLite1);
-            tv_tentruyenmoi.setText(truyen1.get(0).getTentruyen());
-            tv_theloaimoi.setText(truyen1.get(0).getTheloai());
-            tv_ngaydang.setText("Ngày đăng: "+truyen1.get(0).getNgaydang());
-            Glide.with(this).load(truyen1.get(0).getLinkanh()).into(img_truyenmoi);
+            ArrayList<ClassifyStory> truyen1=db.getListPLTruyen(lenhSQLite1);
+            tv_tentruyenmoi.setText(truyen1.get(0).getNameStory());
+            tv_theloaimoi.setText(truyen1.get(0).getCategory());
+            tv_ngaydang.setText("Ngày đăng: "+truyen1.get(0).getPostingDate());
+            Glide.with(this).load(truyen1.get(0).getLinkImage()).into(img_truyenmoi);
             idmoi=truyen1.get(0).getId();
 
-            ArrayList<PLTruyen> truyen2=db.getListPLTruyen(lenhSQLite2);
-            tv_tentruyenluotxem.setText(truyen2.get(0).getTentruyen());
-            tv_theloailuotxem.setText(truyen2.get(0).getTheloai());
-            tv_luotxem.setText("Lượt xem: "+truyen2.get(0).getLuotxem());
-            Glide.with(this).load(truyen2.get(0).getLinkanh()).into(img_truyenluotxem);
+            ArrayList<ClassifyStory> truyen2=db.getListPLTruyen(lenhSQLite2);
+            tv_tentruyenluotxem.setText(truyen2.get(0).getNameStory());
+            tv_theloailuotxem.setText(truyen2.get(0).getCategory());
+            tv_luotxem.setText("Lượt xem: "+truyen2.get(0).getView());
+            Glide.with(this).load(truyen2.get(0).getLinkImage()).into(img_truyenluotxem);
             idluotxem=truyen2.get(0).getId();
 
-            ArrayList<PLTruyen> truyen3=db.getListPLTruyen(lenhSQLite3);
-            tv_tentruyendanhgia.setText(truyen3.get(0).getTentruyen());
-            tv_theloaidanhgia.setText(truyen3.get(0).getTheloai());
-            tv_danhgia.setText("Đánh giá: "+truyen3.get(0).getDanhgia());
-            Glide.with(this).load(truyen3.get(0).getLinkanh()).into(img_truyendanhgia);
+            ArrayList<ClassifyStory> truyen3=db.getListPLTruyen(lenhSQLite3);
+            tv_tentruyendanhgia.setText(truyen3.get(0).getNameStory());
+            tv_theloaidanhgia.setText(truyen3.get(0).getCategory());
+            tv_danhgia.setText("Đánh giá: "+truyen3.get(0).getEvaluate());
+            Glide.with(this).load(truyen3.get(0).getLinkImage()).into(img_truyendanhgia);
             iddanhgia=truyen3.get(0).getId();
 
         }else{
-            ArrayList<PLTruyen> truyen4=db.getListPLTruyen(lenhSQLite4);
-            tv_tentruyenmoi.setText(truyen4.get(0).getTentruyen());
-            tv_theloaimoi.setText(truyen4.get(0).getTheloai());
-            tv_ngaydang.setText("Ngày đăng: "+truyen4.get(0).getNgaydang());
-            Glide.with(this).load(truyen4.get(0).getLinkanh()).into(img_truyenmoi);
+            ArrayList<ClassifyStory> truyen4=db.getListPLTruyen(lenhSQLite4);
+            tv_tentruyenmoi.setText(truyen4.get(0).getNameStory());
+            tv_theloaimoi.setText(truyen4.get(0).getCategory());
+            tv_ngaydang.setText("Ngày đăng: "+truyen4.get(0).getPostingDate());
+            Glide.with(this).load(truyen4.get(0).getLinkImage()).into(img_truyenmoi);
             idmoi=truyen4.get(0).getId();
 
-            ArrayList<PLTruyen> truyen5=db.getListPLTruyen(lenhSQLite5);
-            tv_tentruyenluotxem.setText(truyen5.get(0).getTentruyen());
-            tv_theloailuotxem.setText(truyen5.get(0).getTheloai());
-            tv_luotxem.setText("Lượt xem: "+truyen5.get(0).getLuotxem());
-            Glide.with(this).load(truyen5.get(0).getLinkanh()).into(img_truyenluotxem);
+            ArrayList<ClassifyStory> truyen5=db.getListPLTruyen(lenhSQLite5);
+            tv_tentruyenluotxem.setText(truyen5.get(0).getNameStory());
+            tv_theloailuotxem.setText(truyen5.get(0).getCategory());
+            tv_luotxem.setText("Lượt xem: "+truyen5.get(0).getView());
+            Glide.with(this).load(truyen5.get(0).getLinkImage()).into(img_truyenluotxem);
             idluotxem=truyen5.get(0).getId();
 
-            ArrayList<PLTruyen> truyen6=db.getListPLTruyen(lenhSQLite6);
-            tv_tentruyendanhgia.setText(truyen6.get(0).getTentruyen());
-            tv_theloaidanhgia.setText(truyen6.get(0).getTheloai());
-            tv_danhgia.setText("Đánh giá: "+truyen6.get(0).getDanhgia());
-            Glide.with(this).load(truyen6.get(0).getLinkanh()).into(img_truyendanhgia);
+            ArrayList<ClassifyStory> truyen6=db.getListPLTruyen(lenhSQLite6);
+            tv_tentruyendanhgia.setText(truyen6.get(0).getNameStory());
+            tv_theloaidanhgia.setText(truyen6.get(0).getCategory());
+            tv_danhgia.setText("Đánh giá: "+truyen6.get(0).getEvaluate());
+            Glide.with(this).load(truyen6.get(0).getLinkImage()).into(img_truyendanhgia);
             iddanhgia=truyen6.get(0).getId();
         }
     }

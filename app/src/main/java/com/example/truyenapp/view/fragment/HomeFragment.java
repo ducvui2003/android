@@ -27,9 +27,10 @@ import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.TheLoai;
-import com.example.truyenapp.TimKiem;
-import com.example.truyenapp.XepHang;
+import com.example.truyenapp.Category;
+import com.example.truyenapp.Search;
+import com.example.truyenapp.Rank;
+import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.Authenticate;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
@@ -39,8 +40,7 @@ import com.example.truyenapp.admin.QuanLyTruyen;
 import com.example.truyenapp.view.activity.DiemThuong;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Account;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -62,11 +62,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     Button bt_dnhome, bt_dxhome;
     Menu menu;
     MenuItem mn_it_chucnangquantri;
-    TaiKhoan taiKhoan;
+    Account account;
     TextView tv_TimKemHome,tv_xephang, tv_theloai, tv_emailhome, tv_diemthuong,tv_diemdanh;
 
     Database db;
-    Truyen truyen;
+    Story story;
     String email;
 
     private RecyclerView rv,rv2,rv3;
@@ -126,8 +126,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         tv_emailhome.setText(email);
 
         if(tv_emailhome.getText().length()!=0){
-            taiKhoan = db.getTaiKhoan(email);
-            if(taiKhoan.getLoaitk()==1){
+            account = db.getTaiKhoan(email);
+            if(account.getAccoutType()==1){
                 mn_it_chucnangquantri.setVisible(true);
             }else {
                 mn_it_chucnangquantri.setVisible(false);
@@ -155,19 +155,19 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         String lenhSqlite_truyenmoi="SELECT *" +
                 "  FROM truyen \n" +
                 "  where id in (select truyen.id from truyen inner join chapter on truyen.id=chapter.idtruyen where chapter.tenchapter='Chapter 1' order by chapter.ngaydang desc limit 5)";
-        ArrayList<Truyen> truyenmoi=db.getTruyen(lenhSqlite_truyenmoi);
+        ArrayList<Story> truyenmoi=db.getTruyen(lenhSqlite_truyenmoi);
         _rv=new TruyenAdapter(truyenmoi,getActivity(),email);
 
         String lenhSqlite_toptruyen="SELECT *\n" +
                 "  FROM truyen \n" +
                 "  where id in (select truyen.id from truyen inner join thongke on truyen.id=thongke.idtruyen order by thongke.tongluotxem desc limit 5)";
-        ArrayList<Truyen> toptruyen=db.getTruyen(lenhSqlite_toptruyen);
+        ArrayList<Story> toptruyen=db.getTruyen(lenhSqlite_toptruyen);
         rv_2=new TruyenAdapter(toptruyen,getActivity(),email);
 
         String lenhSqlite_truyenfull="SELECT *\n" +
                 "  FROM truyen \n" +
                 "  where trangthai=1 limit 5";
-        ArrayList<Truyen> truyenfull=db.getTruyen(lenhSqlite_truyenfull);
+        ArrayList<Story> truyenfull=db.getTruyen(lenhSqlite_truyenfull);
         rv_3=new TruyenAdapter(truyenfull,getActivity(),email);
 
         rv.setAdapter(_rv);
@@ -202,17 +202,17 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 getActivity().finish();
                 break;
             case R.id.tv_TimKiemHome:
-                Intent dialog_box1 = new Intent(getActivity(), TimKiem.class);
+                Intent dialog_box1 = new Intent(getActivity(), Search.class);
                 dialog_box1.putExtra("email",email);
                 startActivity(dialog_box1);
                 break;
             case R.id.tv_xephang:
-                Intent dialog_box2 = new Intent(getActivity(), XepHang.class);
+                Intent dialog_box2 = new Intent(getActivity(), Rank.class);
                 dialog_box2.putExtra("email",email);
                 startActivity(dialog_box2);
                 break;
             case R.id.tv_theloai:
-                Intent dialog_box3 = new Intent(getActivity(), TheLoai.class);
+                Intent dialog_box3 = new Intent(getActivity(), Category.class);
                 dialog_box3.putExtra("email",email);
                 startActivity(dialog_box3);
                 break;
@@ -228,36 +228,36 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             case R.id.tv_diemdanh:
             {
                 if (tv_emailhome.getText().length() != 0) {
-                    Boolean checkDiemDanh = db.checkDiemDanh(taiKhoan);
+                    Boolean checkDiemDanh = db.checkDiemDanh(account);
                     if (checkDiemDanh == false) {
-                        int thu = db.getThu(taiKhoan);
+                        int thu = db.getThu(account);
                         if (thu == 2) {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 10);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 10, thu + 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 10);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 10, thu + 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(getActivity(), "Điểm danh thành công! +10 điểm", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (thu == 6) {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 15);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 15, thu + 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 15);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 15, thu + 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(getActivity(), "Điểm danh thành công! +15 điểm", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (thu == 7) {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 5);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 5, 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 5);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 5, 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(getActivity(), "Điểm danh thành công! +5 điểm", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 5);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 5, thu + 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 5);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 5, thu + 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(getActivity(), "Điểm danh thành công! +5 điểm", Toast.LENGTH_SHORT).show();
                             } else {
@@ -373,32 +373,32 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         {
             case R.id.it_quanlytaikhoan:
                 Intent dialog_box = new Intent(getActivity(), QuanLyTaiKhoan.class);
-                dialog_box.putExtra("email",taiKhoan.getEmail());
+                dialog_box.putExtra("email", account.getEmail());
                 startActivity(dialog_box);
                 break;
             case R.id.it_quanlytruyen:
                 Intent dialog_box1 = new Intent(getActivity(), QuanLyTruyen.class);
-                dialog_box1.putExtra("email",taiKhoan.getEmail());
+                dialog_box1.putExtra("email", account.getEmail());
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
                 Intent dialog_box2 = new Intent(getActivity(), QuanLyBinhLuan.class);
-                dialog_box2.putExtra("email",taiKhoan.getEmail());
+                dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:
                 Intent dialog_box3 = new Intent(getActivity(), QuanLyThongKe.class);
-                dialog_box3.putExtra("email",taiKhoan.getEmail());
+                dialog_box3.putExtra("email", account.getEmail());
                 startActivity(dialog_box3);
                 break;
             case R.id.it_xephang:
-                Intent dialog_box4 = new Intent(getActivity(), XepHang.class);
-                dialog_box4.putExtra("email",taiKhoan.getEmail());
+                Intent dialog_box4 = new Intent(getActivity(), Rank.class);
+                dialog_box4.putExtra("email", account.getEmail());
                 startActivity(dialog_box4);
                 break;
             case R.id.it_theloai:
-                Intent dialog_box5 = new Intent(getActivity(), TheLoai.class);
-                dialog_box5.putExtra("email",taiKhoan.getEmail());
+                Intent dialog_box5 = new Intent(getActivity(), Category.class);
+                dialog_box5.putExtra("email", account.getEmail());
                 startActivity(dialog_box5);
                 break;
         }

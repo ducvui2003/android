@@ -20,7 +20,7 @@ import com.example.truyenapp.view.activity.ShowBinhLuan;
 import com.example.truyenapp.view.activity.ShowDanhGia;
 import com.example.truyenapp.view.activity.ThongTinTaiKhoan;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,7 +34,7 @@ public class TaiKhoanFragment extends Fragment implements View.OnClickListener{
     ImageView img_tk_avatar;
     Database db;
     String email;
-    TaiKhoan taiKhoan;
+    Account account;
     View view;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -87,7 +87,7 @@ public class TaiKhoanFragment extends Fragment implements View.OnClickListener{
         db=new Database(getActivity());
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         setData();
         setOnClickListener();
@@ -112,19 +112,19 @@ public class TaiKhoanFragment extends Fragment implements View.OnClickListener{
     }
 
     private void setData(){
-        tv_tk_email.setText(taiKhoan.getEmail());
-        tv_tk_diem.setText(""+taiKhoan.getDiemthuong());
-        if(taiKhoan.getLinkanh()==null){
+        tv_tk_email.setText(account.getEmail());
+        tv_tk_diem.setText(""+ account.getRewardPoint());
+        if(account.getLinkImage()==null){
             img_tk_avatar.setImageResource(R.drawable.logo);
         }else{
-            Glide.with(getActivity()).load(taiKhoan.getLinkanh()).into(img_tk_avatar);
+            Glide.with(getActivity()).load(account.getLinkImage()).into(img_tk_avatar);
         }
-        int tongngaydiemdanh=db.getTongDiemDanh(taiKhoan.getId());
+        int tongngaydiemdanh=db.getTongDiemDanh(account.getId());
         tv_tongngaydiemdanh.setText(""+tongngaydiemdanh+" ngày");
         tv_tk_lv.setText("Lv."+(tongngaydiemdanh/20));
-        tv_tk_sobinhluan.setText(""+db.getTongBinhLuan(taiKhoan.getId()));
-        tv_tk_sotruyen.setText(""+db.getTongTruyenDaDoc(taiKhoan.getId()));
-        tv_tk_sodanhgia.setText(""+db.getTongDanhGia(taiKhoan.getId()));
+        tv_tk_sobinhluan.setText(""+db.getTongBinhLuan(account.getId()));
+        tv_tk_sotruyen.setText(""+db.getTongTruyenDaDoc(account.getId()));
+        tv_tk_sodanhgia.setText(""+db.getTongDanhGia(account.getId()));
 
     }
 

@@ -14,16 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.admin.ShowThongTinTruyen;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Story;
 
 import java.util.ArrayList;
 
 public class QLTruyenAdapter extends RecyclerView.Adapter<QLTruyenAdapter.QLTruyenViewHolder>{
     private Context context;
-    private ArrayList<Truyen> list;
+    private ArrayList<Story> list;
     private Database db;
 
-    public QLTruyenAdapter(Context context, ArrayList<Truyen> list, Database db) {
+    public QLTruyenAdapter(Context context, ArrayList<Story> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -38,16 +38,16 @@ public class QLTruyenAdapter extends RecyclerView.Adapter<QLTruyenAdapter.QLTruy
 
     @Override
     public void onBindViewHolder(@NonNull QLTruyenViewHolder holder, int position) {
-        Truyen truyen=list.get(position);
-        if(truyen==null){
+        Story story =list.get(position);
+        if(story ==null){
             return;
         }
 
-        holder.tv_idtruyen.setText(""+truyen.getId());
-        holder.tv_tentruyen.setText(truyen.getTentruyen());
+        holder.tv_idtruyen.setText(""+ story.getId());
+        holder.tv_tentruyen.setText(story.getNameStory());
         holder.ll_rcv_qltruyen.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), ShowThongTinTruyen.class);
-            intent.putExtra("id_truyen",truyen.getId());
+            intent.putExtra("id_truyen", story.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }

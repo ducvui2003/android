@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.PLTruyen;
+import com.example.truyenapp.model.ClassifyStory;
 
 import java.util.List;
 
 public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiViewHolder> {
     private Context context;
-    private List<PLTruyen> list;
+    private List<ClassifyStory> list;
     private String email;
 
-    public TheLoaiAdapter(Context context, List<PLTruyen> list,String email) {
+    public TheLoaiAdapter(Context context, List<ClassifyStory> list, String email) {
         this.context = context;
         this.list = list;
         this.email=email;
@@ -39,15 +39,15 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
 
     @Override
     public void onBindViewHolder(@NonNull TheLoaiAdapter.TheLoaiViewHolder holder, int position) {
-        PLTruyen truyen=list.get(position);
+        ClassifyStory truyen=list.get(position);
         if(truyen==null){
             return;
         }
 
 
-        Glide.with(this.context).load(truyen.getLinkanh()).into(holder.img_theloai);
-        holder.tv_tentruyen.setText(truyen.getTentruyen());
-        holder.tv_pl.setText("Ngày đăng: "+truyen.getNgaydang());
+        Glide.with(this.context).load(truyen.getLinkImage()).into(holder.img_theloai);
+        holder.tv_tentruyen.setText(truyen.getNameStory());
+        holder.tv_pl.setText("Ngày đăng: "+truyen.getPostingDate());
         holder.ll_rcv_theloai.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), CTTruyen.class);
             intent.putExtra("id_truyen",truyen.getId());

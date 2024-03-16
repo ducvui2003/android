@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 public class DiemThuong extends AppCompatActivity implements View.OnClickListener{
 
@@ -20,7 +20,7 @@ public class DiemThuong extends AppCompatActivity implements View.OnClickListene
     Button bt_diemdanh;
     Database db;
     String email;
-    TaiKhoan taiKhoan;
+    Account account;
     TextView tv_diemtichluy,tv_songaydd;
 
     @Override
@@ -33,7 +33,7 @@ public class DiemThuong extends AppCompatActivity implements View.OnClickListene
         Intent i = getIntent();
         email=i.getStringExtra("email");
 
-        taiKhoan = db.getTaiKhoan(email);
+        account = db.getTaiKhoan(email);
 
         setData();
         setOnClickListener();
@@ -63,12 +63,12 @@ public class DiemThuong extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setData(){
-        if(db.getThuHienTai(taiKhoan)!=0){
-            tv_songaydd.setText( db.getThuHienTai(taiKhoan)+" ngày liên tiếp");
+        if(db.getThuHienTai(account)!=0){
+            tv_songaydd.setText( db.getThuHienTai(account)+" ngày liên tiếp");
         }else{
-            tv_songaydd.setText( db.getThu(taiKhoan)+" ngày liên tiếp");
+            tv_songaydd.setText( db.getThu(account)+" ngày liên tiếp");
         }
-        tv_diemtichluy.setText(""+taiKhoan.getDiemthuong());
+        tv_diemtichluy.setText(""+ account.getRewardPoint());
     }
 
     @Override
@@ -81,36 +81,36 @@ public class DiemThuong extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.bt_diemdanh:
             {
-                    Boolean checkDiemDanh = db.checkDiemDanh(taiKhoan);
+                    Boolean checkDiemDanh = db.checkDiemDanh(account);
                     if (checkDiemDanh == false) {
-                        int thu = db.getThu(taiKhoan);
+                        int thu = db.getThu(account);
                         if (thu == 2) {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 10);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 10, thu + 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 10);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 10, thu + 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(this, "Điểm danh thành công! +10 điểm", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (thu == 6) {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 15);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 15, thu + 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 15);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 15, thu + 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(this, "Điểm danh thành công! +15 điểm", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
                             }
                         } else if (thu == 7) {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 5);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 5, 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 5);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 5, 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(this, "Điểm danh thành công! +5 điểm", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(this, "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Boolean diemdanh = db.updateDiemThuong(taiKhoan, 5);
-                            Boolean capnhat = db.insertDiemThuong(taiKhoan.getId(), 5, thu + 1);
+                            Boolean diemdanh = db.updateDiemThuong(account, 5);
+                            Boolean capnhat = db.insertDiemThuong(account.getId(), 5, thu + 1);
                             if (diemdanh == true && capnhat == true) {
                                 Toast.makeText(this, "Điểm danh thành công! +5 điểm", Toast.LENGTH_SHORT).show();
                             } else {

@@ -15,21 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.VatPham;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Item;
 
 import java.util.List;
 
 public class KhoVatPhamAdapter extends RecyclerView.Adapter<KhoVatPhamAdapter.KhoVatPhamViewHolder>{
     private Context context;
-    private List<VatPham> list;
-    private TaiKhoan taiKhoan;
+    private List<Item> list;
+    private Account account;
     private Database db;
 
-    public KhoVatPhamAdapter(Context context, List<VatPham> list, TaiKhoan taiKhoan, Database db) {
+    public KhoVatPhamAdapter(Context context, List<Item> list, Account account, Database db) {
         this.context = context;
         this.list = list;
-        this.taiKhoan = taiKhoan;
+        this.account = account;
         this.db = db;
     }
 
@@ -42,18 +42,18 @@ public class KhoVatPhamAdapter extends RecyclerView.Adapter<KhoVatPhamAdapter.Kh
 
     @Override
     public void onBindViewHolder(@NonNull KhoVatPhamAdapter.KhoVatPhamViewHolder holder, int position) {
-        VatPham vatPham=list.get(position);
-        if(vatPham==null){
+        Item item =list.get(position);
+        if(item ==null){
             return;
         }
 
-        Glide.with(this.context).load(vatPham.getLinkanh()).into(holder.img_khovatpham);
-        holder.tv_tenvatpham.setText(vatPham.getTenvatpham());
-        holder.tv_diem.setText("Điểm: "+vatPham.getDiem());
+        Glide.with(this.context).load(item.getLinkImage()).into(holder.img_khovatpham);
+        holder.tv_tenvatpham.setText(item.getNameItem());
+        holder.tv_diem.setText("Điểm: "+ item.getPoint());
         holder.bt_sudungvatpham.setOnClickListener(view -> {
-            Boolean kt=db.checkLinkAnh(taiKhoan,vatPham.getLinkanh());
+            Boolean kt=db.checkLinkAnh(account, item.getLinkImage());
             if(kt==false){
-                Boolean updateLinkAnh=db.updateLinkAnh(taiKhoan,vatPham.getLinkanh());
+                Boolean updateLinkAnh=db.updateLinkAnh(account, item.getLinkImage());
                 if(updateLinkAnh==true){
                     Toast.makeText(this.context,"Sử dụng avatar thành công",Toast.LENGTH_SHORT).show();
                 }else {

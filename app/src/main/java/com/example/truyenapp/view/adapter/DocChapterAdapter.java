@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.NoiDungChapter;
+import com.example.truyenapp.model.ContentOfChapter;
 
 import java.util.List;
 
 public class DocChapterAdapter extends RecyclerView.Adapter<DocChapterAdapter.DocChapterViewHolder> {
 
-    private List<NoiDungChapter> list;
+    private List<ContentOfChapter> list;
     private Context context;
 
-    public DocChapterAdapter(List<NoiDungChapter> list, Context context) {
+    public DocChapterAdapter(List<ContentOfChapter> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -34,12 +34,12 @@ public class DocChapterAdapter extends RecyclerView.Adapter<DocChapterAdapter.Do
 
     @Override
     public void onBindViewHolder(@NonNull DocChapterAdapter.DocChapterViewHolder holder, int position) {
-        NoiDungChapter noiDungChapter=list.get(position);
-        if(noiDungChapter==null){
+        ContentOfChapter contentOfChapter =list.get(position);
+        if(contentOfChapter ==null){
             return;
         }
 
-        Glide.with(this.context).load(noiDungChapter.getLinkanh()).into(holder.img_docchapter);
+        Glide.with(this.context).load(contentOfChapter.getLinkImage()).into(holder.img_docchapter);
     }
 
     @Override

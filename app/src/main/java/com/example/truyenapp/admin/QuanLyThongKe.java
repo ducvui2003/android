@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.admin.QLThongKeAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.ThongKe;
+import com.example.truyenapp.model.Statistical;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class QuanLyThongKe extends AppCompatActivity {
     private void recyclerViewQLThongKe(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
-        ArrayList<ThongKe> list=db.getListThongKe();
+        ArrayList<Statistical> list=db.getListThongKe();
         adapter=new QLThongKeAdapter(this,list,db);
         rcv.setAdapter(adapter);
     }

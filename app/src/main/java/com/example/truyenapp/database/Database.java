@@ -5,20 +5,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.truyenapp.model.BinhLuan;
+import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.model.Chapter;
-import com.example.truyenapp.model.DanhGia;
-import com.example.truyenapp.model.DiemThuong;
-import com.example.truyenapp.model.DoiThuong;
-import com.example.truyenapp.model.LichSuDocTruyen;
-import com.example.truyenapp.model.Model_TimKiem;
-import com.example.truyenapp.model.NoiDungChapter;
-import com.example.truyenapp.model.PLTruyen;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.ThongBao;
-import com.example.truyenapp.model.ThongKe;
-import com.example.truyenapp.model.Truyen;
-import com.example.truyenapp.model.VatPham;
+import com.example.truyenapp.model.Evaluate;
+import com.example.truyenapp.model.RewardPoints;
+import com.example.truyenapp.model.RewardExchange;
+import com.example.truyenapp.model.ReadingHistory;
+import com.example.truyenapp.model.ModelSearch;
+import com.example.truyenapp.model.ContentOfChapter;
+import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Notification;
+import com.example.truyenapp.model.Statistical;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.model.Item;
 
 import java.util.ArrayList;
 
@@ -2418,34 +2418,34 @@ public class Database extends SQLiteOpenHelper {
             return false;
     }
 
-    public ArrayList<TaiKhoan> getListTaiKhoan(){
+    public ArrayList<Account> getListTaiKhoan(){
         SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<TaiKhoan> list=new ArrayList<>();
+        ArrayList<Account> list=new ArrayList<>();
         Cursor cursor = db.rawQuery("select * from taikhoan where loaitk not in (1)",null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            TaiKhoan taiKhoan = new TaiKhoan(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
-            list.add(taiKhoan);
+            Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
+            list.add(account);
             cursor.moveToNext();
         }
         return list;
     }
-    public TaiKhoan getTaiKhoan(String email) {
+    public Account getTaiKhoan(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from taikhoan where email=?", new String[] {email});
         if(cursor != null)
             cursor.moveToFirst();
-        TaiKhoan taiKhoan = new TaiKhoan(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
-        return taiKhoan;
+        Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
+        return account;
     }
 
-    public TaiKhoan getTaiKhoanId(int id) {
+    public Account getTaiKhoanId(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from taikhoan where id=?", new String[] {""+id});
         if(cursor != null)
             cursor.moveToFirst();
-        TaiKhoan taiKhoan = new TaiKhoan(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
-        return taiKhoan;
+        Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
+        return account;
     }
 
     public Boolean updateMK(String email, String matkhau){
@@ -2459,21 +2459,21 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public Boolean updateDiemThuong(TaiKhoan taiKhoan,int diem){
+    public Boolean updateDiemThuong(Account account, int diem){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("diemthuong", taiKhoan.getDiemthuong()+diem);
-        long kq=db.update("taikhoan",values,"email=?",new String[]{taiKhoan.getEmail()});
+        values.put("diemthuong", account.getRewardPoint()+diem);
+        long kq=db.update("taikhoan",values,"email=?",new String[]{account.getEmail()});
         if(kq==-1) return false;
         else
             return true;
     }
 
-    public Boolean checkLinkAnh (TaiKhoan taiKhoan,String linkanh){
+    public Boolean checkLinkAnh (Account account, String linkanh){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from taikhoan where linkanh=? and id=?", new String[] {linkanh,""+taiKhoan.getId()});
+        Cursor cursor = db.rawQuery("select * from taikhoan where linkanh=? and id=?", new String[] {linkanh,""+ account.getId()});
         cursor.moveToFirst();
         if (cursor.getCount()>0)
             return true;
@@ -2481,12 +2481,12 @@ public class Database extends SQLiteOpenHelper {
             return false;
     }
 
-    public Boolean updateLinkAnh(TaiKhoan taiKhoan,String linkanh){
+    public Boolean updateLinkAnh(Account account, String linkanh){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put("linkanh", linkanh);
-        long kq=db.update("taikhoan",values,"id=?",new String[]{""+taiKhoan.getId()});
+        long kq=db.update("taikhoan",values,"id=?",new String[]{""+ account.getId()});
         if(kq==-1) return false;
         else
             return true;
@@ -2575,16 +2575,16 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public ArrayList<Truyen> getListTruyen(){
-        ArrayList<Truyen> truyenlist = new ArrayList<>();
+    public ArrayList<Story> getListTruyen(){
+        ArrayList<Story> truyenlist = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from truyen",null);
         cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false){
-            Truyen truyen = new Truyen(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
-            truyenlist.add(truyen);
+            Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
+            truyenlist.add(story);
             cursor.moveToNext();
         }
         return truyenlist;
@@ -2605,27 +2605,27 @@ public class Database extends SQLiteOpenHelper {
         return listtentruyen;
     }
 
-    public ArrayList<Truyen> getTruyen(String lenhSQL) {
-        ArrayList<Truyen> truyenlist = new ArrayList<>();
+    public ArrayList<Story> getTruyen(String lenhSQL) {
+        ArrayList<Story> truyenlist = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(lenhSQL,null);
         cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false){
-            Truyen truyen = new Truyen(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
-            truyenlist.add(truyen);
+            Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
+            truyenlist.add(story);
             cursor.moveToNext();
         }
         return truyenlist;
     }
 
-    public Truyen getTruyenById(int id){
+    public Story getTruyenById(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from truyen where id=?",new String[] {""+id});
         cursor.moveToFirst();
-        Truyen truyen = new Truyen(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
-        return truyen;
+        Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
+        return story;
     }
 
     public Boolean insertTruyen(String tentruyen, String tacgia, String mota, String theloai, String linkanh, String key_search){
@@ -2816,19 +2816,19 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public ArrayList<NoiDungChapter> getNoiDungChapter(String lenhSQL) {
-        ArrayList<NoiDungChapter> noiDungChapters = new ArrayList<>();
+    public ArrayList<ContentOfChapter> getNoiDungChapter(String lenhSQL) {
+        ArrayList<ContentOfChapter> contentOfChapters = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(lenhSQL,null);
         cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false){
-            NoiDungChapter noiDungChapter = new NoiDungChapter(cursor.getInt(0),cursor.getInt(1),cursor.getString(2));
-            noiDungChapters.add(noiDungChapter);
+            ContentOfChapter contentOfChapter = new ContentOfChapter(cursor.getInt(0),cursor.getInt(1),cursor.getString(2));
+            contentOfChapters.add(contentOfChapter);
             cursor.moveToNext();
         }
-        return noiDungChapters;
+        return contentOfChapters;
     }
 
     //Thể loại
@@ -2847,60 +2847,60 @@ public class Database extends SQLiteOpenHelper {
 
 
     //Truyện (new, view,vote)
-    public ArrayList<PLTruyen> getListPLTruyen(String lenhSQLite){
-        ArrayList<PLTruyen> listtruyen=new ArrayList<>();
+    public ArrayList<ClassifyStory> getListPLTruyen(String lenhSQLite){
+        ArrayList<ClassifyStory> listtruyen=new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(lenhSQLite,null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            PLTruyen plTruyen = new PLTruyen(cursor.getInt(0),cursor.getInt(1),cursor.getFloat(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6));
-            listtruyen.add(plTruyen);
+            ClassifyStory classifyStory = new ClassifyStory(cursor.getInt(0),cursor.getInt(1),cursor.getFloat(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getString(6));
+            listtruyen.add(classifyStory);
             cursor.moveToNext();
         }
         return listtruyen;
     }
 
-    public ArrayList<Model_TimKiem> getListTimKiem(String lenhSQLite){
-        ArrayList<Model_TimKiem> listtimkiem=new ArrayList<>();
+    public ArrayList<ModelSearch> getListTimKiem(String lenhSQLite){
+        ArrayList<ModelSearch> listtimkiem=new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(lenhSQLite,null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            Model_TimKiem timKiem = new Model_TimKiem(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3),cursor.getString(4),cursor.getString(5),cursor.getString(6));
+            ModelSearch timKiem = new ModelSearch(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3),cursor.getString(4),cursor.getString(5),cursor.getString(6));
             listtimkiem.add(timKiem);
             cursor.moveToNext();
         }
         return listtimkiem;
     }
 
-    public Truyen getOneTruyen(Chapter chapter){
+    public Story getOneTruyen(Chapter chapter){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from truyen where id=?",new String[] {""+chapter.getIdtruyen()});
         cursor.moveToFirst();
-        Truyen truyen=new Truyen(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getInt(6),cursor.getString(7));
-        return truyen;
+        Story story =new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getInt(6),cursor.getString(7));
+        return story;
     }
 
     //Điểm thưởng
-    public ArrayList<DiemThuong> getDiemThuong(int idtaikhoan){
+    public ArrayList<RewardPoints> getDiemThuong(int idtaikhoan){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<DiemThuong> list= new ArrayList<>();
+        ArrayList<RewardPoints> list= new ArrayList<>();
 
         Cursor cursor = db.rawQuery("select * from diemthuong where idtaikhoan=? ",new String[] {""+idtaikhoan});
         cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false){
-            DiemThuong diemThuong = new DiemThuong(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getInt(4));
-            list.add(diemThuong);
+            RewardPoints rewardPoints = new RewardPoints(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getInt(4));
+            list.add(rewardPoints);
             cursor.moveToNext();
         }
         return list;
     }
 
-    public int getThu(TaiKhoan taiKhoan){
+    public int getThu(Account account){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select thu from diemthuong where idtaikhoan=? and ngaynhan=date('now','-1 day')",new String[] {""+taiKhoan.getId()});
+        Cursor cursor = db.rawQuery("select thu from diemthuong where idtaikhoan=? and ngaynhan=date('now','-1 day')",new String[] {""+ account.getId()});
         cursor.moveToFirst();
         if (cursor.getCount()>0){
             return cursor.getInt(0);
@@ -2909,10 +2909,10 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-    public int getThuHienTai(TaiKhoan taiKhoan){
+    public int getThuHienTai(Account account){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select thu from diemthuong where idtaikhoan=? and ngaynhan=date('now')",new String[] {""+taiKhoan.getId()});
+        Cursor cursor = db.rawQuery("select thu from diemthuong where idtaikhoan=? and ngaynhan=date('now')",new String[] {""+ account.getId()});
         cursor.moveToFirst();
         if (cursor.getCount()>0){
             return cursor.getInt(0);
@@ -2921,10 +2921,10 @@ public class Database extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean checkDiemDanh(TaiKhoan taiKhoan){
+    public Boolean checkDiemDanh(Account account){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select id from diemthuong where idtaikhoan=? and ngaynhan=date('now')",new String[] {""+taiKhoan.getId()});
+        Cursor cursor = db.rawQuery("select id from diemthuong where idtaikhoan=? and ngaynhan=date('now')",new String[] {""+ account.getId()});
         if (cursor.getCount()>0){
             return true;
         } else {
@@ -2959,18 +2959,18 @@ public class Database extends SQLiteOpenHelper {
     }
 
     //Đổi thưởng
-    public ArrayList<DoiThuong> getLichSuDoi(TaiKhoan taiKhoan){
+    public ArrayList<RewardExchange> getLichSuDoi(Account account){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<DoiThuong> doiThuongs=new ArrayList<>();
+        ArrayList<RewardExchange> rewardExchanges =new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("select * from doithuong where idtaikhoan=? ",new String[] {""+taiKhoan.getId()});
+        Cursor cursor = db.rawQuery("select * from doithuong where idtaikhoan=? ",new String[] {""+ account.getId()});
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            DoiThuong doiThuong = new DoiThuong(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3));
-            doiThuongs.add(doiThuong);
+            RewardExchange rewardExchange = new RewardExchange(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3));
+            rewardExchanges.add(rewardExchange);
             cursor.moveToNext();
         }
-        return doiThuongs;
+        return rewardExchanges;
     }
 
     public Boolean insertDoiThuong(int idvatpham,int idtaikhoan){
@@ -2986,18 +2986,18 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public int checkVatPham(int id,TaiKhoan taiKhoan){
+    public int checkVatPham(int id, Account account){
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery("select id from doithuong where idvatpham=? and idtaikhoan=?",new String[] {""+id,""+taiKhoan.getId()});
+        Cursor cursor = db.rawQuery("select id from doithuong where idvatpham=? and idtaikhoan=?",new String[] {""+id,""+ account.getId()});
         if (cursor.getCount()>0) {
             return 1;
         }else return 0;
     }
 
-    public int checkDoiVatPham(int id, TaiKhoan taiKhoan){
+    public int checkDoiVatPham(int id, Account account){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor=db.rawQuery("select diemthuong from taikhoan where id=?",new String[] {""+taiKhoan.getId()});
+        Cursor cursor=db.rawQuery("select diemthuong from taikhoan where id=?",new String[] {""+ account.getId()});
         cursor.moveToFirst();
         int diemtichluy=cursor.getInt(0);
 
@@ -3013,15 +3013,15 @@ public class Database extends SQLiteOpenHelper {
     }
 
     //Vật phẩm
-    public ArrayList<VatPham> getVatPham(String lenhSQLite){
-        ArrayList<VatPham> listvatpham=new ArrayList<>();
+    public ArrayList<Item> getVatPham(String lenhSQLite){
+        ArrayList<Item> listvatpham=new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(lenhSQLite,null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            VatPham vatPham = new VatPham(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getString(3));
-            listvatpham.add(vatPham);
+            Item item = new Item(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getString(3));
+            listvatpham.add(item);
             cursor.moveToNext();
         }
         return listvatpham;
@@ -3040,14 +3040,14 @@ public class Database extends SQLiteOpenHelper {
     }
 
     //Lịch sử đọc truyện
-    public ArrayList<LichSuDocTruyen> getListTruyenDaDoc(int idtaikhoan){
-        ArrayList<LichSuDocTruyen> list=new ArrayList<>();
+    public ArrayList<ReadingHistory> getListTruyenDaDoc(int idtaikhoan){
+        ArrayList<ReadingHistory> list=new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor=db.rawQuery("select * from lichsudoctruyen where idtaikhoan=?",new String[]{""+idtaikhoan});
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            LichSuDocTruyen truyen = new LichSuDocTruyen(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2));
+            ReadingHistory truyen = new ReadingHistory(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2));
             list.add(truyen);
             cursor.moveToNext();
         }
@@ -3143,14 +3143,14 @@ public class Database extends SQLiteOpenHelper {
     }
 
     //Bình luận
-    public ArrayList<BinhLuan> getShowBinhLuan(int idtaikhoan){
+    public ArrayList<Comment> getShowBinhLuan(int idtaikhoan){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<BinhLuan> list=new ArrayList<>();
+        ArrayList<Comment> list=new ArrayList<>();
 
         Cursor cursor=db.rawQuery("select * from binhluan where idtaikhoan=?",new String[] {""+idtaikhoan});
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            BinhLuan binhLuan = new BinhLuan(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
+            Comment binhLuan = new Comment(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
             list.add(binhLuan);
             cursor.moveToNext();
         }
@@ -3171,28 +3171,28 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public ArrayList<BinhLuan> getListBinhLuan(){
+    public ArrayList<Comment> getListBinhLuan(){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<BinhLuan> list=new ArrayList<>();
+        ArrayList<Comment> list=new ArrayList<>();
 
         Cursor cursor=db.rawQuery("select * from binhluan where trangthai=1 order by ngaydang desc",null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            BinhLuan binhLuan = new BinhLuan(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
+            Comment binhLuan = new Comment(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
             list.add(binhLuan);
             cursor.moveToNext();
         }
         return list;
     }
 
-    public ArrayList<BinhLuan> getListBinhLuanChapter(int idchapter){
+    public ArrayList<Comment> getListBinhLuanChapter(int idchapter){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<BinhLuan> list=new ArrayList<>();
+        ArrayList<Comment> list=new ArrayList<>();
 
         Cursor cursor=db.rawQuery("select * from binhluan where trangthai=1 and idchapter=? order by ngaydang desc",new String[] {""+idchapter});
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            BinhLuan binhLuan = new BinhLuan(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
+            Comment binhLuan = new Comment(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
             list.add(binhLuan);
             cursor.moveToNext();
         }
@@ -3225,14 +3225,14 @@ public class Database extends SQLiteOpenHelper {
         return tongbinhluan;
     }
 
-    public ArrayList<BinhLuan> getBinhLuanTruyen(int idtruyen){
+    public ArrayList<Comment> getBinhLuanTruyen(int idtruyen){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<BinhLuan> list=new ArrayList<>();
+        ArrayList<Comment> list=new ArrayList<>();
 
         Cursor cursor=db.rawQuery("select * from binhluan where trangthai=1 and idchapter in (select id from chapter where idtruyen=?) order by ngaydang desc",new String[] {""+idtruyen});
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            BinhLuan binhLuan = new BinhLuan(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
+            Comment binhLuan = new Comment(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
             list.add(binhLuan);
             cursor.moveToNext();
         }
@@ -3249,25 +3249,25 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public BinhLuan getThongTinBinhLuan(int id){
+    public Comment getThongTinBinhLuan(int id){
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor cursor=db.rawQuery("select * from binhluan where id=?",new String[] {""+id});
         cursor.moveToFirst();
-        BinhLuan binhLuan = new BinhLuan(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
+        Comment binhLuan = new Comment(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getString(3),cursor.getString(4),cursor.getInt(5));
         return  binhLuan;
     }
 
     //Đánh giá
-    public ArrayList<DanhGia> getShowDanhGia(int idtaikhoan){
+    public ArrayList<Evaluate> getShowDanhGia(int idtaikhoan){
         SQLiteDatabase db = this.getWritableDatabase();
-        ArrayList<DanhGia> list=new ArrayList<>();
+        ArrayList<Evaluate> list=new ArrayList<>();
 
         Cursor cursor=db.rawQuery("select * from danhgia where idtaikhoan=?",new String[] {""+idtaikhoan});
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            DanhGia danhGia = new DanhGia(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3),cursor.getString(4));
-            list.add(danhGia);
+            Evaluate evaluate = new Evaluate(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3),cursor.getString(4));
+            list.add(evaluate);
             cursor.moveToNext();
         }
         return list;
@@ -3347,45 +3347,45 @@ public class Database extends SQLiteOpenHelper {
         return tongdanhgia;
     }
     //Thống kê
-    public ThongKe getThongKe(int idtruyen){
+    public Statistical getThongKe(int idtruyen){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor=db.rawQuery("select * from thongke where idtruyen=?",new String[] {""+idtruyen});
         cursor.moveToFirst();
 
-        ThongKe thongKe=new ThongKe(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3));
-        return thongKe;
+        Statistical statistical =new Statistical(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3));
+        return statistical;
     }
 
-    public ThongKe getThongKeById(int id){
+    public Statistical getThongKeById(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor=db.rawQuery("select * from thongke where id=?",new String[] {""+id});
         cursor.moveToFirst();
 
-        ThongKe thongKe=new ThongKe(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3));
-        return thongKe;
+        Statistical statistical =new Statistical(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3));
+        return statistical;
     }
 
-    public ArrayList<ThongKe> getListThongKe(){
-        ArrayList<ThongKe> list=new ArrayList<>();
+    public ArrayList<Statistical> getListThongKe(){
+        ArrayList<Statistical> list=new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery("select * from thongke",null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            ThongKe thongKe = new ThongKe(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3));
-            list.add(thongKe);
+            Statistical statistical = new Statistical(cursor.getInt(0),cursor.getInt(1),cursor.getInt(2),cursor.getFloat(3));
+            list.add(statistical);
             cursor.moveToNext();
         }
         return list;
     }
 
-    public Boolean updateThongKeLuotXem(ThongKe thongKe){
+    public Boolean updateThongKeLuotXem(Statistical statistical){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("tongluotxem", thongKe.getTongluotxem()+1);
+        values.put("tongluotxem", statistical.getTotalView()+1);
 
-        long kq=db.update("thongke",values,"idtruyen=?",new String[]{String.valueOf(thongKe.getIdtruyen())});
+        long kq=db.update("thongke",values,"idtruyen=?",new String[]{String.valueOf(statistical.getIdStory())});
         if(kq==-1) return false;
         else
             return true;
@@ -3430,14 +3430,14 @@ public class Database extends SQLiteOpenHelper {
         return list;
     }
     //Thông báo
-    public ArrayList<ThongBao> getListThongBao(){
-        ArrayList<ThongBao> list=new ArrayList<>();
+    public ArrayList<Notification> getListThongBao(){
+        ArrayList<Notification> list=new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor=db.rawQuery("select * from thongbao order by ngaydang desc",null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            ThongBao thongBao=new ThongBao(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
-            list.add(thongBao);
+            Notification notification =new Notification(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
+            list.add(notification);
             cursor.moveToNext();
         }
         return list;

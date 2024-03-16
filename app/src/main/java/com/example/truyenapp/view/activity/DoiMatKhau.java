@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class DoiMatKhau extends AppCompatActivity implements View.OnClickListener {
 
     Database db;
-    TaiKhoan taiKhoan;
+    Account account;
     String email;
     EditText edt_dmk_mkht,edt_dmk_mkm,edt_dmk_nlmk;
     Button bt_xndmk,bt_huy;
@@ -33,7 +33,7 @@ public class DoiMatKhau extends AppCompatActivity implements View.OnClickListene
         db=new Database(this);
         Intent intent=getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         Anhxa();
         setOnClickListener();
@@ -76,7 +76,7 @@ public class DoiMatKhau extends AppCompatActivity implements View.OnClickListene
                             Toast.makeText(this,"Mật khẩu không trùng nhau",Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            db.updateMK(taiKhoan.getEmail(),edt_dmk_mkm.getText().toString());
+                            db.updateMK(account.getEmail(),edt_dmk_mkm.getText().toString());
                             Toast.makeText(this,"Đổi mật khẩu thành công",Toast.LENGTH_SHORT).show();
                             Intent intent1 = new Intent(this, HomeActivity.class);
                             intent1.putExtra("email",email);

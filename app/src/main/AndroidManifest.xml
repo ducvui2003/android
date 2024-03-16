@@ -12,16 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppDocTruyen">
         <activity
-            android:name="com.example.truyenapp.TheLoai"
+            android:name="com.example.truyenapp.Category"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.QuenMK"
+            android:name="com.example.truyenapp.ForgetPassword"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.MKMoi"
+            android:name="com.example.truyenapp.NewPassword"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.DangKy"
+            android:name="com.example.truyenapp.SignIn"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.Authenticate"
@@ -33,10 +33,10 @@
             android:name="com.example.truyenapp.CTTruyen"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.TimKiem"
+            android:name="com.example.truyenapp.Search"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.XepHang"
+            android:name="com.example.truyenapp.Rank"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.DocChapter"

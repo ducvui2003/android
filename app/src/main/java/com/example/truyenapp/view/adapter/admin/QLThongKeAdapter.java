@@ -14,17 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.admin.ShowThongTinThongKe;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.ThongKe;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Statistical;
+import com.example.truyenapp.model.Story;
 
 import java.util.ArrayList;
 
 public class QLThongKeAdapter extends RecyclerView.Adapter<QLThongKeAdapter.QLThongKeViewHolder>{
     private Context context;
-    private ArrayList<ThongKe> list;
+    private ArrayList<Statistical> list;
     private Database db;
 
-    public QLThongKeAdapter(Context context, ArrayList<ThongKe> list, Database db) {
+    public QLThongKeAdapter(Context context, ArrayList<Statistical> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -39,17 +39,17 @@ public class QLThongKeAdapter extends RecyclerView.Adapter<QLThongKeAdapter.QLTh
 
     @Override
     public void onBindViewHolder(@NonNull QLThongKeViewHolder holder, int position) {
-        ThongKe thongKe=list.get(position);
-        if(thongKe==null){
+        Statistical statistical =list.get(position);
+        if(statistical ==null){
             return;
         }
 
-        holder.tv_idqlthongke.setText(""+thongKe.getId());
-        Truyen truyen=db.getTruyenById(thongKe.getIdtruyen());
-        holder.tv_qltktentruyen.setText(truyen.getTentruyen());
+        holder.tv_idqlthongke.setText(""+ statistical.getId());
+        Story story =db.getTruyenById(statistical.getIdStory());
+        holder.tv_qltktentruyen.setText(story.getNameStory());
         holder.ll_rcv_qlthongke.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), ShowThongTinThongKe.class);
-            intent.putExtra("id_thongke",thongKe.getId());
+            intent.putExtra("id_thongke", statistical.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }

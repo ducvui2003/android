@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.KhoVatPhamAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.VatPham;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Item;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public class KhoVatPhamFragment extends Fragment {
 
     View view;
     Database db;
-    TaiKhoan taiKhoan;
+    Account account;
     public RecyclerView rcv;
     public KhoVatPhamAdapter rcv_adapter;
     String email;
@@ -84,7 +84,7 @@ public class KhoVatPhamFragment extends Fragment {
 
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         recyclerViewCuaHang();
 
@@ -95,9 +95,9 @@ public class KhoVatPhamFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        String lenhSqlite_vatpham="select * from vatpham where id in (select idvatpham from doithuong where idtaikhoan="+taiKhoan.getId()+")";
-        ArrayList<VatPham> vatPham=db.getVatPham(lenhSqlite_vatpham);
-        rcv_adapter=new KhoVatPhamAdapter(getActivity(),vatPham,taiKhoan,db);
+        String lenhSqlite_vatpham="select * from vatpham where id in (select idvatpham from doithuong where idtaikhoan="+ account.getId()+")";
+        ArrayList<Item> item =db.getVatPham(lenhSqlite_vatpham);
+        rcv_adapter=new KhoVatPhamAdapter(getActivity(), item, account,db);
         rcv.setAdapter(rcv_adapter);
     }
 

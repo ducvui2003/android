@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.admin.QLBinhLuanAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
+import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ public class QuanLyBinhLuan extends AppCompatActivity {
     private void recyclerViewQLBinhLuan(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
-        ArrayList<BinhLuan> list=db.getListBinhLuan();
+        ArrayList<Comment> list=db.getListBinhLuan();
         adapter=new QLBinhLuanAdapter(this,list,db);
         rcv.setAdapter(adapter);
     }

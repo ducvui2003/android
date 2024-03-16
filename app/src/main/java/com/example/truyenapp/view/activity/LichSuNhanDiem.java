@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.LSNhanDiemAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.DiemThuong;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.RewardPoints;
 
 import java.util.ArrayList;
 
 public class LichSuNhanDiem extends AppCompatActivity {
     String email;
-    TaiKhoan taiKhoan;
+    Account account;
     Database db;
 
     public RecyclerView rcv;
@@ -31,7 +31,7 @@ public class LichSuNhanDiem extends AppCompatActivity {
 
         Intent i = getIntent();
         email=i.getStringExtra("email");
-        taiKhoan = db.getTaiKhoan(email);
+        account = db.getTaiKhoan(email);
 
         recyclerViewDiemThuong();
     };
@@ -40,8 +40,8 @@ public class LichSuNhanDiem extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        ArrayList<DiemThuong> diemThuong=db.getDiemThuong(taiKhoan.getId());
-        rcv_adapter=new LSNhanDiemAdapter(this,diemThuong);
+        ArrayList<RewardPoints> rewardPoints =db.getDiemThuong(account.getId());
+        rcv_adapter=new LSNhanDiemAdapter(this, rewardPoints);
         rcv.setAdapter(rcv_adapter);
     }
 

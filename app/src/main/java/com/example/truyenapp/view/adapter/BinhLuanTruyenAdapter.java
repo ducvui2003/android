@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.model.Account;
 
 import java.util.List;
 
 public class BinhLuanTruyenAdapter extends RecyclerView.Adapter<BinhLuanTruyenAdapter.BinhLuanTruyenViewHolder>{
 
     private Context context;
-    private List<BinhLuan> list;
+    private List<Comment> list;
     private Database db;
 
-    public BinhLuanTruyenAdapter(Context context, List<BinhLuan> list, Database db) {
+    public BinhLuanTruyenAdapter(Context context, List<Comment> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -39,18 +39,18 @@ public class BinhLuanTruyenAdapter extends RecyclerView.Adapter<BinhLuanTruyenAd
 
     @Override
     public void onBindViewHolder(@NonNull BinhLuanTruyenViewHolder holder, int position) {
-        BinhLuan binhLuan=list.get(position);
+        Comment binhLuan=list.get(position);
         if(binhLuan==null){
             return;
         }
 
-        TaiKhoan taiKhoan=db.getTaiKhoanId(binhLuan.getIdtaikhoan());
-        Glide.with(this.context).load(taiKhoan.getLinkanh()).into(holder.img_avatar);
-        String email=db.getEmail(binhLuan.getIdtaikhoan());
-        String tenchapter=db.getTenChapter(binhLuan.getIdchapter());
+        Account account =db.getTaiKhoanId(binhLuan.getIdAccount());
+        Glide.with(this.context).load(account.getLinkImage()).into(holder.img_avatar);
+        String email=db.getEmail(binhLuan.getIdAccount());
+        String tenchapter=db.getTenChapter(binhLuan.getIdChapter());
         holder.tv_taikhoan_blt.setText(email);
-        holder.tv_nd_blt.setText(binhLuan.getNoidung());
-        holder.tv_ngaybinhluant.setText(binhLuan.getNgaydang());
+        holder.tv_nd_blt.setText(binhLuan.getContent());
+        holder.tv_ngaybinhluant.setText(binhLuan.getPostingDay());
         holder.tv_tenchapter_blt.setText(tenchapter);
     }
 

@@ -10,13 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 public class ShowThongTinTaiKhoan extends AppCompatActivity {
     ImageView img;
     TextView tv_id,tv_email,tv_matkhau,tv_ten,tv_dienthoai,tv_trangthai,tv_diem;
     Database db;
-    TaiKhoan taiKhoan;
+    Account account;
     String email;
 
     @Override
@@ -28,30 +28,30 @@ public class ShowThongTinTaiKhoan extends AppCompatActivity {
         db=new Database(this);
         Intent intent=getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         setData();
     }
 
     private void setData(){
-        String linkanh=taiKhoan.getLinkanh();
+        String linkanh= account.getLinkImage();
         if(linkanh!=null){
             Glide.with(this).load(linkanh).into(img);
         }else {
             img.setImageResource(R.drawable.logo);
         }
-        tv_ten.setText(taiKhoan.getHoten());
-        int trangthai=taiKhoan.getLoaitk();
+        tv_ten.setText(account.getName());
+        int trangthai= account.getAccoutType();
         if(trangthai!=2){
             tv_trangthai.setText("Hoạt động");
         }else {
             tv_trangthai.setText("Bị khóa");
         }
-        tv_matkhau.setText(taiKhoan.getMatkhau());
-        tv_id.setText(""+taiKhoan.getId());
-        tv_dienthoai.setText(taiKhoan.getDienthoai());
-        tv_diem.setText(""+taiKhoan.getDiemthuong());
-        tv_email.setText(taiKhoan.getEmail());
+        tv_matkhau.setText(account.getPassword());
+        tv_id.setText(""+ account.getId());
+        tv_dienthoai.setText(account.getPhone());
+        tv_diem.setText(""+ account.getRewardPoint());
+        tv_email.setText(account.getEmail());
     }
 
     private void Anhxa(){

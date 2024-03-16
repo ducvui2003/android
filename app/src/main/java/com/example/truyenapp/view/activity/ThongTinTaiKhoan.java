@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickListener{
     ImageView img_tttk;
@@ -23,7 +23,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickL
     Button bt_chinhsua,bt_xacnhan,bt_huychinhsua;
     Database db;
     String email;
-    TaiKhoan taiKhoan;
+    Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickL
         db=new Database(this);
         Intent intent=getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         In_Visible(0);
 
@@ -49,13 +49,13 @@ public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickL
     }
 
     private void setData() {
-        tv_tttk_id.setText(""+taiKhoan.getId());
-        tv_tttk_email.setText(taiKhoan.getEmail());
-        tv_tttk_diem.setText(""+taiKhoan.getDiemthuong());
+        tv_tttk_id.setText(""+ account.getId());
+        tv_tttk_email.setText(account.getEmail());
+        tv_tttk_diem.setText(""+ account.getRewardPoint());
         tv_tttk_trangthai.setText("Hoạt động");
-        edt_tttk_dienthoai.setText(taiKhoan.getDienthoai());
-        edt_tttk_ten.setText(taiKhoan.getHoten());
-        String linkanh=taiKhoan.getLinkanh();
+        edt_tttk_dienthoai.setText(account.getPhone());
+        edt_tttk_ten.setText(account.getName());
+        String linkanh= account.getLinkImage();
         if(linkanh!=null){
             Glide.with(this).load(linkanh).into(img_tttk);
         }else {
@@ -110,7 +110,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickL
                 }else if(dienthoai.isEmpty()){
                     Toast.makeText(this,"Điện thoại đang trống!",Toast.LENGTH_SHORT).show();
                 }else {
-                    db.updateThongTin(ten,dienthoai,taiKhoan.getId());
+                    db.updateThongTin(ten,dienthoai, account.getId());
                     Toast.makeText(this,"Cập nhật thành công",Toast.LENGTH_SHORT).show();
                     In_Visible(0);
                 }

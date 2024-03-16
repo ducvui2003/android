@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.truyenapp.R;
+import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.adapter.TruyenDaDocAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.LichSuDocTruyen;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.ReadingHistory;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
@@ -29,9 +29,9 @@ public class LichSuDocTruyenFragment extends Fragment {
 
     View view;
     String email;
-    TaiKhoan taiKhoan;
+    Account account;
     Database db;
-    Truyen truyen;
+    Story story;
     public RecyclerView rcv;
     public TruyenDaDocAdapter rcv_adapter;
 
@@ -86,7 +86,7 @@ public class LichSuDocTruyenFragment extends Fragment {
 
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
        recyclerViewTruyenDaDoc();
 
@@ -97,8 +97,8 @@ public class LichSuDocTruyenFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        ArrayList<LichSuDocTruyen> lichSuDocTruyens=db.getListTruyenDaDoc(taiKhoan.getId());
-        rcv_adapter=new TruyenDaDocAdapter(getActivity(),lichSuDocTruyens,taiKhoan,db);
+        ArrayList<ReadingHistory> readingHistories =db.getListTruyenDaDoc(account.getId());
+        rcv_adapter=new TruyenDaDocAdapter(getActivity(), readingHistories, account,db);
         rcv.setAdapter(rcv_adapter);
     }
 

@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Model_TimKiem;
+import com.example.truyenapp.model.ModelSearch;
 
 import java.util.List;
 
 public class TimKiemAdapter extends RecyclerView.Adapter<TimKiemAdapter.TimKiemViewHolder>{
     private Context context;
-    private List<Model_TimKiem> list;
+    private List<ModelSearch> list;
     private String email;
 
-    public TimKiemAdapter(Context context, List<Model_TimKiem> list,String email) {
+    public TimKiemAdapter(Context context, List<ModelSearch> list, String email) {
         this.context = context;
         this.list = list;
         this.email=email;
@@ -39,19 +39,19 @@ public class TimKiemAdapter extends RecyclerView.Adapter<TimKiemAdapter.TimKiemV
 
     @Override
     public void onBindViewHolder(@NonNull TimKiemViewHolder holder, int position) {
-        Model_TimKiem truyen=list.get(position);
+        ModelSearch truyen=list.get(position);
         if(truyen==null){
             return;
         }
 
 
-        Glide.with(this.context).load(truyen.getLinkanh()).into(holder.img_timkiem);
+        Glide.with(this.context).load(truyen.getLinkImage()).into(holder.img_timkiem);
 
-        holder.tv_timkiem_tentruyen.setText(truyen.getTentruyen());
-        holder.tv_timkiem_lx.setText("Lượt xem: "+truyen.getLuotxem());
+        holder.tv_timkiem_tentruyen.setText(truyen.getNameStory());
+        holder.tv_timkiem_lx.setText("Lượt xem: "+truyen.getView());
         holder.tv_timkiem_ch.setText("Chapter: "+truyen.getChapter());
-        holder.tv_timkiem_dg.setText("Đánh giá: "+truyen.getDanhgia());
-        holder.tv_timkiem_theloai.setText(truyen.getTheloai());
+        holder.tv_timkiem_dg.setText("Đánh giá: "+truyen.getEvaluate());
+        holder.tv_timkiem_theloai.setText(truyen.getCategory());
         holder.ll_rcv_timkiem.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), CTTruyen.class);
             intent.putExtra("email",email);

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-public class QuenMK extends AppCompatActivity implements View.OnClickListener{
+public class ForgetPassword extends AppCompatActivity implements View.OnClickListener{
 
     Button bt_qmk;
     EditText edt_emailxn;
@@ -70,7 +70,7 @@ public class QuenMK extends AppCompatActivity implements View.OnClickListener{
                                 new SendMailTask(this).execute("argoncomic@gmail.com",
                                         "trong02456789", toEmailList, "Quên mật khẩu", "Mã code: " + ranNum);
                                 Toast.makeText(this, "Đã gửi", Toast.LENGTH_SHORT).show();
-                                Intent dialog_box = new Intent(this, MKMoi.class);
+                                Intent dialog_box = new Intent(this, NewPassword.class);
                                 dialog_box.putExtra("maxn",ranNum);
                                 dialog_box.putExtra("emailxn", edt_emailxn.getText().toString());
                                 dialog_box.putExtra("kt",1);

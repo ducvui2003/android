@@ -11,7 +11,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.FragmentAdapterCuaHang;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 import com.google.android.material.tabs.TabLayout;
 
 public class CuaHang extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class CuaHang extends AppCompatActivity {
     ViewPager2 pager2;
     FragmentAdapterCuaHang adapterCuaHang;
     Database db;
-    TaiKhoan taiKhoan;
+    Account account;
     TextView tv_diemtichluy;
 
     @Override
@@ -32,8 +32,8 @@ public class CuaHang extends AppCompatActivity {
         db=new Database(this);
         Intent intent=getIntent();
         String email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
-        tv_diemtichluy.setText(""+taiKhoan.getDiemthuong());
+        account =db.getTaiKhoan(email);
+        tv_diemtichluy.setText(""+ account.getRewardPoint());
 
 
         FragmentManager fragmentManager=getSupportFragmentManager();

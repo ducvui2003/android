@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-public class TheLoai extends AppCompatActivity {
+public class Category extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager2 pager2;

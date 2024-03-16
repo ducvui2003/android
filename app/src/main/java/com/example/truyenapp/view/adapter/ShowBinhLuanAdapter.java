@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.model.Story;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowBinhLuanAdapter extends RecyclerView.Adapter<ShowBinhLuanAdapter.ShowBinhLuanViewHolder>{
     private Context context;
-    private List<BinhLuan> list;
+    private List<Comment> list;
     private Database db;
 
-    public ShowBinhLuanAdapter(Context context, List<BinhLuan> list, Database db) {
+    public ShowBinhLuanAdapter(Context context, List<Comment> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -39,21 +39,21 @@ public class ShowBinhLuanAdapter extends RecyclerView.Adapter<ShowBinhLuanAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ShowBinhLuanViewHolder holder, int position) {
-        BinhLuan binhLuan=list.get(position);
+        Comment binhLuan=list.get(position);
         if(binhLuan==null){
             return;
         }
 
-        int idtruyen=db.getIdTruyen(binhLuan.getIdchapter());
+        int idtruyen=db.getIdTruyen(binhLuan.getIdChapter());
         String lenhSQlite="select * from truyen where id="+idtruyen;
-        ArrayList<Truyen> list=db.getTruyen(lenhSQlite);
-        Truyen truyen=list.get(0);
+        ArrayList<Story> list=db.getTruyen(lenhSQlite);
+        Story story =list.get(0);
 
-        Glide.with(this.context).load(truyen.getLinkhanh()).into(holder.img_tong_truyen);
-        holder.tv_tong_ngaydang.setText(binhLuan.getNgaydang());
-        holder.tv_tong_pl.setText(binhLuan.getNoidung());
-        holder.tv_tong_tenchapter.setText(db.getTenChapter(binhLuan.getIdchapter()));
-        holder.tv_tong_tentruyen.setText(truyen.getTentruyen());
+        Glide.with(this.context).load(story.getLinkImage()).into(holder.img_tong_truyen);
+        holder.tv_tong_ngaydang.setText(binhLuan.getPostingDay());
+        holder.tv_tong_pl.setText(binhLuan.getContent());
+        holder.tv_tong_tenchapter.setText(db.getTenChapter(binhLuan.getIdChapter()));
+        holder.tv_tong_tentruyen.setText(story.getNameStory());
     }
 
     @Override

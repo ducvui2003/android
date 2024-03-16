@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.LichSuDoiAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.DoiThuong;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.RewardExchange;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class LichSuDoiFragment extends Fragment {
 
     View view;
     Database db;
-    TaiKhoan taiKhoan;
+    Account account;
     public RecyclerView rcv;
     public LichSuDoiAdapter rcv_adapter;
     String email;
@@ -84,7 +84,7 @@ public class LichSuDoiFragment extends Fragment {
 
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         recyclerViewCuaHang();
         return view;
@@ -94,8 +94,8 @@ public class LichSuDoiFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        ArrayList<DoiThuong> doiThuongs=db.getLichSuDoi(taiKhoan);
-        rcv_adapter=new LichSuDoiAdapter(getActivity(),doiThuongs,taiKhoan,db);
+        ArrayList<RewardExchange> rewardExchanges =db.getLichSuDoi(account);
+        rcv_adapter=new LichSuDoiAdapter(getActivity(), rewardExchanges, account,db);
         rcv.setAdapter(rcv_adapter);
     }
 

@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.truyenapp.R;
+import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.adapter.BinhLuanTruyenAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.ThongKe;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Statistical;
 
 import java.util.ArrayList;
 
@@ -30,11 +30,11 @@ import java.util.ArrayList;
 public class ChiTietFragment extends Fragment {
 
     Database db;
-    Truyen truyen;
+    Story story;
     View view;
     TextView tv_danhgia,tv_tongluotxem,tv_tongbinhluan,tv_mota;
-    ThongKe thongKe;
-    TaiKhoan taiKhoan;
+    Statistical statistical;
+    Account account;
     String email;
     private RecyclerView rcv_binhluan;
     private BinhLuanTruyenAdapter rcv_adapter;
@@ -95,9 +95,9 @@ public class ChiTietFragment extends Fragment {
         email=intent.getStringExtra("email");
 
         String lenhSQLite="select * from truyen where id="+id_truyen;
-        ArrayList<Truyen> listtruyen=db.getTruyen(lenhSQLite);
-        truyen=listtruyen.get(0);
-        tv_mota.setText(truyen.getMota());
+        ArrayList<Story> listtruyen=db.getTruyen(lenhSQLite);
+        story =listtruyen.get(0);
+        tv_mota.setText(story.getDescribe());
 
 //        thongKe=db.getThongKe(id_truyen);
 //        tv_danhgia.setText(""+thongKe.getSosaotb());
@@ -127,7 +127,7 @@ public class ChiTietFragment extends Fragment {
     private void recyclerViewBinhLuan(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv_binhluan.setLayoutManager(linearLayoutManager);
-        ArrayList<BinhLuan> listBinhLuan=db.getBinhLuanTruyen(id_truyen);
+        ArrayList<Comment> listBinhLuan=db.getBinhLuanTruyen(id_truyen);
         rcv_adapter=new BinhLuanTruyenAdapter(getActivity(),listBinhLuan,db);
         rcv_binhluan.setAdapter(rcv_adapter);
     }

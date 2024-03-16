@@ -22,7 +22,7 @@
             android:textStyle="normal"
             android:ems="10"
             android:inputType="text"
-            android:hint="Nhap truyen can tim"
+            android:hint="Nhap story can tim"
             android:textSize="14dp"
             android:drawableLeft="@drawable/ic_baseline_search_24"
             android:drawableTint="@color/green"

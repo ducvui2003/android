@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.view.adapter.TimKiemAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Model_TimKiem;
+import com.example.truyenapp.model.ModelSearch;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class TimKiem extends AppCompatActivity implements View.OnClickListener {
+public class Search extends AppCompatActivity implements View.OnClickListener {
 
     EditText edt_search;
     AutoCompleteTextView autoCompleteTextView;
@@ -94,7 +94,7 @@ public class TimKiem extends AppCompatActivity implements View.OnClickListener {
                     "where key_search like '%"+textSearch.trim()+"%' COLLATE NOCASE\n" +
                     "group by truyen.id\n" +
                     "order by thongke.tongluotxem desc";
-            ArrayList<Model_TimKiem> listtimkiem = db.getListTimKiem(lenhSQLite);
+            ArrayList<ModelSearch> listtimkiem = db.getListTimKiem(lenhSQLite);
             if(listtimkiem.size() == 0){
                 Toast.makeText(this, "Không có truyện cần tìm!!!", Toast.LENGTH_SHORT).show();
                 tv_trong.setVisibility(View.VISIBLE);
@@ -114,7 +114,7 @@ public class TimKiem extends AppCompatActivity implements View.OnClickListener {
                     "where key_search like '%"+textSearch.trim()+"%' COLLATE NOCASE and truyen.theloai='"+textTheLoai.trim()+"'\n" +
                     "group by truyen.id\n" +
                     "order by thongke.tongluotxem desc";
-            ArrayList<Model_TimKiem> listtimkiem = db.getListTimKiem(lenhSQLite);
+            ArrayList<ModelSearch> listtimkiem = db.getListTimKiem(lenhSQLite);
             if(listtimkiem.size() == 0){
                 Toast.makeText(this, "Không có truyện cần tìm!!!", Toast.LENGTH_SHORT).show();
                 tv_trong.setVisibility(View.VISIBLE);

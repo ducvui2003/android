@@ -13,22 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.DoiThuong;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.RewardExchange;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LichSuDoiAdapter extends RecyclerView.Adapter<LichSuDoiAdapter.LichSuDoiViewHolder>{
     private Context context;
-    private List<DoiThuong> list;
-    private TaiKhoan taiKhoan;
+    private List<RewardExchange> list;
+    private Account account;
     private Database db;
 
-    public LichSuDoiAdapter(Context context, List<DoiThuong> list, TaiKhoan taiKhoan, Database db) {
+    public LichSuDoiAdapter(Context context, List<RewardExchange> list, Account account, Database db) {
         this.context = context;
         this.list = list;
-        this.taiKhoan = taiKhoan;
+        this.account = account;
         this.db = db;
     }
 
@@ -41,16 +41,16 @@ public class LichSuDoiAdapter extends RecyclerView.Adapter<LichSuDoiAdapter.Lich
 
     @Override
     public void onBindViewHolder(@NonNull LichSuDoiAdapter.LichSuDoiViewHolder holder, int position) {
-        DoiThuong doiThuong=list.get(position);
-        if(doiThuong==null){
+        RewardExchange rewardExchange =list.get(position);
+        if(rewardExchange ==null){
             return;
         }
 
-        ArrayList<String> list=db.getVatPhamDoi(doiThuong.getIdvatpham());
+        ArrayList<String> list=db.getVatPhamDoi(rewardExchange.getIdItems());
         Glide.with(this.context).load(list.get(2)).into(holder.img_vatphamdoi);
         holder.tv_tenvatpham.setText(list.get(0));
         holder.tv_diem.setText("Điểm: "+list.get(1));
-        holder.tv_ngaydoi.setText(doiThuong.getNgaydoi());
+        holder.tv_ngaydoi.setText(rewardExchange.getExchangeDate());
     }
 
     @Override

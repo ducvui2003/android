@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
+import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.adapter.admin.QLTruyenAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Truyen;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -47,7 +47,7 @@ public class QuanLyTruyen extends AppCompatActivity implements View.OnClickListe
     private void recyclerViewQLTruyen(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
-        ArrayList<Truyen> list=db.getListTruyen();
+        ArrayList<Story> list=db.getListTruyen();
         adapter=new QLTruyenAdapter(this,list,db);
         rcv.setAdapter(adapter);
     }

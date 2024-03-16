@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.admin.ShowThongTinBinhLuan;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
+import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
 
 public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QLBinhLuanViewHolder>{
     private Context context;
-    private ArrayList<BinhLuan> list;
+    private ArrayList<Comment> list;
     private Database db;
 
-    public QLBinhLuanAdapter(Context context, ArrayList<BinhLuan> list, Database db) {
+    public QLBinhLuanAdapter(Context context, ArrayList<Comment> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -39,13 +39,13 @@ public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QL
 
     @Override
     public void onBindViewHolder(@NonNull QLBinhLuanViewHolder holder, int position) {
-        BinhLuan binhLuan=list.get(position);
+        Comment binhLuan=list.get(position);
         if(binhLuan==null){
             return;
         }
 
         holder.tv_id.setText(""+binhLuan.getId());
-        int trangthai=binhLuan.getTrangthai();
+        int trangthai=binhLuan.getStatus();
         if(trangthai!=0){
             holder.bt_hien.setVisibility(View.GONE);
             holder.bt_an.setVisibility(View.VISIBLE);
@@ -55,7 +55,7 @@ public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QL
             holder.bt_an.setVisibility(View.GONE);
             holder.tv_trangthai.setText("Bị khóa");
         }
-        holder.tv_noidung.setText(binhLuan.getNoidung());
+        holder.tv_noidung.setText(binhLuan.getContent());
         holder.bt_an.setOnClickListener(view -> {
             db.updateTrangThaiBinhLuan(binhLuan.getId(),0);
             holder.bt_hien.setVisibility(View.VISIBLE);

@@ -14,7 +14,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class GMail {
+public class Email {
 
     final String emailPort = "587";// gmail's smtp port
     final String smtpAuth = "true";
@@ -31,11 +31,11 @@ public class GMail {
     Session mailSession;
     MimeMessage emailMessage;
 
-    public GMail() {
+    public Email() {
 
     }
 
-    public GMail(String fromEmail, String fromPassword,
+    public Email(String fromEmail, String fromPassword,
                  List<String> toEmailList, String emailSubject, String emailBody) {
         this.fromEmail = fromEmail;
         this.fromPassword = fromPassword;

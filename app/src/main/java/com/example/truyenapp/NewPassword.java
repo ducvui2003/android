@@ -15,7 +15,7 @@ import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.Authenticate;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.SendMailTask;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,12 +23,12 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MKMoi extends AppCompatActivity implements View.OnClickListener{
-    EditText edt_maopt,edt_mkm,edt_nlmkm;
+public class NewPassword extends AppCompatActivity implements View.OnClickListener{
+    EditText edt_maopt, edt_mkm, edt_nlmkm;
     Button bt_xnmkm,bt_glmxn;
     ImageView imgv_logo;
     TextView tv_emailxn;
-    TaiKhoan taiKhoan;
+    Account account;
 
     Database db;
 
@@ -52,7 +52,7 @@ public class MKMoi extends AppCompatActivity implements View.OnClickListener{
         maxn=""+i.getIntExtra("maxn",0);
         tv_emailxn.setText(email);
         kt=i.getIntExtra("kt",1);
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
     }
 
@@ -109,7 +109,7 @@ public class MKMoi extends AppCompatActivity implements View.OnClickListener{
                 break;
             case R.id.bt_glmxn:
                 if(kt==3){
-                    db.updateTrangThai(taiKhoan.getId(),3);
+                    db.updateTrangThai(account.getId(),3);
                     Toast.makeText(this,"Tài khoản bị tạm khóa. Vui Lòng thử lại sau",Toast.LENGTH_SHORT).show();
                     maxn="bikhoa";
                 }else{

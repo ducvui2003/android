@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.admin.ShowThongTinTaiKhoan;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
 public class QLTaiKhoanAdapter extends RecyclerView.Adapter<QLTaiKhoanAdapter.QLTaiKhoanViewHolder>{
     private Context context;
-    private ArrayList<TaiKhoan> list;
+    private ArrayList<Account> list;
     private Database db;
 
-    public QLTaiKhoanAdapter(Context context, ArrayList<TaiKhoan> list,Database db) {
+    public QLTaiKhoanAdapter(Context context, ArrayList<Account> list, Database db) {
         this.context = context;
         this.list = list;
         this.db=db;
@@ -39,13 +39,13 @@ public class QLTaiKhoanAdapter extends RecyclerView.Adapter<QLTaiKhoanAdapter.QL
 
     @Override
     public void onBindViewHolder(@NonNull QLTaiKhoanViewHolder holder, int position) {
-        TaiKhoan taiKhoan=list.get(position);
-        if(taiKhoan==null){
+        Account account =list.get(position);
+        if(account ==null){
             return;
         }
 
-        holder.tv_id.setText(""+taiKhoan.getId());
-        int trangthai=taiKhoan.getLoaitk();
+        holder.tv_id.setText(""+ account.getId());
+        int trangthai= account.getAccoutType();
         if(trangthai!=2){
             holder.bt_hien.setVisibility(View.GONE);
             holder.bt_an.setVisibility(View.VISIBLE);
@@ -55,22 +55,22 @@ public class QLTaiKhoanAdapter extends RecyclerView.Adapter<QLTaiKhoanAdapter.QL
             holder.bt_an.setVisibility(View.GONE);
             holder.tv_trangthai.setText("Bị khóa");
         }
-        holder.tv_email.setText(taiKhoan.getEmail());
+        holder.tv_email.setText(account.getEmail());
         holder.bt_an.setOnClickListener(view -> {
-            db.updateTrangThai(taiKhoan.getId(),2);
+            db.updateTrangThai(account.getId(),2);
             holder.bt_hien.setVisibility(View.VISIBLE);
             holder.bt_an.setVisibility(View.GONE);
             holder.tv_trangthai.setText("Bị khóa");
         });
         holder.bt_hien.setOnClickListener(view -> {
-            db.updateTrangThai(taiKhoan.getId(),0);
+            db.updateTrangThai(account.getId(),0);
             holder.bt_hien.setVisibility(View.GONE);
             holder.bt_an.setVisibility(View.VISIBLE);
             holder.tv_trangthai.setText("Hoạt động");
         });
         holder.ll_rcv_qltaikhoan.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), ShowThongTinTaiKhoan.class);
-            intent.putExtra("email",taiKhoan.getEmail());
+            intent.putExtra("email", account.getEmail());
             holder.itemView.getContext().startActivity(intent);
         });
     }

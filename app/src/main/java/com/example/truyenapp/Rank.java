@@ -9,7 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.truyenapp.view.fragment.FragmentAdapterBXH;
 import com.google.android.material.tabs.TabLayout;
 
-public class XepHang extends AppCompatActivity {
+public class Rank extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager2 pager2;

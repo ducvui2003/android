@@ -19,10 +19,10 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.BinhLuanAdapter;
 import com.example.truyenapp.view.adapter.DocChapterAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
+import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.model.Chapter;
-import com.example.truyenapp.model.NoiDungChapter;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.ContentOfChapter;
+import com.example.truyenapp.model.Account;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class DocChapter extends AppCompatActivity implements View.OnClickListene
     ImageView img_backdoctruyen, img_pre, img_next;
     Button bt_danhgia, bt_binhluan;
     EditText edt_binhluan;
-    TaiKhoan taiKhoan;
+    Account account;
     String email;
     RatingBar rtb;
 
@@ -57,7 +57,7 @@ public class DocChapter extends AppCompatActivity implements View.OnClickListene
         id_chapter=intent.getIntExtra("id_chapter",0);
         id_truyen=intent.getIntExtra("id_truyen",0);
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         if(id_chapter!=0){
             String lenhSqlite_chapter="select * from chapter where id="+id_chapter;
@@ -67,8 +67,8 @@ public class DocChapter extends AppCompatActivity implements View.OnClickListene
             db.updateLuotXemChapter(chapter);
         }
         String lenhSqlite_docchapter="select * from noidungchapter where idchapter="+id_chapter;
-        ArrayList<NoiDungChapter> noiDungChapters=db.getNoiDungChapter(lenhSqlite_docchapter);
-        rcv_adapter=new DocChapterAdapter(noiDungChapters,this);
+        ArrayList<ContentOfChapter> contentOfChapters =db.getNoiDungChapter(lenhSqlite_docchapter);
+        rcv_adapter=new DocChapterAdapter(contentOfChapters,this);
         rcv.setAdapter(rcv_adapter);
 
         recyclerViewBinhLuan();
@@ -80,22 +80,22 @@ public class DocChapter extends AppCompatActivity implements View.OnClickListene
     private void recyclerViewBinhLuan(){
         LinearLayoutManager linearLayoutManager2=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv_binhluan.setLayoutManager(linearLayoutManager2);
-        ArrayList<BinhLuan> listBinhLuan=db.getListBinhLuanChapter(id_chapter);
-        rcv_binhluanadapter=new BinhLuanAdapter(this,listBinhLuan,db,taiKhoan);
+        ArrayList<Comment> listBinhLuan=db.getListBinhLuanChapter(id_chapter);
+        rcv_binhluanadapter=new BinhLuanAdapter(this,listBinhLuan,db, account);
         rcv_binhluan.setAdapter(rcv_binhluanadapter);
     }
 
     private void check(){
-        Boolean kt=db.checkTruyenDaDoc(taiKhoan.getId(),id_truyen);
+        Boolean kt=db.checkTruyenDaDoc(account.getId(),id_truyen);
         if(kt==true){
-            int idchapterdadoc=db.getIdChapterTruyenDaDoc(taiKhoan.getId(),id_truyen);
+            int idchapterdadoc=db.getIdChapterTruyenDaDoc(account.getId(),id_truyen);
             if(idchapterdadoc!=id_chapter){
-                int id=db.getIdLichSuDocTruyen(taiKhoan.getId(),idchapterdadoc);
+                int id=db.getIdLichSuDocTruyen(account.getId(),idchapterdadoc);
                 db.updateTruyenDaDoc(id_chapter,id);
             }
         }
         else {
-            db.insertTruyenDaDoc(taiKhoan.getId(),id_chapter);
+            db.insertTruyenDaDoc(account.getId(),id_chapter);
         }
     }
 
@@ -148,7 +148,7 @@ public class DocChapter extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.bt_binhluan:
                 if(edt_binhluan.getText().length()!=0){
-                    db.insertBinhLuan(id_chapter,taiKhoan.getId(),edt_binhluan.getText().toString());
+                    db.insertBinhLuan(id_chapter, account.getId(),edt_binhluan.getText().toString());
                     edt_binhluan.setText("");
                     recyclerViewBinhLuan();
                 }else{
@@ -156,13 +156,13 @@ public class DocChapter extends AppCompatActivity implements View.OnClickListene
                 }
                 break;
             case R.id.bt_danhgia:
-                Boolean kt=db.checkDanhGia(taiKhoan.getId(),id_chapter);
+                Boolean kt=db.checkDanhGia(account.getId(),id_chapter);
                 float sosao=rtb.getRating();
                 if(kt==true){
-                    db.updateDanhGia(id_chapter,taiKhoan.getId(),sosao);
+                    db.updateDanhGia(id_chapter, account.getId(),sosao);
                     setData();
                 }else{
-                    db.insertDanhGia(id_chapter,taiKhoan.getId(),sosao);
+                    db.insertDanhGia(id_chapter, account.getId(),sosao);
                     setData();
                 }
                 break;

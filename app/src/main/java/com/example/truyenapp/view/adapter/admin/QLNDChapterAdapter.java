@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.NoiDungChapter;
+import com.example.truyenapp.model.ContentOfChapter;
 
 import java.util.ArrayList;
 
 public class QLNDChapterAdapter extends RecyclerView.Adapter<QLNDChapterAdapter.QLNDChapterViewHolder>{
     private Context context;
-    private ArrayList<NoiDungChapter> list;
+    private ArrayList<ContentOfChapter> list;
     private Database db;
 
-    public QLNDChapterAdapter(Context context, ArrayList<NoiDungChapter> list, Database db) {
+    public QLNDChapterAdapter(Context context, ArrayList<ContentOfChapter> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -35,13 +35,13 @@ public class QLNDChapterAdapter extends RecyclerView.Adapter<QLNDChapterAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull QLNDChapterViewHolder holder, int position) {
-        NoiDungChapter noiDungChapter=list.get(position);
-        if(noiDungChapter==null){
+        ContentOfChapter contentOfChapter =list.get(position);
+        if(contentOfChapter ==null){
             return;
         }
 
-        holder.tv_idqlthongke.setText(""+noiDungChapter.getId());
-        holder.tv_qltktentruyen.setText(noiDungChapter.getLinkanh());
+        holder.tv_idqlthongke.setText(""+ contentOfChapter.getId());
+        holder.tv_qltktentruyen.setText(contentOfChapter.getLinkImage());
     }
 
     @Override

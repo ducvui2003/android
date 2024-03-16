@@ -15,16 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Story;
 
 import java.util.List;
 
 public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenViewHolder>{
     private Context context;
-    private List<Truyen> list;
+    private List<Story> list;
     private String email;
 
-    public TruyenAdapter(List<Truyen> list, Context context,String email)
+    public TruyenAdapter(List<Story> list, Context context, String email)
     {
         this.list=list;
         this.context=context;
@@ -39,16 +39,16 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
     }
     @Override
     public void onBindViewHolder(@NonNull TruyenAdapter.TruyenViewHolder holder, int position) {
-        Truyen truyen=list.get(position);
-        if(truyen==null){
+        Story story =list.get(position);
+        if(story ==null){
             return;
         }
 
-        Glide.with(this.context).load(truyen.getLinkhanh()).into(holder.imgtruyen);
-        holder.tv_tentruyen.setText(truyen.getTentruyen());
+        Glide.with(this.context).load(story.getLinkImage()).into(holder.imgtruyen);
+        holder.tv_tentruyen.setText(story.getNameStory());
         holder.ll_rcv.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), CTTruyen.class);
-            intent.putExtra("id_truyen",truyen.getId());
+            intent.putExtra("id_truyen", story.getId());
             intent.putExtra("email",email);
             holder.itemView.getContext().startActivity(intent);
         });

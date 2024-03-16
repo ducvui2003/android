@@ -13,18 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.DanhGia;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Evaluate;
+import com.example.truyenapp.model.Story;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowDanhGiaAdapter extends RecyclerView.Adapter<ShowDanhGiaAdapter.ShowDanhGiaViewHolder>{
     private Context context;
-    private List<DanhGia> list;
+    private List<Evaluate> list;
     private Database db;
 
-    public ShowDanhGiaAdapter(Context context, List<DanhGia> list, Database db) {
+    public ShowDanhGiaAdapter(Context context, List<Evaluate> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -40,21 +40,21 @@ public class ShowDanhGiaAdapter extends RecyclerView.Adapter<ShowDanhGiaAdapter.
     @Override
     public void onBindViewHolder(@NonNull ShowDanhGiaViewHolder holder, int position) {
 
-        DanhGia danhGia=list.get(position);
-        if(danhGia==null){
+        Evaluate evaluate =list.get(position);
+        if(evaluate ==null){
             return;
         }
 
-        int idtruyen=db.getIdTruyen(danhGia.getIdchapter());
+        int idtruyen=db.getIdTruyen(evaluate.getIdChapter());
         String lenhSQlite="select * from truyen where id="+idtruyen;
-        ArrayList<Truyen> list=db.getTruyen(lenhSQlite);
-        Truyen truyen=list.get(0);
+        ArrayList<Story> list=db.getTruyen(lenhSQlite);
+        Story story =list.get(0);
 
-        Glide.with(this.context).load(truyen.getLinkhanh()).into(holder.img_tong_truyen);
-        holder.tv_tong_ngaydang.setText(danhGia.getNgaydanhgia());
-        holder.tv_tong_pl.setText("Đánh giá: "+danhGia.getSosao());
-        holder.tv_tong_tenchapter.setText(db.getTenChapter(danhGia.getIdchapter()));
-        holder.tv_tong_tentruyen.setText(truyen.getTentruyen());
+        Glide.with(this.context).load(story.getLinkImage()).into(holder.img_tong_truyen);
+        holder.tv_tong_ngaydang.setText(evaluate.getEvaluateDate());
+        holder.tv_tong_pl.setText("Đánh giá: "+ evaluate.getStar());
+        holder.tv_tong_tenchapter.setText(db.getTenChapter(evaluate.getIdChapter()));
+        holder.tv_tong_tentruyen.setText(story.getNameStory());
     }
 
     @Override
