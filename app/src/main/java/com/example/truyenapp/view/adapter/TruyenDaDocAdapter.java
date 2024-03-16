@@ -50,7 +50,7 @@ public class TruyenDaDocAdapter extends RecyclerView.Adapter<TruyenDaDocAdapter.
             return;
         }
 
-        int id=truyendadoc.getIdchapter();
+        int id=truyendadoc.getIdChapter();
         Chapter chapter=db.getOneChapter(id);
         Story story =db.getOneTruyen(chapter);
         String tenchaptermoinhat=db.getTenChapterNew(story.getId());
