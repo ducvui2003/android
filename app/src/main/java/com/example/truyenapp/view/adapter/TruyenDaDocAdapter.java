@@ -63,7 +63,7 @@ public class TruyenDaDocAdapter extends RecyclerView.Adapter<TruyenDaDocAdapter.
         holder.ll_rcv_truyendadoc.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), DocChapter.class);
             intent.putExtra("id_truyen", story.getId());
-            intent.putExtra("id_chapter",truyendadoc.getIdchapter());
+            intent.putExtra("id_chapter",truyendadoc.getIdChapter());
             intent.putExtra("email", account.getEmail());
             holder.itemView.getContext().startActivity(intent);
         });
