@@ -10,14 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.BinhLuan;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.model.Story;
 
 public class ShowThongTinBinhLuan extends AppCompatActivity {
     ImageView img;
     TextView tv_id,tv_email,tv_noidung,tv_ngaydang,tv_trangthai,tv_tentruyen,tv_tenchapter;
     Database db;
-    BinhLuan binhLuan;
+    Comment binhLuan;
     int id;
 
     @Override
@@ -36,17 +36,17 @@ public class ShowThongTinBinhLuan extends AppCompatActivity {
 
     private void setData(){
 
-        int idtruyen=db.getIdTruyen(binhLuan.getIdchapter());
-        Truyen truyen=db.getTruyenById(idtruyen);
+        int idtruyen=db.getIdTruyen(binhLuan.getIdChapter());
+        Story story =db.getTruyenById(idtruyen);
 
-        Glide.with(this).load(truyen.getLinkhanh()).into(img);
-        tv_tentruyen.setText(truyen.getTentruyen());
-        tv_tenchapter.setText(db.getTenChapter(binhLuan.getIdchapter()));
+        Glide.with(this).load(story.getLinkImage()).into(img);
+        tv_tentruyen.setText(story.getNameStory());
+        tv_tenchapter.setText(db.getTenChapter(binhLuan.getIdChapter()));
         tv_id.setText(""+binhLuan.getId());
-        tv_email.setText(db.getEmail(binhLuan.getIdtaikhoan()));
-        tv_noidung.setText(binhLuan.getNoidung());
-        tv_ngaydang.setText(binhLuan.getNgaydang());
-        int trangthai=binhLuan.getTrangthai();
+        tv_email.setText(db.getEmail(binhLuan.getIdAccount()));
+        tv_noidung.setText(binhLuan.getContent());
+        tv_ngaydang.setText(binhLuan.getPostingDay());
+        int trangthai=binhLuan.getStatus();
         if(trangthai==1){
             tv_trangthai.setText("Hoạt động");
         }else {

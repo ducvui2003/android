@@ -16,11 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.adapter.AdapterAdmin.QLNDChapterAdapter;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.adapter.admin.QLNDChapterAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Chapter;
-import com.example.truyenapp.model.NoiDungChapter;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.ContentOfChapter;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class ShowThongTinChapter extends AppCompatActivity implements View.OnCli
     EditText edt_tenchapter,edt_linkanh;
     Button bt_chinhsua,bt_them,bt_huy,bt_xacnhanchaper,bt_huychinhsuachapter;
     Database db;
-    Truyen truyen;
+    Story story;
     Chapter chapter;
     int id;
     CardView cv_themndchapter;
@@ -49,7 +49,7 @@ public class ShowThongTinChapter extends AppCompatActivity implements View.OnCli
         Intent intent=getIntent();
         id=intent.getIntExtra("id_chapter",1);
         chapter=db.getOneChapter(id);
-        truyen=db.getTruyenById(chapter.getIdtruyen());
+        story =db.getTruyenById(chapter.getIdtruyen());
 
         setEnable(0);
         setData();
@@ -61,15 +61,15 @@ public class ShowThongTinChapter extends AppCompatActivity implements View.OnCli
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
         String lenhSQlite="select * from noidungchapter where idchapter="+id;
-        ArrayList<NoiDungChapter> list=db.getNoiDungChapter(lenhSQlite);
+        ArrayList<ContentOfChapter> list=db.getNoiDungChapter(lenhSQlite);
         adapter=new QLNDChapterAdapter(this,list,db);
         rcv.setAdapter(adapter);
     }
 
     private void setData(){
-        Glide.with(this).load(truyen.getLinkhanh()).into(img_truyen);
+        Glide.with(this).load(story.getLinkImage()).into(img_truyen);
         tv_id.setText(""+chapter.getId());
-        tv_tentruyen.setText(truyen.getTentruyen());
+        tv_tentruyen.setText(story.getNameStory());
         edt_tenchapter.setText(chapter.getTenchapter());
         tv_danhgia.setText(""+chapter.getDanhgia());
         tv_luotxem.setText(""+chapter.getSoluotxem());

@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.truyenapp.adapter.VoteApdapter;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.adapter.VoteApdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.PLTruyen;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.view.fragment.BXHVoteFragment;
 
 import java.util.ArrayList;
 
@@ -28,9 +29,9 @@ import java.util.ArrayList;
 public class TheLoaiVoteFragment extends Fragment {
 
     View view;
-    TheLoai theLoai;
+    Category category;
     Database db;
-    Truyen truyen;
+    Story story;
     public RecyclerView rcv;
     public VoteApdapter rcv_adapter;
     String email;
@@ -88,7 +89,7 @@ public class TheLoaiVoteFragment extends Fragment {
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
 
-        theLoai= (TheLoai) getActivity();
+        category = (Category) getActivity();
         hienThiTheoTheLoai();
 
         return view;
@@ -98,7 +99,7 @@ public class TheLoaiVoteFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
         String lenhSqlite_theloai="select truyen.id, thongke.tongluotxem, thongke.sosaotb, truyen.tentruyen, chapter.ngaydang, truyen.theloai theloai, truyen.linkanh from truyen inner join chapter on truyen.id=chapter.idtruyen inner join thongke on truyen.id=thongke.idtruyen where chapter.tenchapter='Chapter 1' and truyen.theloai='"+_theloai+"' order by thongke.sosaotb desc, chapter.ngaydang desc";
-        ArrayList<PLTruyen> truyens=db.getListPLTruyen(lenhSqlite_theloai);
+        ArrayList<ClassifyStory> truyens=db.getListPLTruyen(lenhSqlite_theloai);
         rcv_adapter=new VoteApdapter(getActivity(),truyens,email);
         rcv.setAdapter(rcv_adapter);
     }
@@ -108,9 +109,9 @@ public class TheLoaiVoteFragment extends Fragment {
     }
 
     public void hienThiTheoTheLoai(){
-        _theloai=theLoai.autoCompleteTextView.getText().toString();
+        _theloai= category.autoCompleteTextView.getText().toString();
         recyclerViewTruyen();
-        theLoai.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        category.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String item=adapterView.getItemAtPosition(i).toString();

@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.adapter.AdapterAdmin.QLTaiKhoanAdapter;
+import com.example.truyenapp.view.adapter.admin.QLTaiKhoanAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
+import com.example.truyenapp.model.Account;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class QuanLyTaiKhoan extends AppCompatActivity implements View.OnClickListener {
-    TaiKhoan taiKhoan;
+    Account account;
     Database db;
     String email;
     private RecyclerView rcv;
@@ -44,7 +44,7 @@ public class QuanLyTaiKhoan extends AppCompatActivity implements View.OnClickLis
         db=new Database(this);
         Intent intent=getIntent();
         email=intent.getStringExtra("email");
-        taiKhoan=db.getTaiKhoan(email);
+        account =db.getTaiKhoan(email);
 
         setOnClickListener();
         recyclerViewQLTaiKhoan();
@@ -53,7 +53,7 @@ public class QuanLyTaiKhoan extends AppCompatActivity implements View.OnClickLis
     private void recyclerViewQLTaiKhoan(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
-        ArrayList<TaiKhoan> list=db.getListTaiKhoan();
+        ArrayList<Account> list=db.getListTaiKhoan();
         adapter=new QLTaiKhoanAdapter(this,list,db);
         rcv.setAdapter(adapter);
     }

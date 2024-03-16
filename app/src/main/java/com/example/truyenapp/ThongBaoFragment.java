@@ -10,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.truyenapp.adapter.ThongBaoAdapter;
+import com.example.truyenapp.view.adapter.ThongBaoAdapter;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.TaiKhoan;
-import com.example.truyenapp.model.ThongBao;
+import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Notification;
+import com.example.truyenapp.view.fragment.TaiKhoanFragment;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class ThongBaoFragment extends Fragment {
 
     View view;
     String email;
-    TaiKhoan taiKhoan;
+    Account account;
     Database db;
 
     public RecyclerView rcv;
@@ -88,8 +89,8 @@ public class ThongBaoFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        ArrayList<ThongBao> thongBaos=db.getListThongBao();
-        rcv_adapter=new ThongBaoAdapter(getActivity(),thongBaos);
+        ArrayList<Notification> notifications =db.getListThongBao();
+        rcv_adapter=new ThongBaoAdapter(getActivity(), notifications);
         rcv.setAdapter(rcv_adapter);
     }
 

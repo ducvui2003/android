@@ -10,7 +10,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Truyen;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.fragment.FragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CTTruyen extends AppCompatActivity {
     FragmentAdapter adapter;
     ImageView img_truyen;
     Database db;
-    Truyen truyen;
+    Story story;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,9 @@ public class CTTruyen extends AppCompatActivity {
         Intent intent=getIntent();
         int id_truyen=intent.getIntExtra("id_truyen",1);
         String lenhSQLite="select * from truyen where id="+id_truyen;
-        ArrayList<Truyen> listtruyen=db.getTruyen(lenhSQLite);
-        truyen=listtruyen.get(0);
-        Glide.with(this).load(truyen.getLinkhanh()).into(img_truyen);
+        ArrayList<Story> listtruyen=db.getTruyen(lenhSQLite);
+        story =listtruyen.get(0);
+        Glide.with(this).load(story.getLinkImage()).into(img_truyen);
 
 
         FragmentManager fragmentManager=getSupportFragmentManager();
