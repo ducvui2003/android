@@ -10,6 +10,7 @@
         android:label="Argon Comic"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppDocTruyen">
         <activity
             android:name="com.example.truyenapp.Category"
@@ -21,10 +22,10 @@
             android:name="com.example.truyenapp.NewPassword"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.SignIn"
+            android:name="com.example.truyenapp.Signup"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.Authenticate"
+            android:name="com.example.truyenapp.view.activity.Signin"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.HomeActivity"

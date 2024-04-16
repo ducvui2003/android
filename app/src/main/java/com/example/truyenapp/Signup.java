@@ -14,14 +14,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.truyenapp.view.activity.HomeActivity;
-import com.example.truyenapp.view.activity.Authenticate;
+import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.database.Database;
 
 import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SignIn extends AppCompatActivity implements View.OnClickListener{
+public class Signup extends AppCompatActivity implements View.OnClickListener{
 
     TextView textView;
     EditText edt_dk_email, edt_dk_pass,edt_dk_nlpass;
@@ -48,7 +48,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener{
     {
         switch (view.getId()) {
             case R.id.change_fragment_sign_in:
-                Intent dialog_box = new Intent(this, Authenticate.class);
+                Intent dialog_box = new Intent(this, Signin.class);
                 startActivity(dialog_box);
                 finish();
                 break;
@@ -83,7 +83,7 @@ public class SignIn extends AppCompatActivity implements View.OnClickListener{
                                 Boolean insert = db.insertTaikhoan(email,pass);
                                 if(insert==true){
                                     Toast.makeText(this,"Đăng ký thành công!",Toast.LENGTH_SHORT).show();
-                                    Intent intent=new Intent(this, Authenticate.class);
+                                    Intent intent=new Intent(this, Signin.class);
                                     intent.putExtra("email",email);
                                     intent.putExtra("pass",edt_dk_pass.getText().toString());
                                     startActivity(intent);

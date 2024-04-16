@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.truyenapp.view.activity.HomeActivity;
-import com.example.truyenapp.view.activity.Authenticate;
+import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.SendMailTask;
 import com.example.truyenapp.model.Account;
@@ -82,7 +82,7 @@ public class NewPassword extends AppCompatActivity implements View.OnClickListen
                         if(updateMK==false){
                             Toast.makeText(this,"Cập nhật không thành công",Toast.LENGTH_SHORT).show();
                         }else{
-                            Intent dialog_box = new Intent(this, Authenticate.class);
+                            Intent dialog_box = new Intent(this, Signin.class);
                             dialog_box.putExtra("email", tv_emailxn.getText().toString());
                             dialog_box.putExtra("pass", edt_mkm.getText().toString());
                             Toast.makeText(this,"Lấy lại mật khẩu thành công!",Toast.LENGTH_SHORT).show();

@@ -32,7 +32,7 @@ import com.example.truyenapp.Search;
 import com.example.truyenapp.Rank;
 import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.HomeActivity;
-import com.example.truyenapp.view.activity.Authenticate;
+import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
@@ -197,7 +197,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     {
         switch (view.getId()) {
             case R.id.bt_dnhome:
-                Intent dialog_box = new Intent(getActivity(), Authenticate.class);
+                Intent dialog_box = new Intent(getActivity(), Signin.class);
                 startActivity(dialog_box);
                 getActivity().finish();
                 break;
