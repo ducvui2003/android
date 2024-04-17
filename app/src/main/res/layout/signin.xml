@@ -12,7 +12,7 @@
         android:id="@+id/img_logodn"
         android:layout_width="200dp"
         android:layout_height="150dp"
-        android:src="@drawable/logox"
+        android:src="@drawable/logo"
         android:layout_marginTop="20dp"/>
     <TextView
         android:layout_width="wrap_content"

@@ -14,13 +14,13 @@ import com.example.truyenapp.view.adapter.ThongBaoAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Notification;
-import com.example.truyenapp.view.fragment.TaiKhoanFragment;
+import com.example.truyenapp.view.fragment.AccountFragment;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TaiKhoanFragment#newInstance} factory method to
+ * Use the {@link AccountFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class ThongBaoFragment extends Fragment {
@@ -51,7 +51,7 @@ public class ThongBaoFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TaiKhoanFragment.
+     * @return A new instance of fragment AccountFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static ThongBaoFragment newInstance(String param1, String param2) {
