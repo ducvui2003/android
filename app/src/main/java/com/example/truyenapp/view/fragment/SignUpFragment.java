@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.view.activity.HomeActivity;
+import com.example.truyenapp.view.activity.Signin;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,7 +49,7 @@ public class SignUpFragment extends Fragment {
 
     private void init() {
         changeFragmentSignIn = view.findViewById(R.id.change_fragment_sign_in);
-        editEmail = view.findViewById(R.id.edit_sign_in_email);
+//        editEmail = view.findViewById(R.id.edit_sign_in_email);
         editPass = view.findViewById(R.id.edit_sign_up_pass);
         editRePass = view.findViewById(R.id.edit_sign_up_re_pass);
         buttonSignIn = view.findViewById(R.id.button_sign_up);
@@ -58,7 +59,7 @@ public class SignUpFragment extends Fragment {
         changeFragmentSignIn.setOnClickListener(view -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_sign, SignInFragment.class, null);
+//            fragmentTransaction.replace(R.layout.signin, Signin.class, null);
             fragmentTransaction.addToBackStack(this.getClass().getSimpleName());
             fragmentTransaction.commit();
         });

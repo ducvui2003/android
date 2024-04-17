@@ -116,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
         builder.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomeActivity.this, Authenticate.class);
+                Intent intent = new Intent(HomeActivity.this, Signin.class);
                 startActivity(intent);
             }
         });
