@@ -186,7 +186,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 SharedPreferencesHelper.deletePreference(context, SystemConstant.JWT_TOKEN);
-                Toast.makeText(context, "Logout successful!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -197,7 +197,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<Void> call, Throwable throwable) {
                 Log.e("TAG", "Logout failed: " + throwable.getMessage());
-                Toast.makeText(context, "Error, please Logout again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
             }
         });
     }
