@@ -2,28 +2,27 @@ package com.example.truyenapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.adapter.TheLoaiAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ClassifyStory;
-import com.example.truyenapp.view.fragment.BXHVoteFragment;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.adapter.TheLoaiAdapter;
+import com.example.truyenapp.view.fragment.RankVoteFragment;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BXHVoteFragment#newInstance} factory method to
+ * Use the {@link RankVoteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 

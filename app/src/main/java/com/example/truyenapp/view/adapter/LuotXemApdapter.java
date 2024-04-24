@@ -71,10 +71,10 @@ public class LuotXemApdapter extends RecyclerView.Adapter<LuotXemApdapter.LuotXe
 
         public LuotXemViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_tentruyen=itemView.findViewById(R.id.tv_theloai_tentruyen);
-            tv_pl=itemView.findViewById(R.id.tv_theloai_pl);
+            tv_tentruyen=itemView.findViewById(R.id.item_rcv_name_commic);
+            tv_pl=itemView.findViewById(R.id.item_rcv_date_commic);
             ll_rcv_theloai=itemView.findViewById(R.id.ll_rcv_theloai);
-            img_theloai=itemView.findViewById(R.id.img_theloai);
+            img_theloai=itemView.findViewById(R.id.item_rcv_thumnail);
         }
     }
 }

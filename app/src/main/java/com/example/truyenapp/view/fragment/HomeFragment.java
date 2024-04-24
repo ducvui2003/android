@@ -2,17 +2,6 @@ package com.example.truyenapp.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,21 +15,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.example.truyenapp.R;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.truyenapp.Category;
+import com.example.truyenapp.R;
+import com.example.truyenapp.RankActivity;
 import com.example.truyenapp.Search;
-import com.example.truyenapp.Rank;
-import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.activity.HomeActivity;
-import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.QuanLyTruyen;
-import com.example.truyenapp.view.activity.DiemThuong;
-import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.activity.DiemThuong;
+import com.example.truyenapp.view.activity.HomeActivity;
+import com.example.truyenapp.view.activity.Signin;
+import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -207,7 +206,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box1);
                 break;
             case R.id.tv_xephang:
-                Intent dialog_box2 = new Intent(getActivity(), Rank.class);
+                Intent dialog_box2 = new Intent(getActivity(), RankActivity.class);//
                 dialog_box2.putExtra("email",email);
                 startActivity(dialog_box2);
                 break;
@@ -392,7 +391,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box3);
                 break;
             case R.id.it_xephang:
-                Intent dialog_box4 = new Intent(getActivity(), Rank.class);
+                Intent dialog_box4 = new Intent(getActivity(), RankActivity.class);
                 dialog_box4.putExtra("email", account.getEmail());
                 startActivity(dialog_box4);
                 break;

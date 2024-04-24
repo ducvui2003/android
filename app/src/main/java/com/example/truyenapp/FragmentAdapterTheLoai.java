@@ -8,18 +8,18 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class FragmentAdapterTheLoai extends FragmentStateAdapter {
 
-    public  FragmentAdapterTheLoai(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle){
-        super(fragmentManager,lifecycle);
+    public FragmentAdapterTheLoai(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
     }
+
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position)
-        {
+        switch (position) {
             case 1:
-                return new TheLoaiVoteFragment();
+                return new FragmentRankVote();
             case 2:
-                return new TheLoaiLuotXemFragment();
+                return new FragmentRankView();
         }
         return new TheLoaiNewFragment();
     }

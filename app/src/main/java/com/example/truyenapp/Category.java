@@ -1,9 +1,5 @@
 package com.example.truyenapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.widget.ViewPager2;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +7,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.truyenapp.database.Database;
 import com.google.android.material.tabs.TabLayout;
@@ -31,8 +31,8 @@ public class Category extends AppCompatActivity {
     String textTheLoai;
 
     TheLoaiNewFragment theLoaiNewFragment;
-    TheLoaiVoteFragment theLoaiVoteFragment;
-    TheLoaiLuotXemFragment theLoaiLuotXemFragment;
+    FragmentRankVote theLoaiVoteFragment;
+    FragmentRankView theLoaiLuotXemFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
