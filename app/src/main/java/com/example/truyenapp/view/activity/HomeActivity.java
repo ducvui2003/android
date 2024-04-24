@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.truyenapp.view.fragment.HomeFragment;
 import com.example.truyenapp.R;
-import com.example.truyenapp.view.fragment.TaiKhoanFragment;
+import com.example.truyenapp.view.fragment.AccountFragment;
 import com.example.truyenapp.ThongBaoFragment;
 import com.example.truyenapp.view.fragment.TuSachFragment;
 import com.example.truyenapp.database.Database;
@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 4:
                         if (email != null) {
-                            fragment = new TaiKhoanFragment();
+                            fragment = new AccountFragment();
                         }
                         break;
                 }

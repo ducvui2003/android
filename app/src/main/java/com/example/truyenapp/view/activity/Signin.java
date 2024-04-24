@@ -3,18 +3,17 @@ package com.example.truyenapp.view.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.truyenapp.ForgetPassword;
 import com.example.truyenapp.R;
 import com.example.truyenapp.Signup;
 import com.example.truyenapp.api.AuthAPI;
@@ -23,7 +22,6 @@ import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.request.AuthenticationRequest;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
-import com.google.gson.Gson;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +30,7 @@ import retrofit2.Response;
 public class Signin extends AppCompatActivity implements View.OnClickListener {
     private ImageView logoImg;
     private EditText usernameField, passwordField;
+    TextView signupBtn, forgotPassBtn;
     private Button signinBtn;
     private AuthAPI authAPI;
 
@@ -48,8 +47,12 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
         passwordField = findViewById(R.id.passwordField);
         signinBtn = findViewById(R.id.signinBtn);
         logoImg = findViewById(R.id.img_logodn);
+        signupBtn = findViewById(R.id.signupBtn);
+        forgotPassBtn = findViewById(R.id.forgotPassBtn);
         signinBtn.setOnClickListener(this);
         logoImg.setOnClickListener(this);
+        signupBtn.setOnClickListener(this);
+        forgotPassBtn.setOnClickListener(this);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -63,15 +66,15 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
                 finish();
                 break;
 
-            case R.id.tv_chuatk:
-                // Redirect to Signup activity when 'tv_chuatk' is clicked
+            case R.id.signupBtn:
+                // Redirect to Signup activity when 'signupBtn' is clicked
                 Intent dialog_box1 = new Intent(this, Signup.class);
                 startActivity(dialog_box1);
                 break;
 
-            case R.id.tv_quenmk:
-                // Redirect to ForgetPassword activity when 'tv_quenmk' is clicked
-                Intent dialog_box2 = new Intent(this, ForgetPassword.class);
+            case R.id.forgotPassBtn:
+                // Redirect to ForgotPassword activity when 'forgotPassBtn' is clicked
+                Intent dialog_box2 = new Intent(this, ForgotPassword.class);
                 startActivity(dialog_box2);
                 break;
 
@@ -82,7 +85,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
 
                 // Check if username contains space
                 if (username.contains(" ")) {
-                    Toast.makeText(this, "Username cannot contain spaces", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Tên đăng nhập không chứa khoảng trắng", Toast.LENGTH_SHORT).show();
                 }
                 // Check if username and password are not empty
                 if (!username.isEmpty() && !password.isEmpty()) {
@@ -90,9 +93,9 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
                 } else {
                     // Show appropriate message if either username or password is empty
                     if (username.isEmpty()) {
-                        Toast.makeText(this, "Please enter username", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Vui lòng nhập tên đăng nhập", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;
@@ -111,14 +114,14 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
                 if (jwt != null) {
                     // Save JWT token and redirect to HomeActivity on successful login
                     SharedPreferencesHelper.savePreference(context, jwt, SystemConstant.JWT_TOKEN);
-                    Toast.makeText(Signin.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Signin.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(Signin.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
                     // Show error message if login response is null
-                    Toast.makeText(Signin.this, "Error, please login again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Signin.this, "Lỗi, Tên đăng nhập hoặc tài khoản không đúng!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -126,7 +129,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
             public void onFailure(Call<JWTToken> call, Throwable throwable) {
                 // Log error message and show error toast on login failure
                 Log.e("TAG", "Login failed: " + throwable.getMessage());
-                Toast.makeText(Signin.this, "Error, please login again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Signin.this, "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
             }
         });
     }

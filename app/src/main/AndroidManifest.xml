@@ -16,10 +16,10 @@
             android:name="com.example.truyenapp.Category"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.ForgetPassword"
+            android:name="com.example.truyenapp.view.activity.ForgotPassword"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.NewPassword"
+            android:name="com.example.truyenapp.view.activity.NewPassword"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.Signup"

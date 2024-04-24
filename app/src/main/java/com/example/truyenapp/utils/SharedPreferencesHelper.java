@@ -2,6 +2,7 @@ package com.example.truyenapp.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
@@ -26,6 +27,7 @@ public class SharedPreferencesHelper {
         editor.putString(prefKey, json); // Use prefKey to store the object with a custom key
         editor.apply();
     }
+
 
     /**
      * Deletes a preference with a specified key from SharedPreferences.
