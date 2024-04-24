@@ -1,7 +1,10 @@
 package com.example.truyenapp.response;
 
+import java.sql.Date;
+import java.util.List;
+
 public class BookResponse {
-    String id;
+    Integer id;
     String name;
     String author;
     String description;
@@ -10,11 +13,30 @@ public class BookResponse {
     String thumbnail;
     Integer quantityChapter;
 
-    public String getId() {
+    List<String> categoryNames;
+    Date publishDate;
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public List<String> getCategoryNames() {
+        return categoryNames;
+    }
+
+    public void setCategoryNames(List<String> categoryNames) {
+        this.categoryNames = categoryNames;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

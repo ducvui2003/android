@@ -76,7 +76,7 @@ public class RankViewFragment extends Fragment {
     }
 
     //    call api lấy dữ liệu danh sách truyện theo lượt xem
-    public List<ClassifyStory> getRankViewList() {
+    public void getRankViewList() {
         SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
         response.rank("view").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
@@ -84,8 +84,9 @@ public class RankViewFragment extends Fragment {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
                 for (BookResponse bookResponse : data.getResult().getData()
                 ) {
-                    ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getName(), bookResponse.getCategory(), bookResponse.getThumbnail());
-                    truyens.add(new ClassifyStory(bookResponse.getId(), bookResponse.getTentruyen(), bookResponse.getTheloai(), bookResponse.getLinkanh(), bookResponse.getTongluotxem(), bookResponse.getSosaotb()));
+                    String nameCategory = bookResponse.getCategoryNames().get(0);
+                    ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());
+                    truyens.add(classifyStory);
                 }
                 Log.d("TAG", "onResponse: " + data);
             }
@@ -95,6 +96,5 @@ public class RankViewFragment extends Fragment {
 
             }
         });
-        return new ArrayList<>();
     }
 }
