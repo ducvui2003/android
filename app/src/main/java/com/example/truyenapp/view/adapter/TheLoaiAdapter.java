@@ -33,7 +33,7 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
     @NonNull
     @Override
     public TheLoaiAdapter.TheLoaiViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_theloainew,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank,parent,false);
         return new TheLoaiAdapter.TheLoaiViewHolder(view);
     }
 
@@ -74,7 +74,7 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
             super(itemView);
             tv_tentruyen=itemView.findViewById(R.id.item_rcv_name_commic);
             tv_pl=itemView.findViewById(R.id.item_rcv_date_commic);
-            ll_rcv_theloai=itemView.findViewById(R.id.ll_rcv_theloai);
+            ll_rcv_theloai=itemView.findViewById(R.id.item_detail_commic);
             img_theloai=itemView.findViewById(R.id.item_rcv_thumnail);
         }
     }

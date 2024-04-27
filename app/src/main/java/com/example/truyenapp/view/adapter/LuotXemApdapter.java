@@ -33,7 +33,7 @@ public class LuotXemApdapter extends RecyclerView.Adapter<LuotXemApdapter.LuotXe
     @NonNull
     @Override
     public LuotXemApdapter.LuotXemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_theloainew,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank,parent,false);
         return new LuotXemApdapter.LuotXemViewHolder(view);
     }
 
@@ -73,7 +73,7 @@ public class LuotXemApdapter extends RecyclerView.Adapter<LuotXemApdapter.LuotXe
             super(itemView);
             tv_tentruyen=itemView.findViewById(R.id.item_rcv_name_commic);
             tv_pl=itemView.findViewById(R.id.item_rcv_date_commic);
-            ll_rcv_theloai=itemView.findViewById(R.id.ll_rcv_theloai);
+            ll_rcv_theloai=itemView.findViewById(R.id.item_detail_commic);
             img_theloai=itemView.findViewById(R.id.item_rcv_thumnail);
         }
     }
