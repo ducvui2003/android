@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ClassifyStory;
-import com.example.truyenapp.view.adapter.VoteApdapter;
+import com.example.truyenapp.view.adapter.VoteAdapter;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ public class RankVoteFragment extends Fragment {
     View view;
     Database db;
     private RecyclerView rcv;
-    private VoteApdapter rcv_adapter;
+    private VoteAdapter rcv_adapter;
     String email;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -88,7 +88,7 @@ public class RankVoteFragment extends Fragment {
 
         String lenhSqlite_theloai="select truyen.id, thongke.tongluotxem, thongke.sosaotb, truyen.tentruyen, chapter.ngaydang, truyen.theloai theloai, truyen.linkanh from truyen inner join chapter on truyen.id=chapter.idtruyen inner join thongke on truyen.id=thongke.idtruyen where chapter.tenchapter='Chapter 1' order by thongke.sosaotb desc, chapter.ngaydang desc";
         ArrayList<ClassifyStory> truyens=db.getListPLTruyen(lenhSqlite_theloai);
-        rcv_adapter=new VoteApdapter(getActivity(),truyens,email);
+        rcv_adapter=new VoteAdapter(getActivity(),truyens,email);
         rcv.setAdapter(rcv_adapter);
 
 

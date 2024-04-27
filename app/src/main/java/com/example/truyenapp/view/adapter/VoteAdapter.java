@@ -18,31 +18,40 @@ import com.example.truyenapp.model.ClassifyStory;
 
 import java.util.List;
 
-public class VoteApdapter extends RecyclerView.Adapter<VoteApdapter.VoteViewHolder> {
+public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.VoteViewHolder> {
     private Context context;
-    private List<ClassifyStory> list;
+    private List<ClassifyStory> listCommic;
     private String email;
 
-    public VoteApdapter(Context context, List<ClassifyStory> list, String email) {
+    public VoteAdapter(Context context, List<ClassifyStory> listCommic) {
         this.context = context;
-        this.list = list;
+        this.listCommic = listCommic;
+    }
+
+    public VoteAdapter(Context context, List<ClassifyStory> listCommic, String email) {
+        this.context = context;
+        this.listCommic = listCommic;
         this.email = email;
+    }
+
+    public void setData(List<ClassifyStory> list) {
+        this.listCommic = list;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public VoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_theloainew, parent, false);
-        return new VoteApdapter.VoteViewHolder(view);
+        return new VoteAdapter.VoteViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull VoteViewHolder holder, int position) {
-        ClassifyStory truyen = list.get(position);
+        ClassifyStory truyen = listCommic.get(position);
         if (truyen == null) {
             return;
         }
-
 
         Glide.with(this.context).load(truyen.getLinkImage()).into(holder.img_theloai);
         holder.tv_tentruyen.setText(truyen.getNameStory());
@@ -57,8 +66,8 @@ public class VoteApdapter extends RecyclerView.Adapter<VoteApdapter.VoteViewHold
 
     @Override
     public int getItemCount() {
-        if (list != null) {
-            return list.size();
+        if (listCommic != null) {
+            return listCommic.size();
         }
         return 0;
     }

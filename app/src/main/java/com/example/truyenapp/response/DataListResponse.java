@@ -7,6 +7,15 @@ public class DataListResponse<T> {
     Integer currentPage;
     Integer totalPages;
 
+    public DataListResponse() {
+    }
+
+    public DataListResponse(List<T> data, Integer currentPage, Integer totalPages) {
+        this.data = data;
+        this.currentPage = currentPage;
+        this.totalPages = totalPages;
+    }
+
     public List<T> getData() {
         return data;
     }

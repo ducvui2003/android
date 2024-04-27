@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.ClassifyStory;
 
@@ -40,7 +41,7 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewAdapter.RankVi
         if (commic == null) {
             return;
         }
-//        holder.imgCommic.setImageResource(commic.getId());
+        Glide.with(this.context).load(commic.getLinkImage()).into(holder.imgCommic);
         holder.nameCommic.setText(commic.getNameStory());
         holder.dateCommic.setText("Tổng lượt xem: " + commic.getView());
     }
@@ -60,7 +61,7 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewAdapter.RankVi
 
         public RankViewHolder(View view) {
             super(view);
-//            imgCommic = view.findViewById(R.id.item_rcv_thumnail);
+            imgCommic = view.findViewById(R.id.item_rcv_thumnail);
             nameCommic = view.findViewById(R.id.item_rcv_name_commic);
             dateCommic = view.findViewById(R.id.item_rcv_date_commic);
         }

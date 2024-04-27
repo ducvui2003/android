@@ -16,6 +16,22 @@ public class BookResponse {
     List<String> categoryNames;
     Date publishDate;
 
+    public BookResponse() {
+    }
+
+    public BookResponse(Integer id, String name, String author, String description, Integer view, Double rating, String thumbnail, Integer quantityChapter, List<String> categoryNames, Date publishDate) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.description = description;
+        this.view = view;
+        this.rating = rating;
+        this.thumbnail = thumbnail;
+        this.quantityChapter = quantityChapter;
+        this.categoryNames = categoryNames;
+        this.publishDate = publishDate;
+    }
+
     public Date getPublishDate() {
         return publishDate;
     }
@@ -95,4 +111,5 @@ public class BookResponse {
     public void setQuantityChapter(Integer quantityChapter) {
         this.quantityChapter = quantityChapter;
     }
+
 }
