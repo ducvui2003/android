@@ -34,7 +34,7 @@
             android:name="com.example.truyenapp.CTTruyen"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.Search"
+            android:name="com.example.truyenapp.view.activity.SearchActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.RankActivity"

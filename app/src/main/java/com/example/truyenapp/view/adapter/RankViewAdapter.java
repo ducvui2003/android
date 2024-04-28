@@ -36,7 +36,7 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewAdapter.RankVi
     @Override
     public RankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = View.inflate(context, R.layout.item_rcv_rank, null);
-        return new RankViewHolder(view);
+        return new RankViewAdapter.RankViewHolder(view);
     }
 
     @Override
@@ -61,8 +61,7 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewAdapter.RankVi
     public int getItemCount() {
         if (listCommic != null)
             return listCommic.size();
-        else
-            return 0;
+        return 0;
     }
 
     public static class RankViewHolder extends RecyclerView.ViewHolder {

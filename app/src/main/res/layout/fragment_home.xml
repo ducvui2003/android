@@ -45,7 +45,7 @@
                             android:id="@+id/tv_TimKiemHome"
                             android:layout_width="200dp"
                             android:layout_height="35dp"
-                            android:text="Tim kiem story"
+                            android:text="Tìm kiếm"
                             android:gravity="center_vertical"
                             android:background="@drawable/khung"
                             android:paddingLeft="35dp"

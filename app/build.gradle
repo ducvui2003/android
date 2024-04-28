@@ -13,6 +13,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["mapstruct.defaultComponentModel": "android"]
+            }
+        }
     }
 
     buildTypes {
@@ -58,7 +64,9 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.32'
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
 
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation files('libs\\mail.jar')
     implementation files('libs\\additionnal.jar')
     implementation files('libs\\activation.jar')
