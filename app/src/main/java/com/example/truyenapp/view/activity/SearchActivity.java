@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
@@ -31,14 +32,12 @@ import com.example.truyenapp.response.CategoryResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.adapter.SearchAdapter;
 
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +56,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public String category;
     public String keyword = "";
     private Integer categoryId;
-    private RecyclerView rcv;
+    private RecyclerView rcvCommic;
     private SearchAdapter searchAdapter;
 
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
@@ -75,52 +74,53 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         autoCompleteTextView.setAdapter(categoryAdapter);
         searchAdapter = new SearchAdapter(this, listCommic, email);
-        rcv.setAdapter(searchAdapter);
+        rcvCommic.setAdapter(searchAdapter);
         initCategory();
 //        Handle Search
         handleEvent();
     }
 
-    public void editTextSearch(String textSearch) {
-        if (textSearch.equals("")) {
-            Toast.makeText(this, "Không có sản phẩm nào", Toast.LENGTH_SHORT).show();
-            notify.setVisibility(View.VISIBLE);
-        } else {
-            notify.setVisibility(View.GONE);
-            String txt = removeAccent(textSearch);
-            rcvCommic();
-        }
-    }
-
-    private void rcvCommic() {
-
-        searchAPI();
-    }
-
-
-    public static String removeAccent(String s) {
-        s = s.toLowerCase();
-        s = s.replaceAll("đ", "d");
-        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(temp).replaceAll("");
-    }
+//    public void editTextSearch(String textSearch) {
+//        if (textSearch.equals("")) {
+//            Toast.makeText(this, "Không có sản phẩm nào", Toast.LENGTH_SHORT).show();
+//            notify.setVisibility(View.VISIBLE);
+//        } else {
+//            notify.setVisibility(View.GONE);
+//            String txt = removeAccent(textSearch);
+//            rcvCommic();
+//        }
+//    }
+//
+//    private void rcvCommic() {
+//        searchAPI();
+//    }
+//
+//
+//    public static String removeAccent(String s) {
+//        s = s.toLowerCase();
+//        s = s.replaceAll("đ", "d");
+//        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
+//        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+//        return pattern.matcher(temp).replaceAll("");
+//    }
 
 
     private void init() {
         this.inputSearch = findViewById(R.id.edt_search);
         this.autoCompleteTextView = findViewById(R.id.auto_complete_txt);
         this.notify = findViewById(R.id.activity_search_notify);
-        this.rcv = findViewById(R.id.activity_rcv_commic);
+        this.rcvCommic = findViewById(R.id.activity_rcv_commic);
         this.inputSearchRecord = findViewById(R.id.activity_search_recog);
 //
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rcvCommic.setLayoutManager(linearLayoutManager);
         this.mapCategory = new HashMap<>();
         this.listCommic = new ArrayList<>();
     }
 
-    private void setOnClickListener() {
-        inputSearchRecord.setOnClickListener(this);
-    }
+//    private void setOnClickListener() {
+//        inputSearchRecord.setOnClickListener(this);
+//    }
 
     @Override
     public void onClick(View view) {
@@ -185,9 +185,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     public void handleSearch() {
         this.category = autoCompleteTextView.getText().toString();
-        this.keyword = getKeyword();
         this.categoryId = getCategory();
-        searchAPI();
+        this.keyword = getKeyword();
+        this.searchAPI();
     }
 
     //    API
@@ -204,12 +204,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     item.setCategory(nameCategory);
                     result.add(item);
                 }
-                searchAdapter.setData(result);
                 if (result.size() == 0) {
                     showNotify("Không có truyện cần tìm!!!");
                 } else {
                     showNotify("");
                 }
+                searchAdapter.setData(result);
             }
 
             @Override
