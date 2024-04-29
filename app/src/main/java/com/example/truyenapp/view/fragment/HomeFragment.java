@@ -139,7 +139,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         ActionViewFlipper();
         setOnClickListener();
 
-
         return view;
     }
 
@@ -189,6 +188,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 if (tv_emailhome.getText().length() != 0) {
                     Boolean checkDiemDanh = db.checkDiemDanh(account);
                     if (checkDiemDanh == false) {
+
                         int thu = db.getThu(account);
                         if (thu == 2) {
                             Boolean diemdanh = db.updateDiemThuong(account, 10);
@@ -226,7 +226,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     } else {
                         Toast.makeText(getActivity(), "Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!", Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Toast.makeText(getActivity(), "Vui lòng đăng nhập để điểm danh!", Toast.LENGTH_SHORT).show();
                 }
@@ -285,7 +284,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     }
 
     private void init() {
-
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         viewFlipper = (ViewFlipper) view.findViewById(R.id.vf);
         navigationView = (NavigationView) view.findViewById(R.id.nvv);
@@ -311,7 +309,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
         tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
         bt_dxhome = headerLayout.findViewById(R.id.bt_dxhome);
-
     }
 
     public void onBackPressed() {
@@ -348,12 +345,10 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 break;
             case R.id.it_xephang:
                 Intent dialog_box4 = new Intent(getActivity(), RankActivity.class);
-                dialog_box4.putExtra("email", account.getEmail());
                 startActivity(dialog_box4);
                 break;
             case R.id.it_theloai:
                 Intent dialog_box5 = new Intent(getActivity(), Category.class);
-                dialog_box5.putExtra("email", account.getEmail());
                 startActivity(dialog_box5);
                 break;
         }
