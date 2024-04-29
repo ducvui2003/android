@@ -2,6 +2,7 @@ package com.example.truyenapp.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,7 +39,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder
     @NonNull
     @Override
     public RankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = View.inflate(context, R.layout.item_rcv_rank, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
         return new ViewAdapter.RankViewHolder(view);
     }
     @Override
