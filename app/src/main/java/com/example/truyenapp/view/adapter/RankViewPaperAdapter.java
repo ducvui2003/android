@@ -19,9 +19,9 @@ public class RankViewPaperAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new RankViewFragment();
-            case 1:
                 return new RankVoteFragment();
+            case 1:
+                return new RankViewFragment();
         }
         return null;
     }

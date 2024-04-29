@@ -19,7 +19,7 @@ import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.RankViewAdapter;
+import com.example.truyenapp.view.adapter.ViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import retrofit2.Response;
 public class RankViewFragment extends Fragment {
     private View view;
     private RecyclerView rcv;
-    private RankViewAdapter adapter;
+    private ViewAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
 
     @Override
@@ -50,19 +50,19 @@ public class RankViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        rcv.setLayoutManager(linearLayoutManager);
-        rcv.setAdapter(adapter);
-        getRankViewList();
+        getViewList();
     }
 
     private void init() {
-        this.rcv = view.findViewById(R.id.rcv_rank_vote);
-        this.adapter = new RankViewAdapter(getActivity());
+        this.rcv = view.findViewById(R.id.rcv_theloai_view);
+        this.adapter = new ViewAdapter(getActivity(), listCommic);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        this.rcv.setLayoutManager(linearLayoutManager);
+        this.rcv.setAdapter(adapter);
     }
 
     //    call api lấy dữ liệu danh sách truyện theo lượt xem
-    public void getRankViewList() {
+    public void getViewList() {
         SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
         response.rank("view").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override

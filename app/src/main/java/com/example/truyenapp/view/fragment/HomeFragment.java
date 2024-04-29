@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.Category;
 import com.example.truyenapp.R;
-import com.example.truyenapp.RankActivity;
+import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;

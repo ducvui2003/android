@@ -117,6 +117,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent = new Intent(HomeActivity.this, Signin.class);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });

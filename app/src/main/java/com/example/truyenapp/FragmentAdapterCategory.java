@@ -6,9 +6,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class FragmentAdapterTheLoai extends FragmentStateAdapter {
+import com.example.truyenapp.view.fragment.RankViewFragment;
+import com.example.truyenapp.view.fragment.RankVoteFragment;
 
-    public FragmentAdapterTheLoai(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+public class FragmentAdapterCategory extends FragmentStateAdapter {
+
+    public FragmentAdapterCategory(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
     }
 
@@ -17,7 +20,7 @@ public class FragmentAdapterTheLoai extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return new FragmentRankVote();
+                return new RankVoteFragment();
             case 2:
                 return new FragmentRankView();
         }

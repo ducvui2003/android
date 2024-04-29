@@ -1,7 +1,5 @@
 package com.example.truyenapp.view.fragment;
 
-import static com.example.truyenapp.R.layout.fragment_b_x_h_vote;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,10 +34,6 @@ public class RankVoteFragment extends Fragment {
     private VoteAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
 
-    public RankVoteFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,29 +42,28 @@ public class RankVoteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(fragment_b_x_h_vote, container, false);
+        view = inflater.inflate(R.layout.fragment_rank_vote, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        init();
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
-        rcv.setLayoutManager(linearLayoutManager);
-        rcv.setAdapter(adapter);
-        getRankVote();
+        this.init();
+        getVoteList();
     }
 
     private void init() {
-        this.rcv = view.findViewById(R.id.rcv_xh_vote);
+        this.rcv = view.findViewById(R.id.rcv_theloai_vote);
         this.adapter = new VoteAdapter(getActivity(), listCommic);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        this.rcv.setLayoutManager(linearLayoutManager);
+        this.rcv.setAdapter(adapter);
     }
 
-    public void getRankVote() {
+    public void getVoteList() {
         SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
-        response.rank("view").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+        response.rank("rating").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();

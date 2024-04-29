@@ -19,26 +19,28 @@ import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class RankViewAdapter extends RecyclerView.Adapter<RankViewAdapter.RankViewHolder> {
+public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder> {
     private Context context;
     private List<ClassifyStory> listCommic;
 
-    public RankViewAdapter(Context context) {
+    public ViewAdapter(Context context, List<ClassifyStory> listCommic) {
         this.context = context;
+        this.listCommic = listCommic;
     }
 
+    public ViewAdapter(Context context) {
+        this.context = context;
+    }
     public void setData(List<ClassifyStory> list) {
         this.listCommic = list;
         notifyDataSetChanged();
     }
-
     @NonNull
     @Override
     public RankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = View.inflate(context, R.layout.item_rcv_rank, null);
-        return new RankViewAdapter.RankViewHolder(view);
+        return new ViewAdapter.RankViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull RankViewHolder holder, int position) {
         ClassifyStory commic = listCommic.get(position);
@@ -49,28 +51,25 @@ public class RankViewAdapter extends RecyclerView.Adapter<RankViewAdapter.RankVi
         Glide.with(this.context).load(commic.getLinkImage()).into(holder.imgCommic);
         holder.nameCommic.setText(commic.getNameStory());
         holder.info.setText("Tổng lượt xem: " + commic.getView());
-        holder.dateCommic.setText("Ngày đăng" + publishDate);
+        holder.dateCommic.setText("Ngày đăng: " + publishDate);
         holder.detailCommicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
             intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }
-
     @Override
     public int getItemCount() {
         if (listCommic != null)
             return listCommic.size();
         return 0;
     }
-
     public static class RankViewHolder extends RecyclerView.ViewHolder {
         private View detailCommicView;
         private ImageView imgCommic;
         private TextView nameCommic;
         private TextView dateCommic;
         private TextView info;
-
         public RankViewHolder(View view) {
             super(view);
             this.imgCommic = view.findViewById(R.id.item_rcv_thumnail);

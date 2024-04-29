@@ -81,7 +81,7 @@ public class FragmentRankVote extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_rank_vote1, container, false);
+        view= inflater.inflate(R.layout.fragment_rank_vote, container, false);
         db=new Database(getActivity());
         Anhxa();
 

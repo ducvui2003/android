@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -23,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
-import com.example.truyenapp.database.Database;
 import com.example.truyenapp.mapper.BookMapper;
 import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.ModelSearch;
@@ -37,14 +38,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-    Database db;
     EditText inputSearch;
     ImageView inputSearchRecord;
     TextView notify;
@@ -57,16 +56,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     public String keyword = "";
     private Integer categoryId;
     private RecyclerView rcvCommic;
+    private static final int REQUEST_CODE_SPEECH_INPUT = 100;
     private SearchAdapter searchAdapter;
-
-    private static final int REQUEST_CODE_SPEECH_INPUT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-
-        db = new Database(this);
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
 
@@ -79,31 +75,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 //        Handle Search
         handleEvent();
     }
-
-//    public void editTextSearch(String textSearch) {
-//        if (textSearch.equals("")) {
-//            Toast.makeText(this, "Không có sản phẩm nào", Toast.LENGTH_SHORT).show();
-//            notify.setVisibility(View.VISIBLE);
-//        } else {
-//            notify.setVisibility(View.GONE);
-//            String txt = removeAccent(textSearch);
-//            rcvCommic();
-//        }
-//    }
-//
-//    private void rcvCommic() {
-//        searchAPI();
-//    }
-//
-//
-//    public static String removeAccent(String s) {
-//        s = s.toLowerCase();
-//        s = s.replaceAll("đ", "d");
-//        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
-//        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-//        return pattern.matcher(temp).replaceAll("");
-//    }
-
 
     private void init() {
         this.inputSearch = findViewById(R.id.edt_search);
@@ -118,39 +89,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.listCommic = new ArrayList<>();
     }
 
-//    private void setOnClickListener() {
-//        inputSearchRecord.setOnClickListener(this);
-//    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.activity_search_recog: {
-                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
-
-                try {
-                    startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
-                } catch (Exception e) {
-                    Toast.makeText(this, " " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-                break;
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
-            if (resultCode == RESULT_OK && data != null) {
-                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                inputSearch.setText(Objects.requireNonNull(result).get(0));
-            }
-        }
-    }
 
     private Integer getCategory() {
         String category = autoCompleteTextView.getText().toString();
@@ -170,17 +108,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
         inputSearch.setOnEditorActionListener((v, actionId, event) -> {
-//            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE || event.getAction() == KeyEvent.ACTION_DOWN) {
-//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 handleSearch();
             }
             return true;
         });
+
+        inputSearchRecord.setOnClickListener(this);
     }
 
     private void showNotify(String message) {
         notify.setText(message);
+        if (message.equals("")) {
+            notify.setVisibility(View.GONE);
+        } else {
+            notify.setVisibility(View.VISIBLE);
+        }
     }
 
     public void handleSearch() {
@@ -192,29 +137,29 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //    API
     private void searchAPI() {
-        List<ModelSearch> result = new ArrayList<>();
+        listCommic.clear();
         SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
         response.search(keyword, categoryId).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+                if (response.code() == 400) {
+                    showNotify("Không có truyện cần tìm!!!");
+                    return;
+                }
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ModelSearch item = BookMapper.INSTANCE.bookResponseToModelSearch(bookResponse);
                     item.setCategory(nameCategory);
-                    result.add(item);
+                    listCommic.add(item);
                 }
-                if (result.size() == 0) {
-                    showNotify("Không có truyện cần tìm!!!");
-                } else {
-                    showNotify("");
-                }
-                searchAdapter.setData(result);
+                showNotify("");
+                searchAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
-                Toast.makeText(SearchActivity.this, "Không có truyện cần tìm!!!", Toast.LENGTH_SHORT).show();
+                showNotify("Không có tải được dữ liệu!!!");
             }
         });
     }
@@ -239,4 +184,36 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
+
+    //    Handle voice search
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Nói tên truyện");
+
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+        } catch (Exception e) {
+            Toast.makeText(this, " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            try {
+                String textVoice = result.get(0);
+                inputSearch.setText(textVoice);
+                handleSearch();
+            } catch (NullPointerException e) {
+                showNotify("Không có truyện cần tìm!!!");
+            }
+        }
+    }
+
 }

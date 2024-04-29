@@ -55,7 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
         holder.tv_timkiem_ch.setText("Chapter: " + commic.getChapter());
         holder.tv_timkiem_dg.setText("Đánh giá: " + commic.getEvaluate());
         holder.tv_timkiem_theloai.setText(commic.getCategory());
-        holder.ll_rcv_timkiem.setOnClickListener(view -> {
+        holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
             intent.putExtra("email", email);
             intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
@@ -73,7 +73,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
 
     public class TimKiemViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_timkiem_tentruyen, tv_timkiem_lx, tv_timkiem_dg, tv_timkiem_ch, tv_timkiem_theloai;
-        private LinearLayout ll_rcv_timkiem;
         private ImageView img_timkiem;
 
         public TimKiemViewHolder(@NonNull View itemView) {
@@ -83,7 +82,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
             tv_timkiem_lx = itemView.findViewById(R.id.tv_timkiem_lx);
             tv_timkiem_ch = itemView.findViewById(R.id.tv_timkiem_ch);
             img_timkiem = itemView.findViewById(R.id.img_timkiem);
-            ll_rcv_timkiem = itemView.findViewById(R.id.ll_rcv_timkiem);
             tv_timkiem_theloai = itemView.findViewById(R.id.tv_timkiem_theloai);
         }
     }

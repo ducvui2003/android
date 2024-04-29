@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:theme="@style/DropDown">
+    android:theme="@style/DropDown"
+    android:paddingHorizontal="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:drawableTint="@color/green"
             android:ems="10"
             android:gravity="center"
-            android:hint="Nhap story can tim"
+            android:hint="Nhập tên truyện cần tìm"
             android:inputType="text"
             android:padding="10dp"
             android:textColor="@color/black"
@@ -38,15 +39,11 @@
             android:src="@drawable/ic_record_voice_over" />
     </LinearLayout>
 
-    <!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content">-->
-
     <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginVertical="16dp"
         android:hint="@string/select">
 
         <AutoCompleteTextView
@@ -68,20 +65,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Không có truyện cần tìm!!!"
-            android:visibility="gone" />
+            android:paddingVertical="10dp"/>
 
-        <ScrollView
-            android:id="@+id/activity_search_scroll"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activity_rcv_commic"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/cardview_light_background">
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activity_rcv_commic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-        </ScrollView>
     </LinearLayout>
 </LinearLayout>

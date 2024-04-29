@@ -48,7 +48,7 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
         Glide.with(this.context).load(truyen.getLinkImage()).into(holder.img_theloai);
         holder.tv_tentruyen.setText(truyen.getNameStory());
         holder.tv_pl.setText("Ngày đăng: "+truyen.getPostingDate());
-        holder.ll_rcv_theloai.setOnClickListener(view -> {
+        holder.itemView.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), CTTruyen.class);
             intent.putExtra("id_truyen",truyen.getId());
             intent.putExtra("email",email);
@@ -66,7 +66,6 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
 
     public class TheLoaiViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_tentruyen,tv_pl;
-        private LinearLayout ll_rcv_theloai;
         private ImageView img_theloai;
 
 
@@ -74,7 +73,6 @@ public class TheLoaiAdapter extends RecyclerView.Adapter<TheLoaiAdapter.TheLoaiV
             super(itemView);
             tv_tentruyen=itemView.findViewById(R.id.item_rcv_name_commic);
             tv_pl=itemView.findViewById(R.id.item_rcv_date_commic);
-            ll_rcv_theloai=itemView.findViewById(R.id.item_detail_commic);
             img_theloai=itemView.findViewById(R.id.item_rcv_thumnail);
         }
     }

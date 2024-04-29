@@ -1,10 +1,11 @@
-package com.example.truyenapp;
+package com.example.truyenapp.view.activity;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.truyenapp.R;
 import com.example.truyenapp.view.adapter.RankViewPaperAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
