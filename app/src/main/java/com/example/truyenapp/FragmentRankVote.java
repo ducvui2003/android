@@ -1,35 +1,41 @@
-package com.example.truyenapp.view.fragment;
+package com.example.truyenapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.truyenapp.R;
-import com.example.truyenapp.view.adapter.LuotXemApdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.adapter.VoteAdapter;
+import com.example.truyenapp.view.fragment.RankVoteFragment;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BXHLuotXemFragment#newInstance} factory method to
+ * Use the {@link RankVoteFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BXHLuotXemFragment extends Fragment {
+public class FragmentRankVote extends Fragment {
 
     View view;
+    Category category;
     Database db;
-    private RecyclerView rcv;
-    private LuotXemApdapter rcv_adapter;
+    Story story;
+    public RecyclerView rcv;
+    public VoteAdapter rcv_adapter;
     String email;
+
+    public String _theloai;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,7 +46,7 @@ public class BXHLuotXemFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public BXHLuotXemFragment() {
+    public FragmentRankVote() {
         // Required empty public constructor
     }
 
@@ -50,11 +56,11 @@ public class BXHLuotXemFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BXHLuotXemFragment.
+     * @return A new instance of fragment BXHVoteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BXHLuotXemFragment newInstance(String param1, String param2) {
-        BXHLuotXemFragment fragment = new BXHLuotXemFragment();
+    public static FragmentRankVote newInstance(String param1, String param2) {
+        FragmentRankVote fragment = new FragmentRankVote();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,25 +81,43 @@ public class BXHLuotXemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view= inflater.inflate(R.layout.fragment_b_x_h_luot_xem, container, false);
+        view= inflater.inflate(R.layout.fragment_rank_vote, container, false);
         db=new Database(getActivity());
         Anhxa();
 
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
 
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
-        rcv.setLayoutManager(linearLayoutManager);
-
-        String lenhSqlite_theloai="select truyen.id, thongke.tongluotxem, thongke.sosaotb, truyen.tentruyen, chapter.ngaydang, truyen.theloai theloai, truyen.linkanh from truyen inner join chapter on truyen.id=chapter.idtruyen inner join thongke on truyen.id=thongke.idtruyen where chapter.tenchapter='Chapter 1' order by thongke.tongluotxem desc, chapter.ngaydang desc";
-        ArrayList<ClassifyStory> truyens=db.getListPLTruyen(lenhSqlite_theloai);
-        rcv_adapter=new LuotXemApdapter(getActivity(),truyens,email);
-        rcv.setAdapter(rcv_adapter);
-
+        category = (Category) getActivity();
+        hienThiTheoTheLoai();
 
         return view;
     }
-    private void Anhxa(){
-        rcv=view.findViewById(R.id.rcv_xh_view);
+
+    public void recyclerViewTruyen() {
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
+        rcv.setLayoutManager(linearLayoutManager);
+        String lenhSqlite_theloai="select truyen.id, thongke.tongluotxem, thongke.sosaotb, truyen.tentruyen, chapter.ngaydang, truyen.theloai theloai, truyen.linkanh from truyen inner join chapter on truyen.id=chapter.idtruyen inner join thongke on truyen.id=thongke.idtruyen where chapter.tenchapter='Chapter 1' and truyen.theloai='"+_theloai+"' order by thongke.sosaotb desc, chapter.ngaydang desc";
+        ArrayList<ClassifyStory> truyens=db.getListPLTruyen(lenhSqlite_theloai);
+        rcv_adapter=new VoteAdapter(getActivity(),truyens,email);
+        rcv.setAdapter(rcv_adapter);
+    }
+
+    public void Anhxa(){
+        rcv=view.findViewById(R.id.rcv_theloai_vote);
+    }
+
+    public void hienThiTheoTheLoai(){
+        _theloai= category.autoCompleteTextView.getText().toString();
+        recyclerViewTruyen();
+        category.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item=adapterView.getItemAtPosition(i).toString();
+                _theloai=item;
+                recyclerViewTruyen();
+                Toast.makeText(getActivity().getApplicationContext(),"Thể loại: "+item,Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
