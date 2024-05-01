@@ -95,7 +95,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_tai_khoan, container, false);
 
         // create API connection
-        authAPI = RetrofitClient.getInstance().create(AuthAPI.class);
+        authAPI = RetrofitClient.getInstance(getContext()).create(AuthAPI.class);
 
         Anhxa();
         db = new Database(getActivity());
