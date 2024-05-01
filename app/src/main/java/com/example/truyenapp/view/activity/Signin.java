@@ -39,7 +39,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
         init();
-        authAPI = RetrofitClient.getInstance().create(AuthAPI.class);
+        authAPI = RetrofitClient.getInstance(this).create(AuthAPI.class);
     }
 
     private void init() {

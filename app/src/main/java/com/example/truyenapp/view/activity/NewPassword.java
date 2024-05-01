@@ -38,7 +38,7 @@ public class NewPassword extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.forgot_password_2);
 
         init();
-        userAPI = RetrofitClient.getInstance().create(UserAPI.class);
+        userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
     }
 
     @Override

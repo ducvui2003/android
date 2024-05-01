@@ -138,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     //    API
     private void searchAPI() {
         listCommic.clear();
-        SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
+        SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);
         response.search(keyword, categoryId).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
@@ -165,7 +165,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initCategory() {
-        SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
+        SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);
         response.getCategory().enqueue(new Callback<APIResponse<List<CategoryResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<List<CategoryResponse>>> call, Response<APIResponse<List<CategoryResponse>>> response) {

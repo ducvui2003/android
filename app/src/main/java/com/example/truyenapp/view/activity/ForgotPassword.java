@@ -37,7 +37,7 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.forgot_password);
 
         init();
-        userAPI = RetrofitClient.getInstance().create(UserAPI.class);
+        userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
     }
 
     @SuppressLint("NonConstantResourceId")
