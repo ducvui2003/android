@@ -19,4 +19,9 @@ public class UserResponse {
     private Integer point;
     private String role;
     private String avatar;
+    private int rewardPoint;
+    private int totalAttendanceDates;
+    private int totalComments;
+    private int totalBookReads;
+    private int numberOfRatings;
 }

@@ -52,7 +52,7 @@
                             android:id="@+id/tv_tk_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Trongpro0009@gmail.com"
+                            android:text=""
                             android:textSize="16dp"
                             android:layout_marginTop="10dp"
                             android:textStyle="bold"
@@ -71,7 +71,7 @@
                                 android:id="@+id/tv_tk_lv"
                                 android:layout_width="45dp"
                                 android:layout_height="wrap_content"
-                                android:text="Lv.5"
+                                android:text=""
                                 android:gravity="center"
                                 android:textColor="@color/white"/>
                         </androidx.cardview.widget.CardView>
@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12dp"
-                        android:text="7 Ngày"
+                        android:text=""
                         android:gravity="center"
                         app:drawableTopCompat="@drawable/ic_reward"
                         android:layout_marginLeft="15dp"
@@ -112,7 +112,7 @@
                         android:id="@+id/tv_tk_diem"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="500"
+                        android:text=""
                         android:layout_gravity="center"
                         android:textColor="@color/black"/>
                     <TextView
@@ -142,7 +142,7 @@
                         android:id="@+id/tv_tk_sotruyen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10"
+                        android:text=""
                         android:layout_gravity="center"
                         android:textColor="@color/black"/>
                     <TextView
@@ -172,7 +172,7 @@
                         android:id="@+id/tv_tk_sobinhluan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10"
+                        android:text=""
                         android:layout_gravity="center"
                         android:textColor="@color/black"/>
                     <TextView
@@ -201,7 +201,7 @@
                         android:id="@+id/tv_tk_sodanhgia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10"
+                        android:text=""
                         android:layout_gravity="center"
                         android:textColor="@color/black"/>
                     <TextView

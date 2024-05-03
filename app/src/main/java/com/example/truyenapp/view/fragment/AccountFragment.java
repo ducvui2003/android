@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,19 +19,18 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.AuthAPI;
 import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.UserAPI;
+import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.request.LogoutRequest;
-import com.example.truyenapp.utils.AuthenticationManager;
+import com.example.truyenapp.response.UserResponse;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.DoiMatKhau;
 import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.ShowBinhLuan;
 import com.example.truyenapp.view.activity.ShowDanhGia;
-import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.activity.ThongTinTaiKhoan;
-import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Account;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,14 +38,12 @@ import retrofit2.Response;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
 
-    TextView tv_tk_email, tv_tk_lv, tv_tongngaydiemdanh, tv_tk_diem, tv_tk_sotruyen, tv_tk_sobinhluan,
-            tv_tk_sodanhgia, tv_binhluancuatoi, tv_danhgiacuatoi;
-    TextView tv_doimatkhau, logoutBtn, tv_tttk;
-    ImageView img_tk_avatar;
-    Database db;
-    String email;
-    Account account;
+    TextView tv_email, tv_level, tv_totalAttendanceDate, tv_point, tv_bookNumbers, tv_commentNumbers, tv_rating;
+    TextView changePasswordBtn, logoutBtn, accountInfoBtn, myCommentBtn, myRatingBtn;
+    ImageView avatar;
     View view;
+    private UserAPI userAPI;
+    private UserResponse userResponse;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +84,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        // create API connection
+        userAPI = RetrofitClient.getInstance(getContext()).create(UserAPI.class);
+        authAPI = RetrofitClient.getInstance(getContext()).create(AuthAPI.class);
+
     }
 
     @Override
@@ -93,100 +95,117 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_tai_khoan, container, false);
-
-        // create API connection
-        authAPI = RetrofitClient.getInstance(getContext()).create(AuthAPI.class);
-
-        Anhxa();
-        db = new Database(getActivity());
-        Intent intent = getActivity().getIntent();
-        email = intent.getStringExtra("email");
-        account = db.getTaiKhoan(email);
-
-        setData();
+        init();
         setOnClickListener();
-
+        getUserInfo();
         return view;
     }
 
-    private void Anhxa() {
-        tv_tk_email = view.findViewById(R.id.tv_tk_email);
-        tv_tk_lv = view.findViewById(R.id.tv_tk_lv);
-        tv_tongngaydiemdanh = view.findViewById(R.id.tv_tongngaydiemdanh);
-        tv_tk_diem = view.findViewById(R.id.tv_tk_diem);
-        tv_tk_sotruyen = view.findViewById(R.id.tv_tk_sotruyen);
-        tv_tk_sobinhluan = view.findViewById(R.id.tv_tk_sobinhluan);
-        tv_tk_sodanhgia = view.findViewById(R.id.tv_tk_sodanhgia);
-        img_tk_avatar = view.findViewById(R.id.img_tk_avatar);
-        tv_binhluancuatoi = view.findViewById(R.id.tv_binhluancuatoi);
-        tv_danhgiacuatoi = view.findViewById(R.id.tv_danhgiacuatoi);
-        tv_doimatkhau = view.findViewById(R.id.tv_doimatkhau);
+    private void init() {
+        tv_email = view.findViewById(R.id.tv_tk_email);
+        tv_level = view.findViewById(R.id.tv_tk_lv);
+        tv_totalAttendanceDate = view.findViewById(R.id.tv_tongngaydiemdanh);
+        tv_point = view.findViewById(R.id.tv_tk_diem);
+        tv_bookNumbers = view.findViewById(R.id.tv_tk_sotruyen);
+        tv_commentNumbers = view.findViewById(R.id.tv_tk_sobinhluan);
+        tv_rating = view.findViewById(R.id.tv_tk_sodanhgia);
+        avatar = view.findViewById(R.id.img_tk_avatar);
+        myCommentBtn = view.findViewById(R.id.tv_binhluancuatoi);
+        myRatingBtn = view.findViewById(R.id.tv_danhgiacuatoi);
+        changePasswordBtn = view.findViewById(R.id.tv_doimatkhau);
         logoutBtn = view.findViewById(R.id.logoutBtn);
-        tv_tttk = view.findViewById(R.id.tv_tttk);
+        accountInfoBtn = view.findViewById(R.id.tv_tttk);
     }
 
+    @SuppressLint("SetTextI18n")
     private void setData() {
-        tv_tk_email.setText(account.getEmail());
-        tv_tk_diem.setText("" + account.getRewardPoint());
-        if (account.getLinkImage() == null) {
-            img_tk_avatar.setImageResource(R.drawable.logo);
+        tv_email.setText(userResponse.getEmail());
+        tv_point.setText("" + userResponse.getRewardPoint());
+        if (userResponse.getAvatar() == null) {
+            avatar.setImageResource(R.drawable.logo);
         } else {
-            Glide.with(getActivity()).load(account.getLinkImage()).into(img_tk_avatar);
+            Glide.with(getActivity()).load(userResponse.getAvatar()).into(avatar);
         }
-        int tongngaydiemdanh = db.getTongDiemDanh(account.getId());
-        tv_tongngaydiemdanh.setText("" + tongngaydiemdanh + " ngày");
-        tv_tk_lv.setText("Lv." + (tongngaydiemdanh / 20));
-        tv_tk_sobinhluan.setText("" + db.getTongBinhLuan(account.getId()));
-        tv_tk_sotruyen.setText("" + db.getTongTruyenDaDoc(account.getId()));
-        tv_tk_sodanhgia.setText("" + db.getTongDanhGia(account.getId()));
+        tv_totalAttendanceDate.setText("" + userResponse.getTotalAttendanceDates() + " ngày");
+        tv_level.setText("Lv." + (userResponse.getTotalAttendanceDates() / 20));
+        tv_commentNumbers.setText("" + userResponse.getTotalComments());
+        tv_bookNumbers.setText("" + userResponse.getTotalBookReads());
+        tv_rating.setText("" + userResponse.getNumberOfRatings());
 
+    }
+
+    private void getUserInfo() {
+        // Call the getUserInfo method from the UserAPI interface
+        JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);
+        if (jwtToken == null) {
+            return;
+        }
+        userAPI.getUserInfo(jwtToken.getToken()).enqueue(new Callback<UserResponse>() {
+            // This method is called when the server response is received
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                // Get the UserResponse object from the response
+                UserResponse user = response.body();
+                // Check if the user object is not null
+                if (user != null) {
+                    // Assign the user object to the userResponse variable
+                    userResponse = user;
+                    setData();
+                }
+            }
+
+            // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable throwable) {
+                // Log the error message
+                Log.e("TAG", "Login failed: " + throwable.getMessage());
+                // Show a toast message indicating that an error occurred
+                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setOnClickListener() {
-        tv_danhgiacuatoi.setOnClickListener(this);
-        tv_binhluancuatoi.setOnClickListener(this);
-        tv_doimatkhau.setOnClickListener(this);
+        myRatingBtn.setOnClickListener(this);
+        myCommentBtn.setOnClickListener(this);
+        changePasswordBtn.setOnClickListener(this);
         logoutBtn.setOnClickListener(this);
-        tv_tttk.setOnClickListener(this);
+        accountInfoBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
+        Intent intent;
         switch (view.getId()) {
             case R.id.tv_binhluancuatoi:
-                Intent dialog_box = new Intent(getActivity(), ShowBinhLuan.class);
-                dialog_box.putExtra("email", email);
-                startActivity(dialog_box);
+                intent = new Intent(getActivity(), ShowBinhLuan.class);
+                startActivity(intent);
                 break;
             case R.id.tv_danhgiacuatoi:
-                Intent dialog_box1 = new Intent(getActivity(), ShowDanhGia.class);
-                dialog_box1.putExtra("email", email);
-                startActivity(dialog_box1);
+                intent = new Intent(getActivity(), ShowDanhGia.class);
+                startActivity(intent);
                 break;
             case R.id.tv_doimatkhau:
-                Intent dialog_box2 = new Intent(getActivity(), DoiMatKhau.class);
-                dialog_box2.putExtra("email", email);
-                startActivity(dialog_box2);
+                intent = new Intent(getActivity(), DoiMatKhau.class);
+                startActivity(intent);
                 break;
             case R.id.logoutBtn:
                 logoutHandle();
                 break;
             case R.id.tv_tttk:
-                Intent dialog_box3 = new Intent(getActivity(), ThongTinTaiKhoan.class);
-                dialog_box3.putExtra("email", email);
-                startActivity(dialog_box3);
+                intent = new Intent(getActivity(), ThongTinTaiKhoan.class);
+                startActivity(intent);
                 break;
         }
     }
 
     private void logoutHandle() {
-        final Context context = getContext();
-        String token = SharedPreferencesHelper.getObject(context, SystemConstant.JWT_TOKEN, String.class);
-        authAPI.logout(new LogoutRequest(token)).enqueue(new Callback<Void>() {
+        JWTToken token = SharedPreferencesHelper.getObject(getActivity(), SystemConstant.JWT_TOKEN, JWTToken.class);
+        authAPI.logout(new LogoutRequest(token.getToken())).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
-                SharedPreferencesHelper.deletePreference(context, SystemConstant.JWT_TOKEN);
-                Toast.makeText(context, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
+                SharedPreferencesHelper.deletePreference(getActivity(), SystemConstant.JWT_TOKEN);
+                Toast.makeText(getActivity(), "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -197,7 +216,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onFailure(Call<Void> call, Throwable throwable) {
                 Log.e("TAG", "Logout failed: " + throwable.getMessage());
-                Toast.makeText(context, "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
             }
         });
     }
