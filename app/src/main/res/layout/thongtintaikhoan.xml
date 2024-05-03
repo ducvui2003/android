@@ -21,7 +21,6 @@
         android:layout_width="150dp"
         android:layout_marginTop="20dp"
         android:layout_height="150dp"
-        android:src="@drawable/logox"
         android:layout_gravity="center"/>
     <LinearLayout
         android:layout_marginLeft="5dp"
@@ -44,7 +43,7 @@
             android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:textSize="16dp"
-            android:text="1"
+            android:text=""
             android:gravity="center"/>
     </LinearLayout>
     <LinearLayout
@@ -69,7 +68,31 @@
             android:textColor="@color/black"
             android:textSize="16dp"
             android:gravity="center"
-            android:text="Trongpro0009@gmail.com"/>
+            android:text=""/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="Username:"/>
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="230dp"
+            android:background="@drawable/khung"
+            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:text=""/>
     </LinearLayout>
     <LinearLayout
         android:layout_marginLeft="5dp"
@@ -92,7 +115,7 @@
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:gravity="center"
-            android:text="Nguyễn Minh Trọng"
+            android:text=""
             android:background="@drawable/khung"/>
     </LinearLayout>
     <LinearLayout
@@ -114,7 +137,7 @@
             android:textColor="@color/black"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
-            android:text="0358126179"
+            android:text=""
             android:inputType="phone"
             android:gravity="center"
             android:background="@drawable/khung"/>
@@ -137,7 +160,7 @@
             android:layout_marginLeft="5dp"
             android:textColor="@color/black"
             android:layout_height="wrap_content"
-            android:text="500"
+            android:text=""
             android:layout_width="230dp"
             android:gravity="center"
             android:textSize="16dp"
