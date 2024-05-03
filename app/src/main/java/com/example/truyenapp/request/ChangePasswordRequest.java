@@ -14,5 +14,6 @@ public class ChangePasswordRequest {
     private String otp;
     private String password;
     private String confirmPassword;
+    private String newPassword;
 
 }

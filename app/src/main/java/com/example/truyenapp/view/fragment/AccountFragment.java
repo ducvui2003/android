@@ -1,7 +1,6 @@
 package com.example.truyenapp.view.fragment;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -20,17 +19,16 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.AuthAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.UserAPI;
-import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.request.LogoutRequest;
 import com.example.truyenapp.response.UserResponse;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
-import com.example.truyenapp.view.activity.DoiMatKhau;
+import com.example.truyenapp.view.activity.ChangePasswordActivity;
 import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.ShowBinhLuan;
 import com.example.truyenapp.view.activity.ShowDanhGia;
-import com.example.truyenapp.view.activity.ThongTinTaiKhoan;
+import com.example.truyenapp.view.activity.AccountInfoActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -186,14 +184,14 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_doimatkhau:
-                intent = new Intent(getActivity(), DoiMatKhau.class);
+                intent = new Intent(getActivity(), ChangePasswordActivity.class);
                 startActivity(intent);
                 break;
             case R.id.logoutBtn:
                 logoutHandle();
                 break;
             case R.id.tv_tttk:
-                intent = new Intent(getActivity(), ThongTinTaiKhoan.class);
+                intent = new Intent(getActivity(), AccountInfoActivity.class);
                 startActivity(intent);
                 break;
         }

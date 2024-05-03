@@ -16,7 +16,6 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.UserAPI;
-import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.request.UserRequest;
 import com.example.truyenapp.response.UserResponse;
@@ -27,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickListener {
+public class AccountInfoActivity extends AppCompatActivity implements View.OnClickListener {
     ImageView avatarImg;
     TextView tv_id, tv_email, tv_username, tv_point;
     EditText edt_phone, edt_fullName;
@@ -172,10 +171,10 @@ public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickL
                 if (response.isSuccessful()) {
                     // If the response is successful, make the input fields uneditable and show a success message
                     In_Visible(0);
-                    Toast.makeText(ThongTinTaiKhoan.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountInfoActivity.this, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                 } else {
                     // If the response is not successful, show a failure message
-                    Toast.makeText(ThongTinTaiKhoan.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AccountInfoActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -183,7 +182,7 @@ public class ThongTinTaiKhoan extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 // Show a toast message indicating that an error occurred
-                Toast.makeText(ThongTinTaiKhoan.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccountInfoActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
             }
         });
     }
