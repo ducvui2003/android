@@ -3,6 +3,7 @@ package com.example.truyenapp.api;
 import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.request.ForgotPasswordRequest;
+import com.example.truyenapp.request.UserRequest;
 import com.example.truyenapp.response.UserResponse;
 
 import retrofit2.Call;
@@ -20,4 +21,7 @@ public interface UserAPI {
 
     @GET("v1/users/info")
     Call<UserResponse> getUserInfo(@Query("token") String token);
+
+    @POST("v1/users/update-info")
+    Call<Void> updateInfo(@Body UserRequest request);
 }
