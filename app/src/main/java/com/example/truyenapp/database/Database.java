@@ -2946,7 +2946,7 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public int getTongDiemDanh(int idtaikhoan){
+    public int  getTongDiemDanh(int idtaikhoan){
         SQLiteDatabase db = this.getWritableDatabase();
 
         int tongdiemdanh=0;

@@ -1,5 +1,6 @@
 package com.example.truyenapp.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
@@ -18,5 +19,5 @@ import lombok.Setter;
 public class JWTToken {
     private String token;
     private String type;
-    private Date expiredTime;
+    private long expiredTime;
 }
