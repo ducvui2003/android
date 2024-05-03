@@ -82,10 +82,10 @@
             android:name="com.example.truyenapp.admin.ShowThongTinChapter"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.DoiMatKhau"
+            android:name="com.example.truyenapp.view.activity.ChangePasswordActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.ThongTinTaiKhoan"
+            android:name="com.example.truyenapp.view.activity.AccountInfoActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.LichSuNhanDiem"
