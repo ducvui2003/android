@@ -27,6 +27,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.Category;
 import com.example.truyenapp.R;
+import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.SearchAPI;
+import com.example.truyenapp.mapper.BookMapper;
+import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.BookResponse;
+import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
@@ -44,6 +50,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -61,6 +72,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     Database db;
     Story story;
     String email;
+
+    private List<Story> newComic = new ArrayList<>();
+    private List<Story> topComic = new ArrayList<>();
+    private List<Story> comicFullChapter = new ArrayList<>();;
+
 
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
@@ -113,27 +129,17 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setLayoutManager(linearLayoutManager2);
         rv3.setLayoutManager(linearLayoutManager3);
 
-        String lenhSqlite_truyenmoi = "SELECT *" +
-                "  FROM truyen \n" +
-                "  where id in (select truyen.id from truyen inner join chapter on truyen.id=chapter.idtruyen where chapter.tenchapter='Chapter 1' order by chapter.ngaydang desc limit 5)";
-        ArrayList<Story> truyenmoi = db.getTruyen(lenhSqlite_truyenmoi);
-        _rv = new TruyenAdapter(truyenmoi, getActivity(), email);
-
-        String lenhSqlite_toptruyen = "SELECT *\n" +
-                "  FROM truyen \n" +
-                "  where id in (select truyen.id from truyen inner join thongke on truyen.id=thongke.idtruyen order by thongke.tongluotxem desc limit 5)";
-        ArrayList<Story> toptruyen = db.getTruyen(lenhSqlite_toptruyen);
-        rv_2 = new TruyenAdapter(toptruyen, getActivity(), email);
-
-        String lenhSqlite_truyenfull = "SELECT *\n" +
-                "  FROM truyen \n" +
-                "  where trangthai=1 limit 5";
-        ArrayList<Story> truyenfull = db.getTruyen(lenhSqlite_truyenfull);
-        rv_3 = new TruyenAdapter(truyenfull, getActivity(), email);
+        _rv = new TruyenAdapter(getActivity(), email);
+        rv_2 = new TruyenAdapter(getActivity(), email);
+        rv_3 = new TruyenAdapter(getActivity(), email);
 
         rv.setAdapter(_rv);
         rv2.setAdapter(rv_2);
         rv3.setAdapter(rv_3);
+
+        getNewComic();
+        getTopComic();
+        getFullComic();
 
         ActionBar();
         ActionViewFlipper();
@@ -354,5 +360,62 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         }
         return true;
     }
+
+    public void getNewComic() {
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+        response.getNewComic(5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                APIResponse<DataListResponse<BookResponse>> data = response.body();
+                for (BookResponse bookResponse : data.getResult().getData()) {
+                    Story story = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    newComic.add(story);
+                }
+                _rv.setData(newComic);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
+
+    public void getTopComic() {
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+        response.getTopComic("rating", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                APIResponse<DataListResponse<BookResponse>> data = response.body();
+                for (BookResponse bookResponse : data.getResult().getData()) {
+                    Story story = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    topComic.add(story);
+                }
+                rv_2.setData(topComic);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
+    public void getFullComic() {
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+        response.getFullComic(null, "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                APIResponse<DataListResponse<BookResponse>> data = response.body();
+                for (BookResponse bookResponse : data.getResult().getData()) {
+                    Story classifyStory = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    comicFullChapter.add(classifyStory);
+                }
+                rv_3.setData(comicFullChapter);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
+
 
 }
