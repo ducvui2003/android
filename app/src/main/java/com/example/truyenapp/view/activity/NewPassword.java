@@ -38,18 +38,18 @@ public class NewPassword extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.forgot_password_2);
 
         init();
-        userAPI = RetrofitClient.getInstance().create(UserAPI.class);
+        userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.submit_btn: {
-                String password = newPasswordInput.getText().toString();
+                String newPassword = newPasswordInput.getText().toString();
                 String otp = otpInput.getText().toString();
                 String confirmPassword = confirmPasswordInput.getText().toString();
                 ChangePasswordRequest passwordRequest = ChangePasswordRequest.builder()
-                        .email(email).otp(otp).password(password).confirmPassword(confirmPassword).build();
+                        .email(email).otp(otp).newPassword(newPassword).confirmPassword(confirmPassword).build();
 
                 if (hasError(passwordRequest))
                     return;

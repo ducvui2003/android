@@ -2,6 +2,7 @@ package com.example.truyenapp.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.Category;
 import com.example.truyenapp.R;
+import com.example.truyenapp.api.AuthAPI;
+import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.UserAPI;
+import com.example.truyenapp.model.JWTToken;
+import com.example.truyenapp.request.AuthenticationRequest;
+import com.example.truyenapp.response.UserResponse;
+import com.example.truyenapp.utils.SharedPreferencesHelper;
+import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
@@ -45,6 +54,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     Toolbar toolbar;
@@ -52,19 +65,18 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     View headerLayout, view;
-    Button bt_dnhome, bt_dxhome;
+    Button loginBtn;
+    //    Button logoutBtn;
     Menu menu;
     MenuItem mn_it_chucnangquantri;
-    Account account;
     TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_emailhome, tv_diemthuong, tv_diemdanh;
-
-    Database db;
-    Story story;
     String email;
-
+    private UserResponse userResponse;
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
-
+    private UserAPI userAPI;
+    Database db;
+    Account account;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -72,6 +84,46 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userAPI = RetrofitClient.getInstance(getContext()).create(UserAPI.class);
+
+    }
+
+    /**
+     * This method is used to fetch user information
+     * author: Hoang
+     */
+
+    private void getUserInfo() {
+        // Call the getUserInfo method from the UserAPI interface
+        JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);
+        if (jwtToken == null) {
+            return;
+        }
+        userAPI.getUserInfo(jwtToken.getToken()).enqueue(new Callback<UserResponse>() {
+            // This method is called when the server response is received
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                // Get the UserResponse object from the response
+                UserResponse user = response.body();
+                // Check if the user object is not null
+                if (user != null) {
+                    // Assign the user object to the userResponse variable
+                    userResponse = user;
+                    // Set the email of the user in the TextView tv_emailhome
+                    tv_emailhome.setText(user.getEmail());
+                    email = user.getEmail();
+                }
+            }
+
+            // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable throwable) {
+                // Log the error message
+                Log.e("TAG", "Login failed: " + throwable.getMessage());
+                // Show a toast message indicating that an error occurred
+                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -79,30 +131,24 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
         db = new Database(getActivity());
-        this.init();
+        getUserInfo();
+        init();
 
-        Intent i = getActivity().getIntent();
-        email = i.getStringExtra("email");
-        tv_emailhome.setText(email);
 
         if (tv_emailhome.getText().length() != 0) {
-            account = db.getTaiKhoan(email);
-            if (account.getAccoutType() == 1) {
+
+            if (userResponse.getRole().equals(SystemConstant.ROLE_ADMIN)) {
                 mn_it_chucnangquantri.setVisible(true);
             } else {
                 mn_it_chucnangquantri.setVisible(false);
             }
             tv_emailhome.setVisibility(view.VISIBLE);
-            bt_dxhome.setVisibility(view.VISIBLE);
-            bt_dnhome.setVisibility(view.GONE);
+            loginBtn.setVisibility(view.GONE);
         } else {
             mn_it_chucnangquantri.setVisible(false);
             tv_emailhome.setVisibility(view.GONE);
-            bt_dxhome.setVisibility(view.GONE);
-            bt_dnhome.setVisibility(view.VISIBLE);
-
+            loginBtn.setVisibility(view.VISIBLE);
         }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -142,20 +188,43 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         return view;
     }
 
+    private void init() {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        viewFlipper = (ViewFlipper) view.findViewById(R.id.vf);
+        navigationView = (NavigationView) view.findViewById(R.id.nvv);
+        drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
+        drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
+        headerLayout = navigationView.inflateHeaderView(R.layout.header);
+        loginBtn = (Button) headerLayout.findViewById(R.id.home_login_btn);
+
+
+        tv_TimKemHome = (TextView) view.findViewById(R.id.tv_TimKiemHome);
+        tv_xephang = (TextView) view.findViewById(R.id.tv_xephang);
+        tv_theloai = (TextView) view.findViewById(R.id.tv_theloai);
+        tv_diemthuong = view.findViewById(R.id.tv_diemthuong);
+        tv_diemdanh = view.findViewById(R.id.tv_diemdanh);
+        rv = view.findViewById(R.id.rv);
+        rv2 = view.findViewById(R.id.rv2);
+        rv3 = view.findViewById(R.id.rv3);
+        menu = navigationView.getMenu();
+        mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
+        tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
+
+    }
+
     private void setOnClickListener() {
-        bt_dnhome.setOnClickListener(this);
+        loginBtn.setOnClickListener(this);
         tv_TimKemHome.setOnClickListener(this);
         tv_xephang.setOnClickListener(this);
         tv_theloai.setOnClickListener(this);
         tv_diemthuong.setOnClickListener(this);
         tv_diemdanh.setOnClickListener(this);
-        bt_dxhome.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.bt_dnhome:
+            case R.id.home_login_btn:
                 Intent dialog_box = new Intent(getActivity(), Signin.class);
                 startActivity(dialog_box);
                 getActivity().finish();
@@ -231,13 +300,13 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 break;
             }
-            case R.id.bt_dxhome: {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                Toast.makeText(getActivity().getApplicationContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-                getActivity().finish();
-            }
+//            case R.id.bt_dxhome: {
+//                Intent intent = new Intent(getActivity(), HomeActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                Toast.makeText(getActivity().getApplicationContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
+//                startActivity(intent);
+//                getActivity().finish();
+//            }
         }
     }
 
@@ -283,33 +352,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         });
     }
 
-    private void init() {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        viewFlipper = (ViewFlipper) view.findViewById(R.id.vf);
-        navigationView = (NavigationView) view.findViewById(R.id.nvv);
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
-//        button = (Button) findViewById(R.id.bt_dnhome);
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
-
-        headerLayout = navigationView.inflateHeaderView(R.layout.header);
-        bt_dnhome = (Button) headerLayout.findViewById(R.id.bt_dnhome);
-
-        tv_TimKemHome = (TextView) view.findViewById(R.id.tv_TimKiemHome);
-        tv_xephang = (TextView) view.findViewById(R.id.tv_xephang);
-        tv_theloai = (TextView) view.findViewById(R.id.tv_theloai);
-        tv_diemthuong = view.findViewById(R.id.tv_diemthuong);
-        tv_diemdanh = view.findViewById(R.id.tv_diemdanh);
-
-        rv = view.findViewById(R.id.rv);
-        rv2 = view.findViewById(R.id.rv2);
-        rv3 = view.findViewById(R.id.rv3);
-
-        menu = navigationView.getMenu();
-        mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
-
-        tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
-        bt_dxhome = headerLayout.findViewById(R.id.bt_dxhome);
-    }
 
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

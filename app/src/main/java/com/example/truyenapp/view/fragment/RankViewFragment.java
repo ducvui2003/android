@@ -63,7 +63,7 @@ public class RankViewFragment extends Fragment {
 
     //    call api lấy dữ liệu danh sách truyện theo lượt xem
     public void getViewList() {
-        SearchAPI response = RetrofitClient.getInstance().create(SearchAPI.class);
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         response.rank("view").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {

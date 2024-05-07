@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.truyenapp.model.JWTToken;
+import com.example.truyenapp.utils.AuthenticationManager;
+import com.example.truyenapp.utils.SharedPreferencesHelper;
+import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.fragment.HomeFragment;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.fragment.AccountFragment;
@@ -37,9 +41,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        Intent intent = getIntent();
-        email = intent.getStringExtra("email");
-
         db = new Database(this);
         int notifyCount = db.countThongBaoNow();
 
@@ -52,7 +53,13 @@ public class HomeActivity extends AppCompatActivity {
         handleEventNav();
     }
 
+    /**
+     * Handle event navigation
+     * author: Hoang
+     * status: done
+     */
     private void handleEventNav() {
+        boolean isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
         meowBottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
             public void onShowItem(MeowBottomNavigation.Model item) {
@@ -62,17 +69,17 @@ public class HomeActivity extends AppCompatActivity {
                         fragment = new HomeFragment();
                         break;
                     case 2:
-                        if (email != null) {
+                        if (isLoggedIn) {
                             fragment = new ThongBaoFragment();
                         }
                         break;
                     case 3:
-                        if (email != null) {
+                        if (isLoggedIn) {
                             fragment = new TuSachFragment();
                         }
                         break;
                     case 4:
-                        if (email != null) {
+                        if (isLoggedIn) {
                             fragment = new AccountFragment();
                         }
                         break;
@@ -90,7 +97,7 @@ public class HomeActivity extends AppCompatActivity {
                     case 2:
                     case 3:
                     case 4:
-                        if (email == null) {
+                        if (!isLoggedIn) {
                             showDialogLogin().show();
                         }
                         break;
