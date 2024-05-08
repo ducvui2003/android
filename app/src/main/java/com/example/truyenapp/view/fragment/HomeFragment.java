@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
     private List<Story> newComic = new ArrayList<>();
     private List<Story> topComic = new ArrayList<>();
-    private List<Story> comicFullChapter = new ArrayList<>();;
+    private List<Story> comicFullChapter = new ArrayList<>();
 
 
     private RecyclerView rv, rv2, rv3;

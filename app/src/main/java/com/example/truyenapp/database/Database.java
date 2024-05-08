@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
-    public static final String DBNAME="ArgonComic.db";
+    public static final String DBNAME= "ArgonComic.db";
     public Database(Context context) {
         super(context, "ArgonComic.db", null, 1);
     }
