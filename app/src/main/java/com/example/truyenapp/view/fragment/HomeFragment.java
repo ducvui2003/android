@@ -2,6 +2,7 @@ package com.example.truyenapp.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.Category;
 import com.example.truyenapp.R;
+import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.SearchAPI;
+import com.example.truyenapp.api.UserAPI;
+import com.example.truyenapp.mapper.BookMapper;
+import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.model.JWTToken;
+import com.example.truyenapp.response.BookResponse;
+import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.response.UserResponse;
+import com.example.truyenapp.utils.SharedPreferencesHelper;
+import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.QuanLyBinhLuan;
@@ -76,13 +88,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private List<Story> newComic = new ArrayList<>();
     private List<Story> topComic = new ArrayList<>();
     private List<Story> comicFullChapter = new ArrayList<>();
-
-
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
-    Database db;
-    Account account;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -118,9 +126,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Set the email of the user in the TextView tv_emailhome
                     tv_emailhome.setText(user.getEmail());
                     email = user.getEmail();
+                    updateAfterLogin();
                 }
             }
-
             // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
             @Override
             public void onFailure(Call<UserResponse> call, Throwable throwable) {
@@ -138,28 +146,12 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
         db = new Database(getActivity());
-        getUserInfo();
         init();
+        getUserInfo();
 
         Intent i = getActivity().getIntent();
         email = i.getStringExtra("email");
         tv_emailhome.setText(email);
-
-        if (tv_emailhome.getText().length() != 0) {
-
-            if (userResponse.getRole().equals(SystemConstant.ROLE_ADMIN)) {
-                mn_it_chucnangquantri.setVisible(true);
-            } else {
-                mn_it_chucnangquantri.setVisible(false);
-            }
-            tv_emailhome.setVisibility(view.VISIBLE);
-            bt_dxhome.setVisibility(view.VISIBLE);
-            bt_dnhome.setVisibility(view.GONE);
-        } else {
-            mn_it_chucnangquantri.setVisible(false);
-            tv_emailhome.setVisibility(view.GONE);
-            loginBtn.setVisibility(view.VISIBLE);
-        }
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -210,6 +202,23 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
         tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
 
+    }
+    public void updateAfterLogin() {
+        Log.d("ad", tv_emailhome.getText().toString());
+        if (tv_emailhome.getText().length() != 0) {
+            if (userResponse.getRole().equals(SystemConstant.ROLE_ADMIN)) {
+                mn_it_chucnangquantri.setVisible(true);
+            } else {
+                mn_it_chucnangquantri.setVisible(false);
+            }
+            tv_emailhome.setVisibility(view.VISIBLE);
+//            bt_dxhome.setVisibility(view.VISIBLE);
+            loginBtn.setVisibility(view.GONE);
+        } else {
+            mn_it_chucnangquantri.setVisible(false);
+            tv_emailhome.setVisibility(view.GONE);
+            loginBtn.setVisibility(view.VISIBLE);
+        }
     }
 
     private void setOnClickListener() {
@@ -352,33 +361,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         });
     }
 
-    private void init() {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        viewFlipper = (ViewFlipper) view.findViewById(R.id.vf);
-        navigationView = (NavigationView) view.findViewById(R.id.nvv);
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
-//        button = (Button) findViewById(R.id.bt_dnhome);
-        drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
-
-        headerLayout = navigationView.inflateHeaderView(R.layout.header);
-        bt_dnhome = (Button) headerLayout.findViewById(R.id.bt_dnhome);
-
-        tv_TimKemHome = (TextView) view.findViewById(R.id.tv_TimKiemHome);
-        tv_xephang = (TextView) view.findViewById(R.id.tv_xephang);
-        tv_theloai = (TextView) view.findViewById(R.id.tv_theloai);
-        tv_diemthuong = view.findViewById(R.id.tv_diemthuong);
-        tv_diemdanh = view.findViewById(R.id.tv_diemdanh);
-
-        rv = view.findViewById(R.id.rv);
-        rv2 = view.findViewById(R.id.rv2);
-        rv3 = view.findViewById(R.id.rv3);
-
-        menu = navigationView.getMenu();
-        mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
-
-        tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
-        bt_dxhome = headerLayout.findViewById(R.id.bt_dxhome);
-    }
 
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
