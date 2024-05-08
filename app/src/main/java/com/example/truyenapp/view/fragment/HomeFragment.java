@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Set the email of the user in the TextView tv_emailhome
                     tv_emailhome.setText(user.getEmail());
                     email = user.getEmail();
-                    updateAfterLogin();
+                    updateUserAfterLogin();
                 }
             }
             // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
@@ -146,8 +146,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
         db = new Database(getActivity());
-        init();
         getUserInfo();
+        init();
 
         Intent i = getActivity().getIntent();
         email = i.getStringExtra("email");
@@ -203,8 +203,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
 
     }
-    public void updateAfterLogin() {
-        Log.d("ad", tv_emailhome.getText().toString());
+    public void updateUserAfterLogin() {
+//        Log.d("ad", tv_emailhome.getText().toString());
         if (tv_emailhome.getText().length() != 0) {
             if (userResponse.getRole().equals(SystemConstant.ROLE_ADMIN)) {
                 mn_it_chucnangquantri.setVisible(true);
