@@ -3,10 +3,14 @@ package com.example.truyenapp.api;
 import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.request.ForgotPasswordRequest;
+import com.example.truyenapp.request.UserRequest;
+import com.example.truyenapp.response.UserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface UserAPI {
     @POST("v1/users/change-password")
@@ -14,4 +18,10 @@ public interface UserAPI {
 
     @POST("v1/users/forgot-password")
     Call<APIResponse<Void>> forgotPass(@Body ForgotPasswordRequest passwordRequest);
+
+    @GET("v1/users/info")
+    Call<UserResponse> getUserInfo(@Query("token") String token);
+
+    @POST("v1/users/update-info")
+    Call<Void> updateInfo(@Body UserRequest request);
 }
