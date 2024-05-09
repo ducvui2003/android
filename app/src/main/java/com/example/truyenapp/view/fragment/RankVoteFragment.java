@@ -34,7 +34,6 @@ public class RankVoteFragment extends Fragment {
     private RecyclerView rcv;
     private VoteAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
-    @Setter
     private Integer categoryId;
 
     @Override
@@ -62,6 +61,11 @@ public class RankVoteFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+        getVoteList();
     }
 
     public void getVoteList() {

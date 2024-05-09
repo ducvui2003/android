@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.Category;
+import com.example.truyenapp.CategoryActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.UserAPI;
@@ -243,7 +243,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box2);
                 break;
             case R.id.tv_theloai:
-                Intent dialog_box3 = new Intent(getActivity(), Category.class);
+                Intent dialog_box3 = new Intent(getActivity(), CategoryActivity.class);
                 dialog_box3.putExtra("email", email);
                 startActivity(dialog_box3);
                 break;
@@ -356,7 +356,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box4);
                 break;
             case R.id.it_theloai:
-                Intent dialog_box5 = new Intent(getActivity(), Category.class);
+                Intent dialog_box5 = new Intent(getActivity(), CategoryActivity.class);
                 startActivity(dialog_box5);
                 break;
         }

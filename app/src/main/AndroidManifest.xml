@@ -13,7 +13,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppDocTruyen">
         <activity
-            android:name="com.example.truyenapp.Category"
+            android:name="com.example.truyenapp.CategoryActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.ForgotPassword"

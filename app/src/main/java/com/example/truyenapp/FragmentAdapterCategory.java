@@ -10,9 +10,17 @@ import com.example.truyenapp.view.fragment.RankViewFragment;
 import com.example.truyenapp.view.fragment.RankVoteFragment;
 
 public class FragmentAdapterCategory extends FragmentStateAdapter {
+    RankVoteFragment rankVoteFragment = new RankVoteFragment();
+    RankViewFragment rankViewFragment = new RankViewFragment();
+
 
     public FragmentAdapterCategory(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
+    }
+
+    public void setCategory(Integer categoryID) {
+        rankViewFragment.setCategoryId(categoryID);
+        rankVoteFragment.setCategoryId(categoryID);
     }
 
     @NonNull
@@ -20,9 +28,9 @@ public class FragmentAdapterCategory extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return new RankVoteFragment();
+                return rankVoteFragment;
             case 2:
-                return new FragmentRankView();
+                return rankViewFragment;
         }
         return new TheLoaiNewFragment();
     }

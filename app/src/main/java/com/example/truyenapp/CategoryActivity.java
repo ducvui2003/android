@@ -1,9 +1,13 @@
 package com.example.truyenapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -30,11 +34,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Category extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapterCategory adapter;
     ArrayAdapter<String> categoryAdapter;
+    String category;
     Map<Integer, String> mapCategory;
     Database db;
     ArrayList<String> listtheloai;
@@ -90,13 +95,6 @@ public class Category extends AppCompatActivity {
 //        textTheLoai = listtheloai.get(0);
         initCategory();
 
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(getApplicationContext(), "Thể loại: " + item, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     private void reload() {
@@ -117,6 +115,28 @@ public class Category extends AppCompatActivity {
         mapCategory = new HashMap<>();
     }
 
+    private void handleEvent() {
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                handleSearch();
+            }
+
+        });
+    }
+
+    public void handleSearch() {
+        this.category = autoCompleteTextView.getText().toString();
+        this.categoryId = getCategory();
+        adapter.setCategory(this.categoryId);
+}
+
+
+    private Integer getCategory() {
+        String category = autoCompleteTextView.getText().toString();
+        return mapCategory.entrySet().stream().filter(entry -> entry.getValue().equals(category)).map(Map.Entry::getKey).findFirst().orElse(null);
+    }
+
     private void initCategory() {
         SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);
         response.getCategory().enqueue(new Callback<APIResponse<List<CategoryResponse>>>() {
@@ -129,6 +149,7 @@ public class Category extends AppCompatActivity {
                 categoryAdapter.add("Tất cả");
                 categoryAdapter.addAll(mapCategory.values());
                 categoryAdapter.notifyDataSetChanged();
+                handleEvent();
             }
 
             @Override
@@ -136,5 +157,8 @@ public class Category extends AppCompatActivity {
                 Log.d("SearchActivity", "onFailure: " + throwable.getMessage());
             }
         });
+    }
+
+    private void searchAPI() {
     }
 }

@@ -34,7 +34,7 @@ public class RankViewFragment extends Fragment {
     private RecyclerView rcv;
     private ViewAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
-    @Setter
+
     private Integer categoryId;
 
     @Override
@@ -53,6 +53,11 @@ public class RankViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+        getViewList();
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
         getViewList();
     }
 
