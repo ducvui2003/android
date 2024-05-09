@@ -4,6 +4,7 @@ import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.request.ForgotPasswordRequest;
 import com.example.truyenapp.request.UserRequest;
+import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.response.UserResponse;
 
 import retrofit2.Call;
@@ -24,4 +25,7 @@ public interface UserAPI {
 
     @POST("v1/users/update-info")
     Call<Void> updateInfo(@Body UserRequest request);
+
+    @POST("v1/attendance")
+    Call<APIResponse<AttendanceResponse>> attendance();
 }

@@ -2,6 +2,11 @@ package com.example.truyenapp.response;
 
 import java.util.List;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Data
 public class DataListResponse<T> {
     List<T> data;
     Integer currentPage;
@@ -16,27 +21,4 @@ public class DataListResponse<T> {
         this.totalPages = totalPages;
     }
 
-    public List<T> getData() {
-        return data;
-    }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
-
-    public Integer getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
 }
