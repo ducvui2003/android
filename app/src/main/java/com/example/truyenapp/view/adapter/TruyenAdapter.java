@@ -24,13 +24,21 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
     private List<Story> list;
     private String email;
 
+    public TruyenAdapter(Context context, String email) {
+        this.context = context;
+        this.email = email;
+    }
+
     public TruyenAdapter(List<Story> list, Context context, String email)
     {
         this.list=list;
         this.context=context;
         this.email=email;
     }
-
+    public void setData(List<Story> storyList) {
+        this.list = storyList;
+        this.notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public TruyenAdapter.TruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
