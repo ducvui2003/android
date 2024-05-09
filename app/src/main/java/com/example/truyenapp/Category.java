@@ -2,6 +2,7 @@ package com.example.truyenapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,21 +13,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.database.Database;
+import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.CategoryResponse;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Category extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapterCategory adapter;
+    ArrayAdapter<String> categoryAdapter;
+    Map<Integer, String> mapCategory;
     Database db;
     ArrayList<String> listtheloai;
     AutoCompleteTextView autoCompleteTextView;
-
-    ArrayAdapter<String> adapterItems;
+    Integer categoryId;
     String textTheLoai;
     private final String[] TAB_TEXT = {"Mới nhất", "BXH Votes", "BXH Lượt Xem"};
 
@@ -38,7 +51,7 @@ public class Category extends AppCompatActivity {
         db = new Database(this);
         init();
 
-        listtheloai = db.getTheLoai();
+//        listtheloai = db.getTheLoai();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         adapter = new FragmentAdapterCategory(fragmentManager, getLifecycle());
@@ -72,10 +85,10 @@ public class Category extends AppCompatActivity {
             }
         });
 
-        adapterItems = new ArrayAdapter<String>(this, R.layout.list_item, listtheloai);
-        autoCompleteTextView.setText(listtheloai.get(0));
-        autoCompleteTextView.setAdapter(adapterItems);
-        textTheLoai = listtheloai.get(0);
+
+        autoCompleteTextView.setAdapter(categoryAdapter);
+//        textTheLoai = listtheloai.get(0);
+        initCategory();
 
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,5 +113,28 @@ public class Category extends AppCompatActivity {
         this.tabLayout = findViewById(R.id.tab_layout_tl);
         this.pager2 = findViewById(R.id.view_pager2_tl);
         this.autoCompleteTextView = findViewById(R.id.auto_complete_txt);
+        categoryAdapter = new  ArrayAdapter(this, R.layout.list_item);
+        mapCategory = new HashMap<>();
+    }
+
+    private void initCategory() {
+        SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);
+        response.getCategory().enqueue(new Callback<APIResponse<List<CategoryResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<List<CategoryResponse>>> call, Response<APIResponse<List<CategoryResponse>>> response) {
+                APIResponse<List<CategoryResponse>> data = response.body();
+                for (CategoryResponse category : data.getResult()) {
+                    mapCategory.put(category.getId(), category.getName());
+                }
+                categoryAdapter.add("Tất cả");
+                categoryAdapter.addAll(mapCategory.values());
+                categoryAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<List<CategoryResponse>>> call, Throwable throwable) {
+                Log.d("SearchActivity", "onFailure: " + throwable.getMessage());
+            }
+        });
     }
 }

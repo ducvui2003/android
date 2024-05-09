@@ -24,4 +24,6 @@ public interface SearchAPI {
     @GET("v1/book/category")
     Call<APIResponse<List<CategoryResponse>>> getCategory();
 
+    @GET("v1/book/search")
+    Call<APIResponse<DataListResponse<BookResponse>>> search(@Query("categoryId") Integer category);
 }

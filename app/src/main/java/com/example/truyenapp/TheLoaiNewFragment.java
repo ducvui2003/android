@@ -2,23 +2,36 @@ package com.example.truyenapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.database.Database;
+import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.model.Story;
+import com.example.truyenapp.response.CategoryResponse;
 import com.example.truyenapp.view.adapter.TheLoaiAdapter;
 import com.example.truyenapp.view.fragment.RankVoteFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,7 +98,7 @@ public class TheLoaiNewFragment extends Fragment{
         view= inflater.inflate(R.layout.fragment_theloai_new, container, false);
 
         db=new Database(getActivity());
-        Anhxa();
+        init();
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
 
@@ -106,8 +119,9 @@ public class TheLoaiNewFragment extends Fragment{
         rcv.setAdapter(rcv_adapter);
     }
 
-    public void Anhxa(){
+    public void init(){
         rcv=view.findViewById(R.id.rcv_theloai_new);
+
     }
 
     public void hienThiTheoTheLoai(){
@@ -123,4 +137,11 @@ public class TheLoaiNewFragment extends Fragment{
             }
         });
     }
+
+//    public void getBookLatestDate() {
+//        SearchAPI searchAPI = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+//        searchAPI.search
+//    }
+
+
 }
