@@ -15,6 +15,9 @@ public interface SearchAPI {
     @GET("v1/book/rank")
     Call<APIResponse<DataListResponse<BookResponse>>> rank(@Query("type") String type);
 
+    @GET("v1/book/rank")
+    Call<APIResponse<DataListResponse<BookResponse>>> rank(@Query("type") String type, @Query("categoryId") Integer categoryId);
+
     @GET("v1/book/string")
     Call<APIResponse<String>> string();
 

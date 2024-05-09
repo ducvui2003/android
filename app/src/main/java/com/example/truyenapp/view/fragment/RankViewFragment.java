@@ -24,6 +24,7 @@ import com.example.truyenapp.view.adapter.ViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +34,8 @@ public class RankViewFragment extends Fragment {
     private RecyclerView rcv;
     private ViewAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
+    @Setter
+    private Integer categoryId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,13 @@ public class RankViewFragment extends Fragment {
     //    call api lấy dữ liệu danh sách truyện theo lượt xem
     public void getViewList() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
-        response.rank("view").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+        Call<APIResponse<DataListResponse<BookResponse>>> call;
+        if (categoryId != null) {
+            call = response.rank("view", categoryId);
+        } else {
+            call = response.rank("view");
+        }
+        call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
