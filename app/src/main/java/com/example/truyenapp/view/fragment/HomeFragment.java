@@ -28,11 +28,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
+import com.example.truyenapp.api.AuthAPI;
 import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.api.UserAPI;
+import com.example.truyenapp.mapper.BookMapper;
 import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.JWTToken;
-import com.example.truyenapp.response.AttendanceResponse;
+import com.example.truyenapp.response.BookResponse;
+import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.response.UserResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
@@ -47,12 +51,18 @@ import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.DiemThuong;
+import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -69,15 +79,22 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     //    Button logoutBtn;
     Menu menu;
     MenuItem mn_it_chucnangquantri;
+    Account account;
     TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_emailhome, tv_diemthuong, tv_diemdanh;
+
+    Database db;
+    Story story;
     String email;
     private UserResponse userResponse;
+
+    private List<Story> newComic = new ArrayList<>();
+    private List<Story> topComic = new ArrayList<>();
+    private List<Story> comicFullChapter = new ArrayList<>();
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
     Database db;
     Account account;
-
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -113,7 +130,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Set the email of the user in the TextView tv_emailhome
                     tv_emailhome.setText(user.getEmail());
                     email = user.getEmail();
-                    activeAdmin();
                 }
             }
 
@@ -137,6 +153,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         getUserInfo();
         init();
 
+        Intent i = getActivity().getIntent();
+        email = i.getStringExtra("email");
+        tv_emailhome.setText(email);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -146,27 +165,17 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setLayoutManager(linearLayoutManager2);
         rv3.setLayoutManager(linearLayoutManager3);
 
-        String lenhSqlite_truyenmoi = "SELECT *" +
-                "  FROM truyen \n" +
-                "  where id in (select truyen.id from truyen inner join chapter on truyen.id=chapter.idtruyen where chapter.tenchapter='Chapter 1' order by chapter.ngaydang desc limit 5)";
-        ArrayList<Story> truyenmoi = db.getTruyen(lenhSqlite_truyenmoi);
-        _rv = new TruyenAdapter(truyenmoi, getActivity(), email);
-
-        String lenhSqlite_toptruyen = "SELECT *\n" +
-                "  FROM truyen \n" +
-                "  where id in (select truyen.id from truyen inner join thongke on truyen.id=thongke.idtruyen order by thongke.tongluotxem desc limit 5)";
-        ArrayList<Story> toptruyen = db.getTruyen(lenhSqlite_toptruyen);
-        rv_2 = new TruyenAdapter(toptruyen, getActivity(), email);
-
-        String lenhSqlite_truyenfull = "SELECT *\n" +
-                "  FROM truyen \n" +
-                "  where trangthai=1 limit 5";
-        ArrayList<Story> truyenfull = db.getTruyen(lenhSqlite_truyenfull);
-        rv_3 = new TruyenAdapter(truyenfull, getActivity(), email);
+        _rv = new TruyenAdapter(getActivity(), email);
+        rv_2 = new TruyenAdapter(getActivity(), email);
+        rv_3 = new TruyenAdapter(getActivity(), email);
 
         rv.setAdapter(_rv);
         rv2.setAdapter(rv_2);
         rv3.setAdapter(rv_3);
+
+        getNewComic();
+        getTopComic();
+        getFullComic();
 
         ActionBar();
         ActionViewFlipper();
@@ -197,22 +206,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
         tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
 
-    }
-
-    public void activeAdmin() {
-        if (tv_emailhome.getText().length() != 0) {
-            if (userResponse.getRole().equals(SystemConstant.ROLE_ADMIN)) {
-                mn_it_chucnangquantri.setVisible(true);
-            } else {
-                mn_it_chucnangquantri.setVisible(false);
-            }
-            tv_emailhome.setVisibility(view.VISIBLE);
-            loginBtn.setVisibility(view.GONE);
-        } else {
-            mn_it_chucnangquantri.setVisible(false);
-            tv_emailhome.setVisibility(view.GONE);
-            loginBtn.setVisibility(view.VISIBLE);
-        }
     }
 
     private void setOnClickListener() {
@@ -263,7 +256,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                attendanceAPI();
                 break;
             }
 //            case R.id.bt_dxhome: {
@@ -342,7 +334,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
-                Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
+                Intent dialog_box2 = new Intent(getActivity(), QuanLyBinhLuan.class);
                 dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
@@ -356,7 +348,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box4);
                 break;
             case R.id.it_theloai:
-                Intent dialog_box5 = new Intent(getActivity(), CategoryActivity.class);
+                Intent dialog_box5 = new Intent(getActivity(), Category.class);
                 startActivity(dialog_box5);
                 break;
         }
@@ -383,4 +375,61 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             }
         });
     }
+    public void getNewComic() {
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+        response.getNewComic(5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                APIResponse<DataListResponse<BookResponse>> data = response.body();
+                for (BookResponse bookResponse : data.getResult().getData()) {
+                    Story story = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    newComic.add(story);
+                }
+                _rv.setData(newComic);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
+
+    public void getTopComic() {
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+        response.getTopComic("rating", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                APIResponse<DataListResponse<BookResponse>> data = response.body();
+                for (BookResponse bookResponse : data.getResult().getData()) {
+                    Story story = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    topComic.add(story);
+                }
+                rv_2.setData(topComic);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
+    public void getFullComic() {
+        SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+        response.getFullComic(null, "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                APIResponse<DataListResponse<BookResponse>> data = response.body();
+                for (BookResponse bookResponse : data.getResult().getData()) {
+                    Story classifyStory = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    comicFullChapter.add(classifyStory);
+                }
+                rv_3.setData(comicFullChapter);
+            }
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
+
+
 }

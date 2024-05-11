@@ -1,6 +1,7 @@
 package com.example.truyenapp.mapper;
 
 import com.example.truyenapp.model.ModelSearch;
+import com.example.truyenapp.model.Story;
 import com.example.truyenapp.response.BookResponse;
 
 import org.mapstruct.Mapper;
@@ -18,4 +19,11 @@ public interface BookMapper {
     @Mapping(source = "name", target = "nameStory")
     @Mapping(source = "thumbnail", target = "linkImage")
     ModelSearch bookResponseToModelSearch(BookResponse bookResponse);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "nameStory")
+    @Mapping(source = "author", target = "author")
+    @Mapping(source = "description", target = "describe")
+    @Mapping(source = "thumbnail", target = "linkImage")
+    Story bookResponseToStory(BookResponse bookResponse);
 }
