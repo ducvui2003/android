@@ -1,35 +1,33 @@
-package com.example.truyenapp;
+package com.example.truyenapp.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Lifecycle;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.truyenapp.view.fragment.RankViewFragment;
 import com.example.truyenapp.view.fragment.RankVoteFragment;
 
-public class FragmentAdapterCategory extends FragmentStateAdapter {
+public class RankViewPagerAdapter extends FragmentStateAdapter {
 
-    public FragmentAdapterCategory(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-        super(fragmentManager, lifecycle);
+    public RankViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+        super(fragmentActivity);
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
         switch (position) {
-            case 1:
+            case 0:
                 return new RankVoteFragment();
-            case 2:
-                return new FragmentRankView();
+            case 1:
+                return new RankViewFragment();
         }
-        return new TheLoaiNewFragment();
+        return null;
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
-
 }

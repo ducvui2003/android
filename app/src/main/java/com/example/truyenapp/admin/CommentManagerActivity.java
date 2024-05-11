@@ -7,29 +7,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
+import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.view.adapter.admin.QLBinhLuanAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
 
-public class QuanLyBinhLuan extends AppCompatActivity {
+public class CommentManagerActivity extends AppCompatActivity {
     Database db;
     private RecyclerView rcv;
     private QLBinhLuanAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quanlybinhluan);
 
-        Anhxa();
+        init();
         db=new Database(this);
 
-        recyclerViewQLBinhLuan();
+        handleRecyclerView();
     }
 
-    private void recyclerViewQLBinhLuan(){
+    private void handleRecyclerView(){
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
         ArrayList<Comment> list=db.getListBinhLuan();
@@ -37,7 +39,8 @@ public class QuanLyBinhLuan extends AppCompatActivity {
         rcv.setAdapter(adapter);
     }
 
-    private void Anhxa() {
+    private void init() {
         rcv=findViewById(R.id.rcv_quanlybinhluan);
     }
+
 }

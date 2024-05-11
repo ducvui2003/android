@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,21 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.view.adapter.TheLoaiAdapter;
-import com.example.truyenapp.view.fragment.RankVoteFragment;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RankVoteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-
-public class TheLoaiNewFragment extends Fragment{
+public class LatestDateFragment extends Fragment{
 
     View view;
-    Category category;
+    CategoryActivity categoryActivity;
     Database db;
     Story story;
     public RecyclerView rcv;
@@ -38,33 +30,14 @@ public class TheLoaiNewFragment extends Fragment{
 
     public String _theloai;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public TheLoaiNewFragment() {
+    public LatestDateFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BXHVoteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TheLoaiNewFragment newInstance(String param1, String param2) {
-        TheLoaiNewFragment fragment = new TheLoaiNewFragment();
+    public static LatestDateFragment newInstance(String param1, String param2) {
+        LatestDateFragment fragment = new LatestDateFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,10 +45,6 @@ public class TheLoaiNewFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -85,12 +54,12 @@ public class TheLoaiNewFragment extends Fragment{
         view= inflater.inflate(R.layout.fragment_theloai_new, container, false);
 
         db=new Database(getActivity());
-        Anhxa();
+        init();
         Intent intent=getActivity().getIntent();
         email=intent.getStringExtra("email");
 
-        category = (Category) getActivity();
-        hienThiTheoTheLoai();
+        categoryActivity = (CategoryActivity) getActivity();
+//        hienThiTheoTheLoai();
 
         return view;
     }
@@ -106,21 +75,29 @@ public class TheLoaiNewFragment extends Fragment{
         rcv.setAdapter(rcv_adapter);
     }
 
-    public void Anhxa(){
+    public void init(){
         rcv=view.findViewById(R.id.rcv_theloai_new);
+
     }
 
-    public void hienThiTheoTheLoai(){
-        _theloai= category.autoCompleteTextView.getText().toString();
-        recyclerViewTruyen();
-        category.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item=adapterView.getItemAtPosition(i).toString();
-                _theloai=item;
-                recyclerViewTruyen();
-                Toast.makeText(getActivity().getApplicationContext(),"Thể loại: "+item,Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public void hienThiTheoTheLoai(){
+//        _theloai= categoryActivity.autoCompleteTextView.getText().toString();
+//        recyclerViewTruyen();
+//        categoryActivity.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String item=adapterView.getItemAtPosition(i).toString();
+//                _theloai=item;
+//                recyclerViewTruyen();
+//                Toast.makeText(getActivity().getApplicationContext(),"Thể loại: "+item,Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+//    public void getBookLatestDate() {
+//        SearchAPI searchAPI = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
+//        searchAPI.search
+//    }
+
+
 }

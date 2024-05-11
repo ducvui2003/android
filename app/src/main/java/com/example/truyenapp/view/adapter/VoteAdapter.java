@@ -53,7 +53,7 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.VoteViewHolder
         Glide.with(this.context).load(commic.getLinkImage()).into(holder.imgCommic);
         holder.nameCommic.setText(commic.getNameStory());
         holder.info.setText("Đánh giá: " + commic.getEvaluate());
-        holder.dateCommic.setText("Ngày đăngsd: " + publishDate);
+        holder.dateCommic.setText("Ngày đăng: " + publishDate);
         holder.detailCommicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
             intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
