@@ -81,7 +81,11 @@ public class RankViewFragment extends Fragment {
         call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                listCommic.clear();
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+                if (data == null || data.getResult() == null || data.getResult().getData() == null) {
+                    return;
+                }
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());

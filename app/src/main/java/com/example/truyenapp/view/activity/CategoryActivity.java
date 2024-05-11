@@ -1,31 +1,30 @@
-package com.example.truyenapp;
+package com.example.truyenapp.view.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.truyenapp.view.fragment.CategoryViewPagerFragment;
+import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.response.CategoryResponse;
+import com.example.truyenapp.view.fragment.RankViewFragment;
+import com.example.truyenapp.view.fragment.RankVoteFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,16 +36,15 @@ import retrofit2.Response;
 public class CategoryActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
-    FragmentAdapterCategory adapter;
+    CategoryViewPagerFragment adapter;
     ArrayAdapter<String> categoryAdapter;
     String category;
     Map<Integer, String> mapCategory;
     Database db;
-    ArrayList<String> listtheloai;
     AutoCompleteTextView autoCompleteTextView;
     Integer categoryId;
-    String textTheLoai;
     private final String[] TAB_TEXT = {"Mới nhất", "BXH Votes", "BXH Lượt Xem"};
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +54,9 @@ public class CategoryActivity extends AppCompatActivity {
         db = new Database(this);
         init();
 
-//        listtheloai = db.getTheLoai();
-
         FragmentManager fragmentManager = getSupportFragmentManager();
-        adapter = new FragmentAdapterCategory(fragmentManager, getLifecycle());
+        adapter = new CategoryViewPagerFragment(fragmentManager, getLifecycle());
         pager2.setAdapter(adapter);
-
         new TabLayoutMediator(tabLayout, pager2,
                 (tab, position) -> tab.setText(TAB_TEXT[position])
         ).attach();
@@ -83,39 +78,20 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
-        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
-
-
         autoCompleteTextView.setAdapter(categoryAdapter);
-//        textTheLoai = listtheloai.get(0);
         initCategory();
-
+        handleViewPager2();
     }
-
-    private void reload() {
-        Intent intent = getIntent();
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-    }
-
 
     private void init() {
         this.tabLayout = findViewById(R.id.tab_layout_tl);
         this.pager2 = findViewById(R.id.view_pager2_tl);
         this.autoCompleteTextView = findViewById(R.id.auto_complete_txt);
-        categoryAdapter = new  ArrayAdapter(this, R.layout.list_item);
+        categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         mapCategory = new HashMap<>();
     }
 
-    private void handleEvent() {
+    private void handleEventSelect() {
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -128,13 +104,30 @@ public class CategoryActivity extends AppCompatActivity {
     public void handleSearch() {
         this.category = autoCompleteTextView.getText().toString();
         this.categoryId = getCategory();
-        adapter.setCategory(this.categoryId);
-}
-
+        if (currentFragment instanceof RankViewFragment) {
+            RankViewFragment rankViewFragment = (RankViewFragment) currentFragment;
+            rankViewFragment.setCategoryId(categoryId);
+            return;
+        }
+        if (currentFragment instanceof RankVoteFragment) {
+            RankVoteFragment rankVoteFragment = (RankVoteFragment) currentFragment;
+            rankVoteFragment.setCategoryId(categoryId);
+        }
+    }
 
     private Integer getCategory() {
         String category = autoCompleteTextView.getText().toString();
         return mapCategory.entrySet().stream().filter(entry -> entry.getValue().equals(category)).map(Map.Entry::getKey).findFirst().orElse(null);
+    }
+
+    public void handleViewPager2() {
+        pager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                tabLayout.selectTab(tabLayout.getTabAt(position));
+                currentFragment = adapter.createFragment(position);
+            }
+        });
     }
 
     private void initCategory() {
@@ -149,7 +142,7 @@ public class CategoryActivity extends AppCompatActivity {
                 categoryAdapter.add("Tất cả");
                 categoryAdapter.addAll(mapCategory.values());
                 categoryAdapter.notifyDataSetChanged();
-                handleEvent();
+                handleEventSelect();
             }
 
             @Override
@@ -159,6 +152,4 @@ public class CategoryActivity extends AppCompatActivity {
         });
     }
 
-    private void searchAPI() {
-    }
 }

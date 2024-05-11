@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,11 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.model.Story;
+import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.view.adapter.TheLoaiAdapter;
 
 import java.util.ArrayList;
 
-public class TheLoaiNewFragment extends Fragment{
+public class LatestDateFragment extends Fragment{
 
     View view;
     CategoryActivity categoryActivity;
@@ -32,12 +31,12 @@ public class TheLoaiNewFragment extends Fragment{
     public String _theloai;
 
 
-    public TheLoaiNewFragment() {
+    public LatestDateFragment() {
         // Required empty public constructor
     }
 
-    public static TheLoaiNewFragment newInstance(String param1, String param2) {
-        TheLoaiNewFragment fragment = new TheLoaiNewFragment();
+    public static LatestDateFragment newInstance(String param1, String param2) {
+        LatestDateFragment fragment = new LatestDateFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -60,7 +59,7 @@ public class TheLoaiNewFragment extends Fragment{
         email=intent.getStringExtra("email");
 
         categoryActivity = (CategoryActivity) getActivity();
-        hienThiTheoTheLoai();
+//        hienThiTheoTheLoai();
 
         return view;
     }
@@ -81,19 +80,19 @@ public class TheLoaiNewFragment extends Fragment{
 
     }
 
-    public void hienThiTheoTheLoai(){
-        _theloai= categoryActivity.autoCompleteTextView.getText().toString();
-        recyclerViewTruyen();
-        categoryActivity.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String item=adapterView.getItemAtPosition(i).toString();
-                _theloai=item;
-                recyclerViewTruyen();
-                Toast.makeText(getActivity().getApplicationContext(),"Thể loại: "+item,Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    public void hienThiTheoTheLoai(){
+//        _theloai= categoryActivity.autoCompleteTextView.getText().toString();
+//        recyclerViewTruyen();
+//        categoryActivity.autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                String item=adapterView.getItemAtPosition(i).toString();
+//                _theloai=item;
+//                recyclerViewTruyen();
+//                Toast.makeText(getActivity().getApplicationContext(),"Thể loại: "+item,Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
 //    public void getBookLatestDate() {
 //        SearchAPI searchAPI = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);

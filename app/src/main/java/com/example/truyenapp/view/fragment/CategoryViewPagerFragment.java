@@ -1,4 +1,4 @@
-package com.example.truyenapp;
+package com.example.truyenapp.view.fragment;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,21 +6,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.truyenapp.view.fragment.RankViewFragment;
-import com.example.truyenapp.view.fragment.RankVoteFragment;
+import com.example.truyenapp.LatestDateFragment;
 
-public class FragmentAdapterCategory extends FragmentStateAdapter {
+public class CategoryViewPagerFragment extends FragmentStateAdapter {
     RankVoteFragment rankVoteFragment = new RankVoteFragment();
     RankViewFragment rankViewFragment = new RankViewFragment();
+    LatestDateFragment latestDateFragment = new LatestDateFragment();
 
 
-    public FragmentAdapterCategory(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public CategoryViewPagerFragment(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
-    }
-
-    public void setCategory(Integer categoryID) {
-        rankViewFragment.setCategoryId(categoryID);
-        rankVoteFragment.setCategoryId(categoryID);
     }
 
     @NonNull
@@ -32,7 +27,7 @@ public class FragmentAdapterCategory extends FragmentStateAdapter {
             case 2:
                 return rankViewFragment;
         }
-        return new TheLoaiNewFragment();
+        return latestDateFragment;
     }
 
     @Override
