@@ -26,9 +26,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truyenapp.model.Category;
+import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
-import com.example.truyenapp.api.AuthAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.api.UserAPI;
@@ -51,7 +52,6 @@ import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.DiemThuong;
-import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -64,9 +64,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -93,8 +90,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
-    Database db;
-    Account account;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -334,7 +329,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
-                Intent dialog_box2 = new Intent(getActivity(), QuanLyBinhLuan.class);
+                Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
                 dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
