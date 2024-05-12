@@ -125,6 +125,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Set the email of the user in the TextView tv_emailhome
                     tv_emailhome.setText(user.getEmail());
                     email = user.getEmail();
+                    verifyUserRole();
                 }
             }
 
@@ -139,6 +140,14 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         });
     }
 
+    public void verifyUserRole() {
+        if(userResponse != null) {
+            mn_it_chucnangquantri.setVisible("ADMIN".equals(userResponse.getRole()));
+        } else {
+            mn_it_chucnangquantri.setVisible(false);
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -147,7 +156,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         db = new Database(getActivity());
         getUserInfo();
         init();
-
         Intent i = getActivity().getIntent();
         email = i.getStringExtra("email");
         tv_emailhome.setText(email);
@@ -200,7 +208,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         menu = navigationView.getMenu();
         mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
         tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
-
     }
 
     private void setOnClickListener() {
@@ -315,6 +322,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     }
 
 
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -362,7 +371,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     Toast.makeText(getActivity(), "Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<APIResponse<AttendanceResponse>> call, Throwable throwable) {
                 Log.e("TAG", "Attendance failed: " + throwable.getMessage());
@@ -370,6 +378,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             }
         });
     }
+
     public void getNewComic() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         response.getNewComic(5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
