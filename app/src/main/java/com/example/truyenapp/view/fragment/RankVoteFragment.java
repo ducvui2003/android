@@ -24,6 +24,7 @@ import com.example.truyenapp.view.adapter.VoteAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,6 +34,7 @@ public class RankVoteFragment extends Fragment {
     private RecyclerView rcv;
     private VoteAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
+    private Integer categoryId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,7 @@ public class RankVoteFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_rank_vote, container, false);
         return view;
     }
@@ -61,12 +62,27 @@ public class RankVoteFragment extends Fragment {
         this.rcv.setAdapter(adapter);
     }
 
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+        getVoteList();
+    }
+
     public void getVoteList() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
-        response.rank("rating").enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+        Call<APIResponse<DataListResponse<BookResponse>>> call;
+        if (categoryId != null) {
+            call = response.rank("rating", categoryId);
+        } else {
+            call = response.rank("rating");
+        }
+        call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+                listCommic.clear();
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+                if (data == null || data.getResult() == null || data.getResult().getData() == null) {
+                    return;
+                }
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());

@@ -26,7 +26,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.Category;
+import com.example.truyenapp.model.Category;
+import com.example.truyenapp.response.AttendanceResponse;
+import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
@@ -37,11 +39,12 @@ import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.response.UserResponse;
+import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
-import com.example.truyenapp.admin.QuanLyBinhLuan;
+import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.QuanLyTruyen;
@@ -49,7 +52,6 @@ import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.DiemThuong;
-import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -62,9 +64,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
@@ -126,9 +125,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Set the email of the user in the TextView tv_emailhome
                     tv_emailhome.setText(user.getEmail());
                     email = user.getEmail();
-                    updateUserAfterLogin();
                 }
             }
+
             // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
             @Override
             public void onFailure(Call<UserResponse> call, Throwable throwable) {
@@ -203,23 +202,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
 
     }
-    public void updateUserAfterLogin() {
-//        Log.d("ad", tv_emailhome.getText().toString());
-        if (tv_emailhome.getText().length() != 0) {
-            if (userResponse.getRole().equals(SystemConstant.ROLE_ADMIN)) {
-                mn_it_chucnangquantri.setVisible(true);
-            } else {
-                mn_it_chucnangquantri.setVisible(false);
-            }
-            tv_emailhome.setVisibility(view.VISIBLE);
-//            bt_dxhome.setVisibility(view.VISIBLE);
-            loginBtn.setVisibility(view.GONE);
-        } else {
-            mn_it_chucnangquantri.setVisible(false);
-            tv_emailhome.setVisibility(view.GONE);
-            loginBtn.setVisibility(view.VISIBLE);
-        }
-    }
 
     private void setOnClickListener() {
         loginBtn.setOnClickListener(this);
@@ -249,7 +231,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box2);
                 break;
             case R.id.tv_theloai:
-                Intent dialog_box3 = new Intent(getActivity(), Category.class);
+                Intent dialog_box3 = new Intent(getActivity(), CategoryActivity.class);
                 dialog_box3.putExtra("email", email);
                 startActivity(dialog_box3);
                 break;
@@ -263,49 +245,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 break;
             case R.id.tv_diemdanh: {
-                if (tv_emailhome.getText().length() != 0) {
-                    Boolean checkDiemDanh = db.checkDiemDanh(account);
-                    if (checkDiemDanh == false) {
-
-                        int thu = db.getThu(account);
-                        if (thu == 2) {
-                            Boolean diemdanh = db.updateDiemThuong(account, 10);
-                            Boolean capnhat = db.insertDiemThuong(account.getId(), 10, thu + 1);
-                            if (diemdanh == true && capnhat == true) {
-                                Toast.makeText(getActivity(), "Điểm danh thành công! +10 điểm", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (thu == 6) {
-                            Boolean diemdanh = db.updateDiemThuong(account, 15);
-                            Boolean capnhat = db.insertDiemThuong(account.getId(), 15, thu + 1);
-                            if (diemdanh == true && capnhat == true) {
-                                Toast.makeText(getActivity(), "Điểm danh thành công! +15 điểm", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else if (thu == 7) {
-                            Boolean diemdanh = db.updateDiemThuong(account, 5);
-                            Boolean capnhat = db.insertDiemThuong(account.getId(), 5, 1);
-                            if (diemdanh == true && capnhat == true) {
-                                Toast.makeText(getActivity(), "Điểm danh thành công! +5 điểm", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Boolean diemdanh = db.updateDiemThuong(account, 5);
-                            Boolean capnhat = db.insertDiemThuong(account.getId(), 5, thu + 1);
-                            if (diemdanh == true && capnhat == true) {
-                                Toast.makeText(getActivity(), "Điểm danh thành công! +5 điểm", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(getActivity(), "Xảy ra lỗi, Vui lòng thử lại sau!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), "Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getActivity(), "Vui lòng đăng nhập để điểm danh!", Toast.LENGTH_SHORT).show();
+//                Check đăng nhập trước khi điểm danh
+                boolean isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(getActivity().getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
+                if (isLoggedIn) {
+                    Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 break;
             }
@@ -385,7 +329,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
-                Intent dialog_box2 = new Intent(getActivity(), QuanLyBinhLuan.class);
+                Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
                 dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
@@ -406,6 +350,26 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         return true;
     }
 
+    public void attendanceAPI() {
+        userAPI.attendance().enqueue(new Callback<APIResponse<AttendanceResponse>>() {
+            @Override
+            public void onResponse(Call<APIResponse<AttendanceResponse>> call, Response<APIResponse<AttendanceResponse>> response) {
+                APIResponse<AttendanceResponse> apiResponse = response.body();
+                if (apiResponse.getCode() == 200) {
+                    AttendanceResponse attendanceResponse = apiResponse.getResult();
+                    Toast.makeText(getActivity(), "Điểm danh thành công! +" + attendanceResponse.getScore() + " điểm", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<AttendanceResponse>> call, Throwable throwable) {
+                Log.e("TAG", "Attendance failed: " + throwable.getMessage());
+                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     public void getNewComic() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         response.getNewComic(5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
