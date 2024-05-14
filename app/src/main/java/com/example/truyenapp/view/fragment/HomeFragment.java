@@ -330,7 +330,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 break;
             case R.id.it_quanlybinhluan:
                 Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
-                dialog_box2.putExtra("email", account.getEmail());
+//                dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:

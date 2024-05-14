@@ -19,12 +19,12 @@ import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
 
-public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QLBinhLuanViewHolder>{
+public class CommentManagerAdapter extends RecyclerView.Adapter<CommentManagerAdapter.QLBinhLuanViewHolder>{
     private Context context;
     private ArrayList<Comment> list;
     private Database db;
 
-    public QLBinhLuanAdapter(Context context, ArrayList<Comment> list, Database db) {
+    public CommentManagerAdapter(Context context, ArrayList<Comment> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -34,7 +34,7 @@ public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QL
     @Override
     public QLBinhLuanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_qlbinhluan,parent,false);
-        return new QLBinhLuanAdapter.QLBinhLuanViewHolder(view);
+        return new CommentManagerAdapter.QLBinhLuanViewHolder(view);
     }
 
     @Override
