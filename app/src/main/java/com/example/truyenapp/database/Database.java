@@ -3430,18 +3430,18 @@ public class Database extends SQLiteOpenHelper {
         return list;
     }
     //Thông báo
-    public ArrayList<Notification> getListThongBao(){
-        ArrayList<Notification> list=new ArrayList<>();
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor=db.rawQuery("select * from thongbao order by ngaydang desc",null);
-        cursor.moveToFirst();
-        while (cursor.isAfterLast() == false){
-            Notification notification =new Notification(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3));
-            list.add(notification);
-            cursor.moveToNext();
-        }
-        return list;
-    }
+//    public ArrayList<Notification> getListThongBao(){
+//        ArrayList<Notification> list=new ArrayList<>();
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor=db.rawQuery("select * from thongbao order by ngaydang desc",null);
+//        cursor.moveToFirst();
+//        while (cursor.isAfterLast() == false){
+//            Notification notification =new Notification(cursor.getInt(0),cursor.getString(1),cursor.getString(2),);
+//            list.add(notification);
+//            cursor.moveToNext();
+//        }
+//        return list;
+//    }
 
     public int countThongBaoNow(){
         SQLiteDatabase db = this.getWritableDatabase();
