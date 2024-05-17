@@ -76,11 +76,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     //    Button logoutBtn;
     Menu menu;
     MenuItem mn_it_chucnangquantri;
-    Account account;
     TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_emailhome, tv_diemthuong, tv_diemdanh;
-
-    Database db;
-    Story story;
     String email;
     private UserResponse userResponse;
 
@@ -125,6 +121,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Set the email of the user in the TextView tv_emailhome
                     tv_emailhome.setText(user.getEmail());
                     email = user.getEmail();
+                    loginBtn.setVisibility(View.GONE);
                     verifyUserRole();
                 }
             }
@@ -153,7 +150,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        db = new Database(getActivity());
         getUserInfo();
         init();
         Intent i = getActivity().getIntent();
@@ -229,23 +225,19 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 break;
             case R.id.tv_TimKiemHome:
                 Intent dialog_box1 = new Intent(getActivity(), SearchActivity.class);
-                dialog_box1.putExtra("email", email);
                 startActivity(dialog_box1);
                 break;
             case R.id.tv_xephang:
-                Intent dialog_box2 = new Intent(getActivity(), RankActivity.class);//
-                dialog_box2.putExtra("email", email);
+                Intent dialog_box2 = new Intent(getActivity(), RankActivity.class);
                 startActivity(dialog_box2);
                 break;
             case R.id.tv_theloai:
                 Intent dialog_box3 = new Intent(getActivity(), CategoryActivity.class);
-                dialog_box3.putExtra("email", email);
                 startActivity(dialog_box3);
                 break;
             case R.id.tv_diemthuong:
                 if (email != null) {
                     Intent dialog_box4 = new Intent(getActivity(), DiemThuong.class);
-                    dialog_box4.putExtra("email", email);
                     startActivity(dialog_box4);
                 } else {
                     Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
@@ -312,39 +304,23 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         });
     }
 
-
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.isDrawerOpen(GravityCompat.START);
-        } else {
-            ((AppCompatActivity) getActivity()).onBackPressed();
-        }
-    }
-
-
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.it_quanlytaikhoan:
                 Intent dialog_box = new Intent(getActivity(), QuanLyTaiKhoan.class);
-                dialog_box.putExtra("email", account.getEmail());
                 startActivity(dialog_box);
                 break;
             case R.id.it_quanlytruyen:
                 Intent dialog_box1 = new Intent(getActivity(), QuanLyTruyen.class);
-                dialog_box1.putExtra("email", account.getEmail());
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
                 Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
-                dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:
                 Intent dialog_box3 = new Intent(getActivity(), QuanLyThongKe.class);
-                dialog_box3.putExtra("email", account.getEmail());
                 startActivity(dialog_box3);
                 break;
             case R.id.it_xephang:

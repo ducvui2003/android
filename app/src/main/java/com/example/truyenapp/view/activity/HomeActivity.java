@@ -16,7 +16,7 @@ import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.fragment.HomeFragment;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.fragment.AccountFragment;
-import com.example.truyenapp.ThongBaoFragment;
+import com.example.truyenapp.view.fragment.NotificationFragment;
 import com.example.truyenapp.view.fragment.TuSachFragment;
 import com.example.truyenapp.database.Database;
 
@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 2:
                         if (isLoggedIn) {
-                            fragment = new ThongBaoFragment();
+                            fragment = new NotificationFragment();
                         }
                         break;
                     case 3:
