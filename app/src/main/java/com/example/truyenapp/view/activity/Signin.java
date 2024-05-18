@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.Signup;
 import com.example.truyenapp.api.AuthAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.model.JWTToken;
@@ -28,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Signin extends AppCompatActivity implements View.OnClickListener {
-    private ImageView logoImg;
+    private ImageView passwordConfirmField;
     private EditText usernameField, passwordField;
     TextView signupBtn, forgotPassBtn;
     private Button signinBtn;
@@ -46,11 +45,11 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
         usernameField = findViewById(R.id.usernameField);
         passwordField = findViewById(R.id.passwordField);
         signinBtn = findViewById(R.id.signinBtn);
-        logoImg = findViewById(R.id.img_logodn);
+        passwordConfirmField = findViewById(R.id.logoImg);
         signupBtn = findViewById(R.id.signupBtn);
         forgotPassBtn = findViewById(R.id.forgotPassBtn);
         signinBtn.setOnClickListener(this);
-        logoImg.setOnClickListener(this);
+        passwordConfirmField.setOnClickListener(this);
         signupBtn.setOnClickListener(this);
         forgotPassBtn.setOnClickListener(this);
     }
@@ -59,7 +58,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_logodn:
+            case R.id.logoImg:
                 // Redirect to HomeActivity when logo is clicked
                 Intent dialog_box = new Intent(this, HomeActivity.class);
                 startActivity(dialog_box);

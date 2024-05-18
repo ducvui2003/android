@@ -8,6 +8,7 @@ import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.response.UserResponse;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -28,4 +29,7 @@ public interface UserAPI {
 
     @POST("v1/attendance")
     Call<APIResponse<AttendanceResponse>> attendance();
+
+    @POST("v1/users/register")
+    Call<APIResponse<Void>> register(@Body UserRequest userRequest);
 }

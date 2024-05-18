@@ -417,7 +417,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     }
     public void getFullComic() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
-        response.getFullComic(null, "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+        response.getFullComic("", "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();

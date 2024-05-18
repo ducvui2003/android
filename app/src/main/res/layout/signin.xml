@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/img_logodn"
+        android:id="@+id/logoImg"
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:src="@drawable/logo"
