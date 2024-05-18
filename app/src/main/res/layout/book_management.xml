@@ -12,7 +12,7 @@
         android:background="@color/green"
         android:gravity="center"/>
     <ImageView
-        android:id="@+id/img_newtruyen"
+        android:id="@+id/addBookImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_new"

@@ -25,7 +25,7 @@ import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class ShowThongTinTruyen extends AppCompatActivity implements View.OnClickListener {
+public class BookDetailManagement extends AppCompatActivity implements View.OnClickListener {
 
     ImageView img_truyen,img_new;
     TextView tv_id;
@@ -41,12 +41,12 @@ public class ShowThongTinTruyen extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.showthongtintruyen);
+        setContentView(R.layout.book_detail_management);
 
         Anhxa();
         db=new Database(this);
         Intent intent=getIntent();
-        id=intent.getIntExtra("id_truyen",1);
+        id=intent.getIntExtra("bookId",1);
         story =db.getTruyenById(id);
 
         setEnable(0);

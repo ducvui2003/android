@@ -32,7 +32,7 @@ public class QLChapterAdapter extends RecyclerView.Adapter<QLChapterAdapter.QLCh
     @NonNull
     @Override
     public QLChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_qlthongke,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.book_management_item,parent,false);
         return new QLChapterAdapter.QLChapterViewHolder(view);
     }
 
