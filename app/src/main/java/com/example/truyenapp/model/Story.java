@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 public class Story {
     private int id;
     private String nameStory, author, describe, category, linkImage;
-    private int status;
+    private String status;
     private String keySearch;
 
-    public Story(int id, String nameStory, String author, String describe, String category, String linkImage, int status, String keySearch) {
+    public Story(int id, String nameStory, String author, String describe, String category, String linkImage, String status, String keySearch) {
         this.id = id;
         this.nameStory = nameStory;
         this.author = author;
