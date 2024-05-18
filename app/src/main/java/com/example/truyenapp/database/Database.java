@@ -2583,8 +2583,8 @@ public class Database extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false){
-            Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
-            truyenlist.add(story);
+//            Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
+//            truyenlist.add(story);
             cursor.moveToNext();
         }
         return truyenlist;
@@ -2613,8 +2613,8 @@ public class Database extends SQLiteOpenHelper {
         cursor.moveToFirst();
 
         while (cursor.isAfterLast() == false){
-            Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
-            truyenlist.add(story);
+//            Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
+//            truyenlist.add(story);
             cursor.moveToNext();
         }
         return truyenlist;
@@ -2624,8 +2624,8 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from truyen where id=?",new String[] {""+id});
         cursor.moveToFirst();
-        Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
-        return story;
+//        Story story = new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5), cursor.getInt(6), cursor.getString(7));
+        return null;
     }
 
     public Boolean insertTruyen(String tentruyen, String tacgia, String mota, String theloai, String linkanh, String key_search){
@@ -2877,8 +2877,8 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from truyen where id=?",new String[] {""+chapter.getIdtruyen()});
         cursor.moveToFirst();
-        Story story =new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getInt(6),cursor.getString(7));
-        return story;
+//        Story story =new Story(cursor.getInt(0),cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5),cursor.getInt(6),cursor.getString(7));
+        return null;
     }
 
     //Điểm thưởng

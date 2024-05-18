@@ -28,7 +28,7 @@ public interface SearchAPI {
     Call<APIResponse<List<CategoryResponse>>> getCategory();
 
     @GET("v1/books/search")
-    Call<APIResponse<DataListResponse<BookResponse>>> getFullComic(@Query("keyword") String keyword, @Query("sortField_state") String state, @Query("size") Integer pageSize);
+    Call<APIResponse<DataListResponse<BookResponse>>> getFullComic(@Query("keyword") String keyword, @Query("sortField_status") String status, @Query("size") Integer pageSize);
 
     @GET("v1/books/rank")
     Call<APIResponse<DataListResponse<BookResponse>>> getTopComic(@Query("type") String type, @Query("size") Integer pageSize);

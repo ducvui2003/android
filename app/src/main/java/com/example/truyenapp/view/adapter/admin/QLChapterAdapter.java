@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.adapter.admin;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,18 +16,18 @@ import com.example.truyenapp.admin.ShowThongTinChapter;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Chapter;
+import com.example.truyenapp.response.ChapterResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QLChapterAdapter extends RecyclerView.Adapter<QLChapterAdapter.QLChapterViewHolder>{
     private Context context;
-    private ArrayList<Chapter> list;
-    private Database db;
+    private List<ChapterResponse> list;
 
-    public QLChapterAdapter(Context context, ArrayList<Chapter> list, Database db) {
+    public QLChapterAdapter(Context context, List<ChapterResponse> list) {
         this.context = context;
         this.list = list;
-        this.db = db;
     }
 
     @NonNull
@@ -36,15 +37,16 @@ public class QLChapterAdapter extends RecyclerView.Adapter<QLChapterAdapter.QLCh
         return new QLChapterAdapter.QLChapterViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull QLChapterViewHolder holder, int position) {
-        Chapter chapter=list.get(position);
+        ChapterResponse chapter=list.get(position);
         if(chapter==null){
             return;
         }
 
         holder.tv_idqlthongke.setText(""+chapter.getId());
-        holder.tv_qltktentruyen.setText(chapter.getTenchapter());
+        holder.tv_qltktentruyen.setText(chapter.getName());
         holder.ll_rcv_qlthongke.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), ShowThongTinChapter.class);
             intent.putExtra("id_chapter",chapter.getId());

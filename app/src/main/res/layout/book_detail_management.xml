@@ -52,7 +52,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="ID:"
@@ -73,10 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Tác giả:"
@@ -99,10 +100,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Mô tả:"
@@ -125,10 +127,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Thể loại: "
@@ -151,10 +154,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Link ảnh: "
@@ -177,10 +181,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="120dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Trạng thái: "
@@ -208,7 +213,7 @@
 
                 <Button
                     android:id="@+id/bt_chinhsuatruyen"
-                    android:layout_width="100dp"
+                    android:layout_width="95dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/button"
@@ -219,7 +224,7 @@
 
                 <Button
                     android:id="@+id/bt_xacnhantruyen"
-                    android:layout_width="100dp"
+                    android:layout_width="95dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/button"
@@ -231,7 +236,7 @@
 
                 <Button
                     android:id="@+id/bt_huychinhsuatruyen"
-                    android:layout_width="100dp"
+                    android:layout_width="95dp"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/button"
@@ -315,7 +320,7 @@
 
                         <Button
                             android:id="@+id/bt_them_newchapter"
-                            android:layout_width="100dp"
+                            android:layout_width="95dp"
                             android:layout_height="40dp"
                             android:layout_marginRight="10dp"
                             android:background="@drawable/button"
@@ -326,7 +331,7 @@
 
                         <Button
                             android:id="@+id/bt_huy_newchapter"
-                            android:layout_width="100dp"
+                            android:layout_width="95dp"
                             android:layout_height="40dp"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/button"
@@ -363,15 +368,18 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rcv_quanlychapter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp" />
+                    android:layout_marginLeft="5dp"
+
+                    />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -21,5 +21,6 @@ public class BookResponse {
     Integer quantityChapter;
     List<String> categoryNames;
     Date publishDate;
+    String status;
 
 }
