@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -367,6 +368,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 _rv.setData(newComic);
             }
+
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
 
@@ -386,17 +388,21 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 rv_2.setData(topComic);
             }
+
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
 
             }
         });
     }
+
     public void getFullComic() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
-        response.getFullComic(null, "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+        response.getFullComic("", "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+
+                Log.d("API", response.toString());
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     Story classifyStory = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
@@ -404,6 +410,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 rv_3.setData(comicFullChapter);
             }
+
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
 
