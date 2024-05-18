@@ -47,7 +47,7 @@ import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
-import com.example.truyenapp.admin.QuanLyTruyen;
+import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
     public void verifyUserRole() {
         if(userResponse != null) {
-            mn_it_chucnangquantri.setVisible("ADMIN".equals(userResponse.getRole()));
+            mn_it_chucnangquantri.setVisible(SystemConstant.ROLE_ADMIN.equals(userResponse.getRole()));
         } else {
             mn_it_chucnangquantri.setVisible(false);
         }
@@ -333,8 +333,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box);
                 break;
             case R.id.it_quanlytruyen:
-                Intent dialog_box1 = new Intent(getActivity(), QuanLyTruyen.class);
-                dialog_box1.putExtra("email", account.getEmail());
+                Intent dialog_box1 = new Intent(getActivity(), BookManagement.class);
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:

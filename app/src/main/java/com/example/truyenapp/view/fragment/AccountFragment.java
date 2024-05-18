@@ -22,6 +22,7 @@ import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.request.LogoutRequest;
 import com.example.truyenapp.response.UserResponse;
+import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.ChangePasswordActivity;
@@ -29,6 +30,9 @@ import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.ShowBinhLuan;
 import com.example.truyenapp.view.activity.ShowDanhGia;
 import com.example.truyenapp.view.activity.AccountInfoActivity;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -78,6 +82,14 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);
+        if (!AuthenticationManager.isLoggedIn(jwtToken)) {
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            getActivity().finish();
+        }
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -95,7 +107,19 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.fragment_tai_khoan, container, false);
         init();
         setOnClickListener();
-        getUserInfo();
+
+        // Use CompletableFuture to handle asynchronous execution
+        CompletableFuture<UserResponse> userFuture = getUserInfo();
+
+        // Defer UI updates and data setting until user info is retrieved
+        userFuture.thenAccept(userResponse -> {
+            this.userResponse = userResponse;
+            setData();
+        }).exceptionally(throwable -> {
+            Log.e("TAG", "Error getting user info", throwable);
+            return null;
+        });
+
         return view;
     }
 
@@ -132,36 +156,33 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void getUserInfo() {
-        // Call the getUserInfo method from the UserAPI interface
+    private CompletableFuture<UserResponse> getUserInfo() {
         JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);
-        if (jwtToken == null) {
-            return;
-        }
+        CompletableFuture<UserResponse> future = new CompletableFuture<>();
+
         userAPI.getUserInfo(jwtToken.getToken()).enqueue(new Callback<UserResponse>() {
-            // This method is called when the server response is received
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                // Get the UserResponse object from the response
                 UserResponse user = response.body();
-                // Check if the user object is not null
                 if (user != null) {
-                    // Assign the user object to the userResponse variable
-                    userResponse = user;
-                    setData();
+                    future.complete(user);
+                } else {
+                    Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    future.completeExceptionally(new Throwable("User is null"));
                 }
             }
 
-            // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
             @Override
             public void onFailure(Call<UserResponse> call, Throwable throwable) {
-                // Log the error message
                 Log.e("TAG", "Login failed: " + throwable.getMessage());
-                // Show a toast message indicating that an error occurred
                 Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                future.completeExceptionally(throwable);
             }
         });
+
+        return future;
     }
+
 
     private void setOnClickListener() {
         myRatingBtn.setOnClickListener(this);
