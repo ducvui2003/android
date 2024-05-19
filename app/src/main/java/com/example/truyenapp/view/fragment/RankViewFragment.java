@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
-import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
@@ -24,7 +24,6 @@ import com.example.truyenapp.view.adapter.ViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Setter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

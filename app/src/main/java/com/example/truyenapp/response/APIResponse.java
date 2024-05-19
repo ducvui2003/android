@@ -1,4 +1,4 @@
-package com.example.truyenapp.model;
+package com.example.truyenapp.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -10,7 +10,6 @@ import android.widget.AutoCompleteTextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.truyenapp.view.fragment.CategoryViewPagerFragment;
@@ -18,7 +17,7 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.CategoryResponse;
 import com.example.truyenapp.view.fragment.RankViewFragment;
 import com.example.truyenapp.view.fragment.RankVoteFragment;

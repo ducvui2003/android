@@ -2,7 +2,6 @@ package com.example.truyenapp.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,15 +26,8 @@ import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.adapter.admin.QLChapterAdapter;
-import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Chapter;
-import com.example.truyenapp.model.Story;
 
-import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,10 +39,8 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
     TextView bookId;
     EditText bookAuthor, bookDescription, bookCategory, edt_linkanh, bookStatus, bookName, edt_tenchapter_newchapter;
     Button editBtn, addBtn, cancelAddChapterBtn, saveBtn, cancelEditBtn;
-    Database db;
-    Story story;
     int id;
-    CardView addChapterCard;
+//    CardView addChapterCard;
     private RecyclerView rcv;
     private QLChapterAdapter adapter;
     private BookAPI bookAPI;
@@ -146,9 +135,9 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
     }
 
     private void setOnClickListener() {
-        addChapterImg.setOnClickListener(this);
-        addBtn.setOnClickListener(this);
-        cancelAddChapterBtn.setOnClickListener(this);
+//        addChapterImg.setOnClickListener(this);
+//        addBtn.setOnClickListener(this);
+//        cancelAddChapterBtn.setOnClickListener(this);
         editBtn.setOnClickListener(this);
         cancelEditBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
@@ -156,11 +145,11 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
     }
 
     private void init() {
-        addChapterImg = findViewById(R.id.img_newchapter);
+//        addChapterImg = findViewById(R.id.img_newchapter);
         thumbnail = findViewById(R.id.img_qlt);
         editBtn = findViewById(R.id.bt_chinhsuatruyen);
-        cancelAddChapterBtn = findViewById(R.id.bt_huy_newchapter);
-        addBtn = findViewById(R.id.bt_them_newchapter);
+//        cancelAddChapterBtn = findViewById(R.id.bt_huy_newchapter);
+//        addBtn = findViewById(R.id.bt_them_newchapter);
         bookId = findViewById(R.id.tv_qlt_id);
         bookAuthor = findViewById(R.id.edt_qlt_tacgia);
         bookDescription = findViewById(R.id.edt_qlt_mota);
@@ -168,19 +157,19 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
         edt_linkanh = findViewById(R.id.edt_qlt_linkanh);
         bookStatus = findViewById(R.id.edt_qlt_trangthai);
         bookName = findViewById(R.id.edt_qlt_tentruyen);
-        addChapterCard = findViewById(R.id.cv_themchapter);
+//        addChapterCard = findViewById(R.id.cv_themchapter);
         saveBtn = findViewById(R.id.bt_xacnhantruyen);
         cancelEditBtn = findViewById(R.id.bt_huychinhsuatruyen);
-        edt_tenchapter_newchapter = findViewById(R.id.edt_tenchapter_newchapter);
+//        edt_tenchapter_newchapter = findViewById(R.id.edt_tenchapter_newchapter);
         rcv = findViewById(R.id.rcv_quanlychapter);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_newchapter:
-                addChapterCard.setVisibility(View.VISIBLE);
-                break;
+//            case R.id.img_newchapter:
+//                addChapterCard.setVisibility(View.VISIBLE);
+//                break;
             case R.id.bt_chinhsuatruyen:
                 setEnable(true);
                 break;
@@ -195,10 +184,10 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
                 String linkanh = edt_linkanh.getText().toString();
                 String trangthai = bookStatus.getText().toString();
                 int tt = Integer.parseInt(trangthai);
-                String key_search = removeAccent(tentruyen).trim();
+//                String key_search = removeAccent(tentruyen).trim();
                 if (!tentruyen.isEmpty() && !tacgia.isEmpty() && !mota.isEmpty() && !theloai.isEmpty() && !linkanh.isEmpty() && !trangthai.isEmpty()) {
                     if (tt == 1 || tt == 0) {
-                        db.updateTruyen(story.getId(), tentruyen, tacgia, mota, theloai, linkanh, tt, key_search);
+//                        db.updateTruyen(story.getId(), tentruyen, tacgia, mota, theloai, linkanh, tt, key_search);
                         Toast.makeText(this, "Đã cập nhật thông tin truyện", Toast.LENGTH_SHORT).show();
                         reload();
                     } else {
@@ -208,21 +197,21 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
                     Toast.makeText(this, "Vui lòng nhập đầy đủ các trường", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.bt_them_newchapter:
-                String tenchapter = edt_tenchapter_newchapter.getText().toString().trim();
-                String kttenchapter = removeAccent(tenchapter);
-                if (checkTenChapter(kttenchapter) == 1) {
-                    Toast.makeText(this, "Tên chapter đã tồn tại", Toast.LENGTH_SHORT).show();
-                } else {
-                    db.insertChapter(tenchapter, id);
-                    Toast.makeText(this, "Thêm chapter thành công", Toast.LENGTH_SHORT).show();
-                    recyclerViewQLChapter();
-                    addChapterCard.setVisibility(View.GONE);
-                }
-                break;
-            case R.id.bt_huy_newchapter:
-                addChapterCard.setVisibility(View.GONE);
-                break;
+//            case R.id.bt_them_newchapter:
+//                String tenchapter = edt_tenchapter_newchapter.getText().toString().trim();
+//                String kttenchapter = removeAccent(tenchapter);
+//                if (checkTenChapter(kttenchapter) == 1) {
+//                    Toast.makeText(this, "Tên chapter đã tồn tại", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    db.insertChapter(tenchapter, id);
+//                    Toast.makeText(this, "Thêm chapter thành công", Toast.LENGTH_SHORT).show();
+//                    recyclerViewQLChapter();
+//                    addChapterCard.setVisibility(View.GONE);
+//                }
+//                break;
+//            case R.id.bt_huy_newchapter:
+//                addChapterCard.setVisibility(View.GONE);
+//                break;
         }
     }
 
@@ -250,13 +239,6 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
         }
     }
 
-    public static String removeAccent(String s) {
-        s = s.toLowerCase();
-        s = s.replaceAll("đ", "d");
-        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
-        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-        return pattern.matcher(temp).replaceAll("");
-    }
 
     private void reload() {
         Intent intent = getIntent();
@@ -267,13 +249,4 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
         startActivity(intent);
     }
 
-    public int checkTenChapter(String tentruyen) {
-        ArrayList<String> listtenchapter = db.listTenChapter();
-        for (int i = 0; i < listtenchapter.size(); i++) {
-            if (tentruyen.equals(removeAccent(listtenchapter.get(i)).trim())) {
-                return 1;
-            }
-        }
-        return 0;
-    }
 }
