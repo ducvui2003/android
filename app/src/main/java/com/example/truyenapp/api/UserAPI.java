@@ -32,6 +32,9 @@ public interface UserAPI {
     @POST("v1/attendance")
     Call<APIResponse<AttendanceResponse>> attendance();
 
-    @GET("v1/notifications")
+    @GET("v1/notifications/all")
     Call<APIResponse<ArrayList<Notification>>> getNotifications();
+
+    @GET("v1/notifications/count")
+    Call<APIResponse<Integer>> getNumberNotifications();
 }
