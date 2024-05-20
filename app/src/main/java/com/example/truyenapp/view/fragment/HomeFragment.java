@@ -76,8 +76,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     //    Button logoutBtn;
     Menu menu;
     MenuItem mn_it_chucnangquantri;
-    TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_emailhome, tv_diemthuong, tv_diemdanh;
-    String email;
+    TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_usernamehome, tv_diemthuong, tv_diemdanh;
+    String username, email;
     private UserResponse userResponse;
 
     private List<Story> newComic = new ArrayList<>();
@@ -119,8 +119,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Assign the user object to the userResponse variable
                     userResponse = user;
                     // Set the email of the user in the TextView tv_emailhome
-                    tv_emailhome.setText(user.getEmail());
-                    email = user.getEmail();
+                    username = user.getUsername();
+                    tv_usernamehome.setText(username);
                     loginBtn.setVisibility(View.GONE);
                     verifyUserRole();
                 }
@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         init();
         Intent i = getActivity().getIntent();
         email = i.getStringExtra("email");
-        tv_emailhome.setText(email);
+        tv_usernamehome.setText(email);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -203,7 +203,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv3 = view.findViewById(R.id.rv3);
         menu = navigationView.getMenu();
         mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
-        tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
+        tv_usernamehome = headerLayout.findViewById(R.id.tv_usernamehome);
     }
 
     private void setOnClickListener() {
