@@ -46,7 +46,7 @@ public class NotificationFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private ArrayList<Notification> notifications;
-
+    private int numberNotification;
     public NotificationFragment() {
         // Required empty public constructor
     }
@@ -120,7 +120,6 @@ public class NotificationFragment extends Fragment {
             }
         });
     }
-
 
     public void Anhxa() {
         rcv = view.findViewById(R.id.rcv_thongbao);
