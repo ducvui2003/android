@@ -26,7 +26,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.Category;
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.view.activity.CategoryActivity;
@@ -151,7 +150,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        db = new Database(getActivity());
         getUserInfo();
         init();
         Intent i = getActivity().getIntent();
@@ -314,7 +312,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box);
                 break;
             case R.id.it_quanlytruyen:
-                Intent dialog_box1 = new Intent(getActivity(), QuanLyTruyen.class);
+                Intent dialog_box1 = new Intent(getActivity(), BookManagement.class);
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
