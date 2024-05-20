@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.Category;
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.view.activity.CategoryActivity;
@@ -34,7 +35,7 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.mapper.BookMapper;
-import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
@@ -47,7 +48,7 @@ import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
-import com.example.truyenapp.admin.QuanLyTruyen;
+import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
@@ -139,7 +140,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
     public void verifyUserRole() {
         if(userResponse != null) {
-            mn_it_chucnangquantri.setVisible("ADMIN".equals(userResponse.getRole()));
+            mn_it_chucnangquantri.setVisible(SystemConstant.ROLE_ADMIN.equals(userResponse.getRole()));
         } else {
             mn_it_chucnangquantri.setVisible(false);
         }
@@ -150,6 +151,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        db = new Database(getActivity());
         getUserInfo();
         init();
         Intent i = getActivity().getIntent();

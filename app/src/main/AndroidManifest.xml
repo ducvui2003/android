@@ -64,7 +64,7 @@
             android:name="com.example.truyenapp.admin.QuanLyThongKe"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.QuanLyTruyen"
+            android:name="com.example.truyenapp.admin.BookManagement"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.ShowThongTinTaiKhoan"
@@ -76,7 +76,7 @@
             android:name="com.example.truyenapp.admin.ShowThongTinThongKe"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ShowThongTinTruyen"
+            android:name="com.example.truyenapp.admin.BookDetailManagement"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.ShowThongTinChapter"
