@@ -11,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface BookAPI {
@@ -22,6 +23,8 @@ public interface BookAPI {
 
     @POST("v1/admin/books")
     Call<APIResponse<Void>> addNewBook(@Body BookRequest bookRequest);
+    @PUT("v1/admin/books")
+    Call<APIResponse<Void>> updateBook(@Body BookRequest bookRequest);
 
     @DELETE("v1/admin/books/{id}")
     Call<APIResponse<Void>> deleteBook(@Path("id") Integer id);
