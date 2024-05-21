@@ -60,12 +60,18 @@
 
                 <TextView
                     android:id="@+id/tv_qlt_id"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text=""
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/khung"
+                    android:drawableTint="@color/green"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="text"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,14 +91,18 @@
 
                 <EditText
                     android:id="@+id/edt_qlt_tacgia"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/white"
-                    android:enabled="false"
-                    android:text=""
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/khung"
+                    android:drawableTint="@color/green"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="text"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -112,14 +122,21 @@
 
                 <EditText
                     android:id="@+id/edt_qlt_mota"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/white"
-                    android:enabled="false"
-                    android:text=""
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/frame_no_corner"
+                    android:drawableTint="@color/green"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:scrollHorizontally="false"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -137,43 +154,19 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/edt_qlt_theloai"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/white"
-                    android:enabled="false"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
                 <TextView
-                    android:layout_width="95dp"
+                    android:id="@+id/edt_qlt_theloai"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Link ảnh: "
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/edt_qlt_linkanh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/white"
-                    android:enabled="false"
-                    android:text=""
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/khung"
+                    android:drawableTint="@color/green"
+                    android:ems="10"
+                    android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -191,17 +184,51 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
-                <EditText
+                <TextView
                     android:id="@+id/edt_qlt_trangthai"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/white"
-                    android:enabled="false"
-                    android:text=""
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/khung"
+                    android:drawableTint="@color/green"
+                    android:ems="10"
+                    android:gravity="center"
                     android:textColor="@color/black"
-                    android:textSize="16dp" />
+                    android:textSize="14dp"
+                    android:textStyle="normal" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/edit_thumbnail_component"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="95dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Ảnh đại diện"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/selectThumbnailBtn"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="50dp"
+                    android:background="@drawable/button"
+                    android:text="Chọn ảnh"
+                    android:textAllCaps="false"
+                    android:textColor="#fff"
+                    android:textSize="14dp" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -214,8 +241,10 @@
                     android:id="@+id/bt_chinhsuatruyen"
                     android:layout_width="95dp"
                     android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/button"
+                    android:gravity="center"
                     android:text="Chỉnh sửa"
                     android:textAllCaps="false"
                     android:textColor="#fff"
@@ -258,6 +287,17 @@
                     android:visibility="gone" />
             </LinearLayout>
 
+            <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/progress_spin_kit"
+                style="@style/SpinKitView.Large.Circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="20dp"
+                android:visibility="gone"
+                app:SpinKit_Color="@color/green" />
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -292,6 +332,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
+
                     />
             </LinearLayout>
         </LinearLayout>

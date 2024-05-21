@@ -33,6 +33,7 @@ import com.example.truyenapp.response.CategoryResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
+import com.example.truyenapp.utils.UploadImage;
 import com.example.truyenapp.view.adapter.admin.BookManagementAdapter;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Wave;
@@ -61,7 +62,7 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
     private CategoryAPI categoryAPI;
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
-    private StorageReference storageReference;
+
     private ProgressBar progressBar;
     private TextView dialogCategory;
 
@@ -84,7 +85,6 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
         init();
         setOnClickListener();
         recyclerView();
-        storageReference = FirebaseStorage.getInstance().getReference();
         getCategories();
         selectedCategories = new ArrayList<>();
     }
@@ -262,36 +262,10 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    private CompletableFuture<String> uploadImageToFirebase() {
-        //Create a reference to 'images/<FILENAME>'
-        StorageReference imageRef = storageReference.child("images/" + UUID.randomUUID().toString());
 
-        // Upload the file to Firebase Storage
-        UploadTask uploadTask = imageRef.putFile(imageUri);
-
-        CompletableFuture<String> future = new CompletableFuture<>();
-
-        // Register observers to listen for when the upload is done or if it fails
-        uploadTask.addOnSuccessListener(taskSnapshot -> {
-            imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                // Got the download URL, you can use it now
-                future.complete(uri.toString());
-            }).addOnFailureListener(exception -> {
-                // Handle any errors
-                Toast.makeText(this, "Failed to get download URL: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
-                future.complete(null);
-            });
-
-        }).addOnFailureListener(exception -> {
-            Log.e("TAG", "Upload failed: " + exception.getMessage());
-            future.complete(null);
-        });
-
-        return future;
-    }
 
     private void performActionsAfterUpload(BookRequest bookRequest) {
-        uploadImageToFirebase().thenAccept(downloadUrl -> {
+        UploadImage.uploadImageToFirebase(this, this.imageUri).thenAccept(downloadUrl -> {
             bookRequest.setThumbnail(downloadUrl);
             handleAddBook(bookRequest);
         }).exceptionally(throwable -> {
@@ -325,7 +299,7 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
                     .author(author)
                     .description(description)
                     .categoryNames(selectedCategories)
-                    .status(SystemConstant.STATUS_UPDATING)
+                    .status(SystemConstant.STATUS_UPDATING_KEY)
                     .build();
 
             showProgressBar(new Wave());
