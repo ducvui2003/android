@@ -1,11 +1,14 @@
 package com.example.truyenapp.api;
 
-import com.example.truyenapp.response.APIResponse;
+import com.example.truyenapp.model.Notification;
 import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.request.ForgotPasswordRequest;
 import com.example.truyenapp.request.UserRequest;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.response.UserResponse;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -28,4 +31,10 @@ public interface UserAPI {
 
     @POST("v1/attendance")
     Call<APIResponse<AttendanceResponse>> attendance();
+
+    @GET("v1/notifications/all")
+    Call<APIResponse<ArrayList<Notification>>> getNotifications();
+
+    @GET("v1/notifications/count")
+    Call<APIResponse<Integer>> getNumberNotifications();
 }
