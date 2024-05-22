@@ -68,7 +68,9 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
     private static final int PICK_IMAGE_REQUEST = 1;
     private List<String> selectedCategories;
     private boolean[] checkedItems;
-    private final String[] statuses = {"Đang cập nhật", "Hoàn thành"};
+//    private final String[] statuses = {"Đang cập nhật", "Hoàn thành"} ;
+    private final String[] statuses = StatusMapUtil.getStatusMap().values().toArray(new String[0]) ;
+
     private String selectedStatus = null;
     private int selectedStatusIndex = -1;
     private Uri imageUri;

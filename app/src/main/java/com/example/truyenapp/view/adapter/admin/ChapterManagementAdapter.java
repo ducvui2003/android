@@ -12,13 +12,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.admin.ShowThongTinChapter;
 import com.example.truyenapp.R;
+import com.example.truyenapp.admin.ShowChapterInfo;
 import com.example.truyenapp.response.ChapterResponse;
 
 import java.util.List;
 
-public class ChapterManagementAdapter extends RecyclerView.Adapter<ChapterManagementAdapter.QLChapterViewHolder> {
+public class ChapterManagementAdapter extends RecyclerView.Adapter<ChapterManagementAdapter.ChapterManagementHolder> {
     private Context context;
     private List<ChapterResponse> list;
 
@@ -29,14 +29,14 @@ public class ChapterManagementAdapter extends RecyclerView.Adapter<ChapterManage
 
     @NonNull
     @Override
-    public QLChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ChapterManagementHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_management_item, parent, false);
-        return new ChapterManagementAdapter.QLChapterViewHolder(view);
+        return new ChapterManagementHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull QLChapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChapterManagementHolder holder, int position) {
         ChapterResponse chapter = list.get(position);
         if (chapter == null) {
             return;
@@ -45,8 +45,8 @@ public class ChapterManagementAdapter extends RecyclerView.Adapter<ChapterManage
         holder.tv_idqlthongke.setText("" + chapter.getId());
         holder.tv_qltktentruyen.setText(chapter.getName());
         holder.ll_rcv_qlthongke.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), ShowThongTinChapter.class);
-            intent.putExtra("id_chapter", chapter.getId());
+            Intent intent = new Intent(holder.itemView.getContext(), ShowChapterInfo.class);
+            intent.putExtra("chapterId", chapter.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }
@@ -59,11 +59,11 @@ public class ChapterManagementAdapter extends RecyclerView.Adapter<ChapterManage
         return 0;
     }
 
-    public class QLChapterViewHolder extends RecyclerView.ViewHolder {
+    public class ChapterManagementHolder extends RecyclerView.ViewHolder {
         private TextView tv_idqlthongke, tv_qltktentruyen;
         private LinearLayout ll_rcv_qlthongke;
 
-        public QLChapterViewHolder(@NonNull View itemView) {
+        public ChapterManagementHolder(@NonNull View itemView) {
             super(itemView);
             tv_idqlthongke = itemView.findViewById(R.id.tv_idqlthongke);
             tv_qltktentruyen = itemView.findViewById(R.id.tv_qltktentruyen);

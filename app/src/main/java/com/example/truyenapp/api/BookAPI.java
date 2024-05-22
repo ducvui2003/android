@@ -21,6 +21,9 @@ public interface BookAPI {
     @GET("v1/books/{id}")
     Call<BookResponse> getBook(@Path("id") int id);
 
+    @GET("v1/books/chapter/{id}")
+    Call<BookResponse> getBookByChapterId(@Path("id") int id);
+
     @POST("v1/admin/books")
     Call<APIResponse<Void>> addNewBook(@Body BookRequest bookRequest);
     @PUT("v1/admin/books")
