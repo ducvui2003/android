@@ -3,12 +3,18 @@ package com.example.truyenapp.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Getter;
+
 public class StatusMapUtil {
     private static  Map<String, String> statusMap = new HashMap<>();
 
     static {
         statusMap.put(SystemConstant.STATUS_FULL_KEY, SystemConstant.STATUS_FULL_VALUE);
         statusMap.put(SystemConstant.STATUS_UPDATING_KEY, SystemConstant.STATUS_UPDATING_VALUE);
+    }
+
+    public static Map<String, String> getStatusMap() {
+        return statusMap;
     }
 
     // get value by key
