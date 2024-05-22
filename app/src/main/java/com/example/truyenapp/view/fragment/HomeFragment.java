@@ -48,8 +48,6 @@ import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
-import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.DiemThuong;
 import com.example.truyenapp.view.activity.Signin;
@@ -172,12 +170,12 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setAdapter(rv_2);
         rv3.setAdapter(rv_3);
 
-        getNewComic();
-        getTopComic();
-        getFullComic();
+//        getNewComic();
+//        getTopComic();
+//        getFullComic();
 
-        ActionBar();
-        ActionViewFlipper();
+        setEventActionBar();
+        setEventViewFlipper();
         setOnClickListener();
 
         return view;
@@ -249,6 +247,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 if (isLoggedIn) {
                     Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
                     return;
+                }else{
+
                 }
                 break;
             }
@@ -262,7 +262,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         }
     }
 
-    private void ActionViewFlipper() {
+    private void setEventViewFlipper() {
         ArrayList<String> arrGTSP = new ArrayList<>();
         arrGTSP.add("https://m.media-amazon.com/images/M/MV5BMjYxZjFkNTEtZjYzNC00MTdhLThiM2ItYmRiOWJiYTJkYzMxXkEyXkFqcGdeQXVyNDQxNjcxNQ@@._V1_FMjpg_UX1000_.jpg");
         arrGTSP.add("https://www.mangageko.com/media/manga_covers/36284.jpg");
@@ -284,7 +284,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         viewFlipper.setOutAnimation(anim_slide_out);
     }
 
-    private void ActionBar() {
+    private void setEventActionBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
