@@ -21,11 +21,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitClient {
-<<<<<<< HEAD
-    private final static String BASE_URL = "http://192.168.222.6:8081/api/";
-=======
-    private final static String BASE_URL = "http://10.0.21.50:8081/api/";
->>>>>>> 6624268 (remove login in HomeFragment when click rank + Category)
+    private final static String BASE_URL = "http://192.168.88.206:8081/api/";
+
 
     public static Retrofit getInstance(Context context) {
         Gson gson = new GsonBuilder()

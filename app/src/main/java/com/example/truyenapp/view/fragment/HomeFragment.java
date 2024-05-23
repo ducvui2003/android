@@ -26,8 +26,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.model.Category;
 import com.example.truyenapp.response.AttendanceResponse;
+import com.example.truyenapp.utils.DialogHelper;
+import com.example.truyenapp.utils.UserConstraint;
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
@@ -42,6 +43,7 @@ import com.example.truyenapp.response.UserResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
+import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagerActivity;
@@ -49,7 +51,7 @@ import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.activity.DiemThuong;
+import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -84,6 +86,10 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
+
+    private DialogHelper dialogHelper;
+
+    private boolean isLoggedIn;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -137,7 +143,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     }
 
     public void verifyUserRole() {
-        if(userResponse != null) {
+        if (userResponse != null) {
             mn_it_chucnangquantri.setVisible(SystemConstant.ROLE_ADMIN.equals(userResponse.getRole()));
         } else {
             mn_it_chucnangquantri.setVisible(false);
@@ -182,6 +188,12 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(getActivity().getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
+    }
+
     private void init() {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         viewFlipper = (ViewFlipper) view.findViewById(R.id.vf);
@@ -195,14 +207,16 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         tv_TimKemHome = (TextView) view.findViewById(R.id.tv_TimKiemHome);
         tv_xephang = (TextView) view.findViewById(R.id.tv_xephang);
         tv_theloai = (TextView) view.findViewById(R.id.tv_theloai);
-        tv_diemthuong = view.findViewById(R.id.tv_diemthuong);
-        tv_diemdanh = view.findViewById(R.id.tv_diemdanh);
+        tv_diemthuong = view.findViewById(R.id.btn_to_redeem_reward);
+        tv_diemdanh = view.findViewById(R.id.btn_attendance_home_fragment);
         rv = view.findViewById(R.id.rv);
         rv2 = view.findViewById(R.id.rv2);
         rv3 = view.findViewById(R.id.rv3);
         menu = navigationView.getMenu();
         mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
         tv_usernamehome = headerLayout.findViewById(R.id.tv_usernamehome);
+
+        this.dialogHelper = new DialogHelper(this.getContext());
     }
 
     private void setOnClickListener() {
@@ -220,7 +234,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             case R.id.home_login_btn:
                 Intent dialog_box = new Intent(getActivity(), Signin.class);
                 startActivity(dialog_box);
-                getActivity().finish();
                 break;
             case R.id.tv_TimKiemHome:
                 Intent dialog_box1 = new Intent(getActivity(), SearchActivity.class);
@@ -234,37 +247,30 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 Intent dialog_box3 = new Intent(getActivity(), CategoryActivity.class);
                 startActivity(dialog_box3);
                 break;
-            case R.id.tv_diemthuong:
-                if (email != null) {
-                    Intent dialog_box4 = new Intent(getActivity(), DiemThuong.class);
+            case R.id.btn_to_redeem_reward:
+                if (isLoggedIn) {
+                    Intent dialog_box4 = new Intent(getActivity(), RedeemRewardActivity.class);
                     startActivity(dialog_box4);
                 } else {
-                    Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
+                    dialogHelper.showDialogLogin().show();
                 }
                 break;
-            case R.id.tv_diemdanh: {
-//                Check đăng nhập trước khi điểm danh
-                boolean isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(getActivity().getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
+            case R.id.btn_attendance_home_fragment: {
                 if (isLoggedIn) {
-                    Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
-                    return;
-                }else{
-
+                    attendanceAPI();
+                } else {
+                    if (this.getActivity() instanceof HomeActivity) {
+                        DialogHelper dialogHelper = new DialogHelper(this.getContext());
+                        dialogHelper.showDialogLogin().show();
+                    }
                 }
                 break;
             }
-//            case R.id.bt_dxhome: {
-//                Intent intent = new Intent(getActivity(), HomeActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                Toast.makeText(getActivity().getApplicationContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
-//                getActivity().finish();
-//            }
         }
     }
 
     private void setEventViewFlipper() {
-        ArrayList<String> arrGTSP = new ArrayList<>();
+        List<String> arrGTSP = new ArrayList<>();
         arrGTSP.add("https://m.media-amazon.com/images/M/MV5BMjYxZjFkNTEtZjYzNC00MTdhLThiM2ItYmRiOWJiYTJkYzMxXkEyXkFqcGdeQXVyNDQxNjcxNQ@@._V1_FMjpg_UX1000_.jpg");
         arrGTSP.add("https://www.mangageko.com/media/manga_covers/36284.jpg");
         arrGTSP.add("https://upload.wikimedia.org/wikipedia/en/5/52/Y%C5%8Dkoso_Jitsuryoku_Shij%C5%8D_Shugi_no_Ky%C5%8Dshitsu_e%2C_Volume_1.jpg");
@@ -329,7 +335,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box4);
                 break;
             case R.id.it_theloai:
-                Intent dialog_box5 = new Intent(getActivity(), Category.class);
+                Intent dialog_box5 = new Intent(getActivity(), CategoryActivity.class);
                 startActivity(dialog_box5);
                 break;
         }
@@ -343,15 +349,18 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 APIResponse<AttendanceResponse> apiResponse = response.body();
                 if (apiResponse.getCode() == 200) {
                     AttendanceResponse attendanceResponse = apiResponse.getResult();
-                    Toast.makeText(getActivity(), "Điểm danh thành công! +" + attendanceResponse.getScore() + " điểm", Toast.LENGTH_SHORT).show();
+                    UserConstraint.DAY_ATTENDANCE_CONTINUOUS = attendanceResponse.getDateAttendanceContinuous();
+                    UserConstraint.TOTAL_POINT = attendanceResponse.getTotalPoint();
+                    dialogHelper.showDialog("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
                 } else {
-                    Toast.makeText(getActivity(), "Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!", Toast.LENGTH_SHORT).show();
+                    dialogHelper.showDialog("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
                 }
             }
+
             @Override
             public void onFailure(Call<APIResponse<AttendanceResponse>> call, Throwable throwable) {
                 Log.e("TAG", "Attendance failed: " + throwable.getMessage());
-                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }

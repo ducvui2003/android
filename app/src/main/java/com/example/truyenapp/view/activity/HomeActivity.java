@@ -17,6 +17,8 @@ import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
+import com.example.truyenapp.utils.DialogEvent;
+import com.example.truyenapp.utils.DialogHelper;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.fragment.HomeFragment;
@@ -54,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         initNavigateBottom();
-        getNumberNotifications();
+//        getNumberNotifications();
         if (numberNotification != 0) {
             meowBottomNavigation.setCount(2, numberNotification + "");
         }
@@ -126,29 +128,22 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
 
-    private AlertDialog.Builder showDialogLogin() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Nhắc nhở").setMessage("Vui lòng đăng nhập để sử dụng chức năng này.");
-        builder.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+   public  AlertDialog.Builder showDialogLogin() {
+        DialogHelper dialogHelper  = new DialogHelper(this, new DialogEvent() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomeActivity.this, Signin.class);
-                intent.putExtra("email", email);
-                startActivity(intent);
+            public void onPositiveClick() {
             }
-        });
-
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
+            public void onNegativeClick() {
+                defaultIdNav();
+            }
+
+            @Override
+            public void onCancel() {
                 defaultIdNav();
             }
         });
-        builder.setOnCancelListener(dialogInterface -> {
-            defaultIdNav();
-        });
-        return builder;
+        return dialogHelper.showDialogLogin();
     }
 
     private void getNumberNotifications() {
