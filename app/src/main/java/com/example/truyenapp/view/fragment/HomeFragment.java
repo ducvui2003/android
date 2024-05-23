@@ -28,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.utils.DialogHelper;
-import com.example.truyenapp.utils.UserConstraint;
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
@@ -349,8 +348,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 APIResponse<AttendanceResponse> apiResponse = response.body();
                 if (apiResponse.getCode() == 200) {
                     AttendanceResponse attendanceResponse = apiResponse.getResult();
-                    UserConstraint.DAY_ATTENDANCE_CONTINUOUS = attendanceResponse.getDateAttendanceContinuous();
-                    UserConstraint.TOTAL_POINT = attendanceResponse.getTotalPoint();
                     dialogHelper.showDialog("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
                 } else {
                     dialogHelper.showDialog("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();

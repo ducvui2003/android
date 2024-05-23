@@ -88,7 +88,7 @@
             android:name="com.example.truyenapp.view.activity.AccountInfoActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.LichSuNhanDiem"
+            android:name="com.example.truyenapp.view.activity.RedeemRewardHistoryActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.IntroduceActivity"

@@ -10,6 +10,4 @@ import lombok.NoArgsConstructor;
 public class AttendanceResponse {
     private Double point;
     private Date date;
-    private Integer dateAttendanceContinuous;
-    private Double totalPoint;
 }
