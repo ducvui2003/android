@@ -105,7 +105,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
      * This method is used to fetch user information
      * author: Hoang
      */
-
     private void getUserInfo() {
         // Call the getUserInfo method from the UserAPI interface
         JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);

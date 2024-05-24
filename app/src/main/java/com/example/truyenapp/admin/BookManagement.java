@@ -2,6 +2,8 @@ package com.example.truyenapp.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
     private Uri imageUri;
 
     private ProgressBar progressBar;
+    private FrameLayout progressContainer;
     private TextView dialogCategory;
 
     private String[] categories;
@@ -209,6 +213,7 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
         thumbnailBtn = findViewById(R.id.selectThumbnailBtn);
         addBookCard = findViewById(R.id.cv_themtruyen);
         progressBar = findViewById(R.id.progress_spin_kit);
+        progressContainer = findViewById(R.id.progress_container);
         dialogCategory = findViewById(R.id.dialog_category);
     }
 
@@ -310,11 +315,11 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
 
     private void showProgressBar(Sprite style) {
         progressBar.setIndeterminateDrawable(style);
-        progressBar.setVisibility(View.VISIBLE);
+        progressContainer.setVisibility(View.VISIBLE);
     }
 
     private void cancelProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        progressContainer.setVisibility(View.GONE);
     }
 
     private void handleAddBook(BookRequest bookRequest) {

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -68,13 +69,13 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
     private static final int PICK_IMAGE_REQUEST = 1;
     private List<String> selectedCategories;
     private boolean[] checkedItems;
-//    private final String[] statuses = {"Đang cập nhật", "Hoàn thành"} ;
     private final String[] statuses = StatusMapUtil.getStatusMap().values().toArray(new String[0]) ;
 
     private String selectedStatus = null;
     private int selectedStatusIndex = -1;
     private Uri imageUri;
     private ProgressBar progressBar;
+    private FrameLayout progressContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -371,6 +372,7 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
         deleteStoryBtn = findViewById(R.id.bt_deleteStory);
         editThumbnailComponent = findViewById(R.id.edit_thumbnail_component);
         progressBar = findViewById(R.id.progress_spin_kit);
+        progressContainer = findViewById(R.id.progress_container);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -473,25 +475,17 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
             @Override
             public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(BookDetailManagement.this, "Thêm truyện thành công", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookDetailManagement.this, "Sửa thông tin thành công", Toast.LENGTH_SHORT).show();
                     reload();
                 } else {
-                    int statusCode = response.code();
-                    if (statusCode == 409) {
-                        Toast.makeText(BookDetailManagement.this, "Truyện đã tồn tại", Toast.LENGTH_SHORT).show();
-                    } else if (statusCode == 500) {
-                        Toast.makeText(BookDetailManagement.this, "Lỗi server", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(BookDetailManagement.this, "Không thể thêm truyện", Toast.LENGTH_SHORT).show();
-                    }
-
+                        Toast.makeText(BookDetailManagement.this, "Không thể thay đổi thong tin", Toast.LENGTH_SHORT).show();
                 }
                 cancelProgressBar();
             }
 
             @Override
             public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
-                Toast.makeText(BookDetailManagement.this, "Không thể thêm truyện", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BookDetailManagement.this, "Không thể thay đổi thong tin", Toast.LENGTH_SHORT).show();
                 Log.e("Error", t.getMessage());
                 cancelProgressBar();
             }
@@ -500,11 +494,11 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
 
     private void showProgressBar(Sprite style) {
         progressBar.setIndeterminateDrawable(style);
-        progressBar.setVisibility(View.VISIBLE);
+        progressContainer.setVisibility(View.VISIBLE);
     }
 
     private void cancelProgressBar() {
-        progressBar.setVisibility(View.GONE);
+        progressContainer.setVisibility(View.GONE);
     }
 
     // This method is used to delete a book

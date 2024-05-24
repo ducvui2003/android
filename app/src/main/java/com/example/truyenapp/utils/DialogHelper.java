@@ -1,6 +1,5 @@
 package com.example.truyenapp.utils;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,8 +7,6 @@ import android.content.Intent;
 
 import com.example.truyenapp.view.activity.Signin;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
