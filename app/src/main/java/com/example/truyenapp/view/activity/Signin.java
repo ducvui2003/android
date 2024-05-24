@@ -116,6 +116,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
                     SharedPreferencesHelper.savePreference(context, jwt, SystemConstant.JWT_TOKEN);
                     Toast.makeText(Signin.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
 
+//
                     Intent intent = new Intent(Signin.this, HomeActivity.class);
                     startActivity(intent);
                     finish();

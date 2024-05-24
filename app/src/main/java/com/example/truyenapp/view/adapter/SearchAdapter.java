@@ -25,10 +25,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
     private List<ModelSearch> list;
     private String email;
 
-    public SearchAdapter(Context context, List<ModelSearch> list, String email) {
+    public SearchAdapter(Context context, List<ModelSearch> list) {
         this.context = context;
         this.list = list;
-        this.email = email;
     }
 
     public void setData(List<ModelSearch> list) {

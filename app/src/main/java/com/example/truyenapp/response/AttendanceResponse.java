@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class AttendanceResponse {
-    private Double score;
+    private Double point;
     private Date date;
 }

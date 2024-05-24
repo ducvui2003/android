@@ -7,17 +7,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.view.adapter.admin.QLBinhLuanAdapter;
+import com.example.truyenapp.view.adapter.admin.CommentManagerAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentManagerActivity extends AppCompatActivity {
     Database db;
     private RecyclerView rcv;
-    private QLBinhLuanAdapter adapter;
+    private CommentManagerAdapter adapter;
+
+    List<Comment> comments = new ArrayList<>();
 
 
     @Override
@@ -27,7 +29,6 @@ public class CommentManagerActivity extends AppCompatActivity {
 
         init();
         db=new Database(this);
-
         handleRecyclerView();
     }
 
@@ -35,7 +36,7 @@ public class CommentManagerActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
         ArrayList<Comment> list=db.getListBinhLuan();
-        adapter=new QLBinhLuanAdapter(this,list,db);
+        adapter=new CommentManagerAdapter(this,list,db);
         rcv.setAdapter(adapter);
     }
 
@@ -43,4 +44,7 @@ public class CommentManagerActivity extends AppCompatActivity {
         rcv=findViewById(R.id.rcv_quanlybinhluan);
     }
 
+    private void callAPI(){
+
+    }
 }
