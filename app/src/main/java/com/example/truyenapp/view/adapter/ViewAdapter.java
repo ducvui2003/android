@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +21,10 @@ import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder> {
+public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_LOADING = 1;
+    private boolean isLoading = false;
     private Context context;
     private List<ClassifyStory> listCommic;
 
@@ -34,29 +38,49 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder
         notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
-    public RankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
-        return new ViewAdapter.RankViewHolder(view);
+    public int getItemViewType(int position) {
+        if (listCommic != null && position == listCommic.size() - 1 && isLoading)
+            return TYPE_LOADING;
+        return TYPE_ITEM;
     }
 
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull RankViewHolder holder, int position) {
-        ClassifyStory commic = listCommic.get(position);
-        if (commic == null) {
-            return;
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        if (TYPE_ITEM == viewType) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
+            return new RankViewHolder(view);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
         }
-        String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
-        Glide.with(this.context).load(commic.getLinkImage()).into(holder.imgCommic);
-        holder.nameCommic.setText(commic.getNameStory());
-        holder.info.setText("Tổng lượt xem: " + commic.getView());
-        holder.dateCommic.setText("Ngày đăng: " + publishDate);
-        holder.detailCommicView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
-            intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
-            holder.itemView.getContext().startActivity(intent);
-        });
+    }
+
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == TYPE_ITEM) {
+            RankViewHolder rankViewHolder = (RankViewHolder) holder;
+            ClassifyStory commic = listCommic.get(position);
+            if (commic == null) {
+                return;
+            }
+            String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
+            Glide.with(this.context).load(commic.getLinkImage()).into(rankViewHolder.imgCommic);
+            rankViewHolder.nameCommic.setText(commic.getNameStory());
+            rankViewHolder.info.setText("Tổng lượt xem: " + commic.getView());
+            rankViewHolder.dateCommic.setText("Ngày đăng: " + publishDate);
+            rankViewHolder.detailCommicView.setOnClickListener(view -> {
+                Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
+                intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
+                holder.itemView.getContext().startActivity(intent);
+            });
+        } else {
+            ((LoadingViewHolder) holder).progressBar.setIndeterminate(true);
+        }
+
     }
 
     @Override
@@ -73,6 +97,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder
         private TextView dateCommic;
         private TextView info;
 
+
         public RankViewHolder(View view) {
             super(view);
             this.imgCommic = view.findViewById(R.id.item_rcv_thumnail);
@@ -80,6 +105,30 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder
             this.info = view.findViewById(R.id.item_rcv_info_commic);
             this.dateCommic = view.findViewById(R.id.item_rcv_date_commic);
             this.detailCommicView = view.findViewById(R.id.item_detail_commic);
+        }
+    }
+
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
+        private ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.progressBar = itemView.findViewById(R.id.progress_bar);
+        }
+    }
+
+    public void addFooterLoading() {
+        isLoading = true;
+        listCommic.add(new ClassifyStory());
+    }
+
+    public void removeFooterLoading() {
+        isLoading = false;
+        int position = listCommic.size() - 1;
+        ClassifyStory commic = listCommic.get(position);
+        if (commic != null) {
+            listCommic.remove(position);
+            notifyItemRemoved(position);
         }
     }
 }

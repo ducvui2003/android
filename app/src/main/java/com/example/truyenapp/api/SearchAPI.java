@@ -18,6 +18,12 @@ public interface SearchAPI {
     @GET("v1/books/rank")
     Call<APIResponse<DataListResponse<BookResponse>>> rank(@Query("type") String type, @Query("categoryId") Integer categoryId);
 
+    @GET("v1/books/rank")
+    Call<APIResponse<DataListResponse<BookResponse>>> rank(@Query("type") String type, @Query("categoryId") Integer categoryId, @Query("page") Integer page, @Query("size") Integer size);
+
+    @GET("v1/books/rank")
+    Call<APIResponse<DataListResponse<BookResponse>>> rank(@Query("type") String type, @Query("page") Integer page, @Query("size") Integer size);
+
     @GET("v1/books/string")
     Call<APIResponse<String>> string();
 
@@ -35,6 +41,8 @@ public interface SearchAPI {
 
     @GET("v1/books/newComic")
     Call<APIResponse<DataListResponse<BookResponse>>> getNewComic(@Query("size") Integer pageSize);
+
     @GET("v1/books/search")
     Call<APIResponse<DataListResponse<BookResponse>>> search(@Query("categoryId") Integer category);
+
 }
