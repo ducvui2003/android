@@ -55,7 +55,7 @@
                         android:text="Tìm kiếm" />
 
                     <TextView
-                        android:id="@+id/tv_diemdanh"
+                        android:id="@+id/btn_attendance_home_fragment"
                         android:layout_width="40dp"
                         android:layout_height="35dp"
                         android:layout_gravity="right"
@@ -98,7 +98,7 @@
                         android:textSize="12dp" />
 
                     <TextView
-                        android:id="@+id/tv_diemthuong"
+                        android:id="@+id/btn_to_redeem_reward"
                         android:layout_width="85dp"
                         android:layout_height="75dp"
                         android:drawableTop="@drawable/ic_points"

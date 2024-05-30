@@ -1,15 +1,20 @@
 package com.example.truyenapp.api;
 
-import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.model.AccountVerifyRequest;
+import com.example.truyenapp.model.Notification;
+import com.example.truyenapp.model.RewardPoint;
 import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.request.ForgotPasswordRequest;
 import com.example.truyenapp.request.UserRequest;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.AttendanceResponse;
+import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.response.RewardPointResponse;
 import com.example.truyenapp.response.UserResponse;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -37,4 +42,15 @@ public interface UserAPI {
     @POST("v1/users/verify-account")
     Call<APIResponse<Void>> verifyAccount(@Body AccountVerifyRequest accountVerifyRequest);
 
+    @GET("v1/attendance/reward-point")
+    Call<APIResponse<RewardPointResponse>> getRewardPoint();
+
+    @GET("v1/attendance/history")
+    Call<APIResponse<DataListResponse<RewardPoint>>> getAttendanceHistory();
+
+    @GET("v1/notifications/all")
+    Call<APIResponse<ArrayList<Notification>>> getNotifications();
+
+    @GET("v1/notifications/count")
+    Call<APIResponse<Integer>> getNumberNotifications();
 }

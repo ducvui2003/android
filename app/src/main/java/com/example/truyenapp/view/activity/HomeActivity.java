@@ -1,31 +1,44 @@
 package com.example.truyenapp.view.activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.model.JWTToken;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
+import com.example.truyenapp.utils.DialogEvent;
+import com.example.truyenapp.utils.DialogHelper;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.fragment.HomeFragment;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.fragment.AccountFragment;
-import com.example.truyenapp.ThongBaoFragment;
+import com.example.truyenapp.view.fragment.NotificationFragment;
 import com.example.truyenapp.view.fragment.TuSachFragment;
 import com.example.truyenapp.database.Database;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class HomeActivity extends AppCompatActivity {
 
     String email;
+    int numberNotification;
     MeowBottomNavigation meowBottomNavigation;
-    Database db;
+
 
     private void initNavigateBottom() {
         meowBottomNavigation = findViewById(R.id.bottom_nav);
@@ -41,13 +54,11 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        db = new Database(this);
-        int notifyCount = db.countThongBaoNow();
 
         initNavigateBottom();
-
-        if (notifyCount != 0) {
-            meowBottomNavigation.setCount(2, notifyCount + "");
+//        getNumberNotifications();
+        if (numberNotification != 0) {
+            meowBottomNavigation.setCount(2, numberNotification + "");
         }
 
         handleEventNav();
@@ -70,7 +81,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 2:
                         if (isLoggedIn) {
-                            fragment = new ThongBaoFragment();
+                            fragment = new NotificationFragment();
                         }
                         break;
                     case 3:
@@ -117,29 +128,46 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
 
-    private AlertDialog.Builder showDialogLogin() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Nhắc nhở").setMessage("Vui lòng đăng nhập để sử dụng chức năng này.");
-        builder.setPositiveButton("Đăng nhập", new DialogInterface.OnClickListener() {
+   public  AlertDialog.Builder showDialogLogin() {
+        DialogHelper dialogHelper  = new DialogHelper(this, new DialogEvent() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Intent intent = new Intent(HomeActivity.this, Signin.class);
-                intent.putExtra("email", email);
-                startActivity(intent);
+            public void onPositiveClick() {
             }
-        });
-
-        builder.setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
+            public void onNegativeClick() {
+                defaultIdNav();
+            }
+
+            @Override
+            public void onCancel() {
                 defaultIdNav();
             }
         });
-        builder.setOnCancelListener(dialogInterface -> {
-            defaultIdNav();
+        return dialogHelper.showDialogLogin();
+    }
+
+    private void getNumberNotifications() {
+        Context context = this;
+        UserAPI response = RetrofitClient.getInstance(context).create(UserAPI.class);
+        response.getNumberNotifications().enqueue(new Callback<APIResponse<Integer>>() {
+            @Override
+            public void onResponse(Call<APIResponse<Integer>> call, Response<APIResponse<Integer>> response) {
+                if (response.isSuccessful()) {
+                    APIResponse<Integer> apiResponse = response.body();
+                    if (apiResponse != null && apiResponse.getResult() != null) {
+                        numberNotification = apiResponse.getResult();
+                    }
+                } else {
+                    Toast.makeText(context, "Trống", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<APIResponse<Integer>> call, Throwable throwable) {
+                Log.e("TAG", "Login failed: " + throwable.getMessage());
+                // Show a toast message indicating that an error occurred
+                Toast.makeText(context, "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            }
         });
-        return builder;
     }
 
     private void defaultIdNav(){

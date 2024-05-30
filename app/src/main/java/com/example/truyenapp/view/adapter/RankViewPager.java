@@ -8,9 +8,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.example.truyenapp.view.fragment.RankViewFragment;
 import com.example.truyenapp.view.fragment.RankVoteFragment;
 
-public class RankViewPagerAdapter extends FragmentStateAdapter {
+public class RankViewPager extends FragmentStateAdapter {
 
-    public RankViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public RankViewPager(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
 

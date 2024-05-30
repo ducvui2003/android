@@ -19,12 +19,12 @@ import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
 
-public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QLBinhLuanViewHolder>{
+public class CommentManagerAdapter extends RecyclerView.Adapter<CommentManagerAdapter.QLBinhLuanViewHolder>{
     private Context context;
     private ArrayList<Comment> list;
     private Database db;
 
-    public QLBinhLuanAdapter(Context context, ArrayList<Comment> list, Database db) {
+    public CommentManagerAdapter(Context context, ArrayList<Comment> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -34,7 +34,7 @@ public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QL
     @Override
     public QLBinhLuanViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_qlbinhluan,parent,false);
-        return new QLBinhLuanAdapter.QLBinhLuanViewHolder(view);
+        return new CommentManagerAdapter.QLBinhLuanViewHolder(view);
     }
 
     @Override
@@ -90,10 +90,10 @@ public class QLBinhLuanAdapter extends RecyclerView.Adapter<QLBinhLuanAdapter.QL
         public QLBinhLuanViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_id=itemView.findViewById(R.id.tv_idqlbinhluan);
-            tv_noidung=itemView.findViewById(R.id.tv_noidungqlbinhluan);
+//            tv_noidung=itemView.findViewById(R.id.tv_noidungqlbinhluan);
             tv_trangthai=itemView.findViewById(R.id.tv_trangthaiqlbinhluan);
             bt_an=itemView.findViewById(R.id.bt_anqlbinhluan);
-            bt_hien=itemView.findViewById(R.id.bt_hienqlbinhluan);
+//            bt_hien=itemView.findViewById(R.id.bt_hienqlbinhluan);
             ll_rcv_qlbinhluan=itemView.findViewById(R.id.ll_rcv_qlbinhluan);
         }
     }

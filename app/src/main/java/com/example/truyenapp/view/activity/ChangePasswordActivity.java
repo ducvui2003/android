@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.UserAPI;
-import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.request.ChangePasswordRequest;
 
 import retrofit2.Call;

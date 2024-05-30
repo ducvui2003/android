@@ -26,7 +26,7 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.mapper.BookMapper;
-import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ModelSearch;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CategoryResponse;
@@ -50,7 +50,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> categoryAdapter;
     Map<Integer, String> mapCategory;
-    String email;
     List<ModelSearch> listCommic;
     public String category;
     public String keyword = "";
@@ -63,13 +62,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Intent intent = getIntent();
-        email = intent.getStringExtra("email");
 
         init();
         categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         autoCompleteTextView.setAdapter(categoryAdapter);
-        searchAdapter = new SearchAdapter(this, listCommic, email);
+        searchAdapter = new SearchAdapter(this, listCommic);
         rcvCommic.setAdapter(searchAdapter);
         initCategory();
 //        Handle Search

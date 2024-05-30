@@ -29,19 +29,18 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder
         this.listCommic = listCommic;
     }
 
-    public ViewAdapter(Context context) {
-        this.context = context;
-    }
     public void setData(List<ClassifyStory> list) {
         this.listCommic = list;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public RankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
         return new ViewAdapter.RankViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull RankViewHolder holder, int position) {
         ClassifyStory commic = listCommic.get(position);
@@ -59,18 +58,21 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.RankViewHolder
             holder.itemView.getContext().startActivity(intent);
         });
     }
+
     @Override
     public int getItemCount() {
         if (listCommic != null)
             return listCommic.size();
         return 0;
     }
+
     public static class RankViewHolder extends RecyclerView.ViewHolder {
         private View detailCommicView;
         private ImageView imgCommic;
         private TextView nameCommic;
         private TextView dateCommic;
         private TextView info;
+
         public RankViewHolder(View view) {
             super(view);
             this.imgCommic = view.findViewById(R.id.item_rcv_thumnail);

@@ -1,10 +1,18 @@
 package com.example.truyenapp.model;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.sql.Date;
+
 public class Notification {
     private int id;
-    private String title, content, postingDate;
+    private String title;
+    private String content;
 
-    public Notification(int id, String title, String content, String postingDate) {
+    @SerializedName("date")
+    private Date postingDate;
+
+    public Notification(int id, String title, String content, Date postingDate) {
         this.id = id;
         this.title = title;
         this.content = content;
@@ -35,11 +43,11 @@ public class Notification {
         this.content = content;
     }
 
-    public String getPostingDate() {
+    public Date getPostingDate() {
         return postingDate;
     }
 
-    public void setPostingDate(String postingDate) {
+    public void setPostingDate(Date postingDate) {
         this.postingDate = postingDate;
     }
 }

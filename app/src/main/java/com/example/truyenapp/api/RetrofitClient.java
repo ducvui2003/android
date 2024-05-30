@@ -23,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class RetrofitClient {
     private final static String BASE_URL = "http://172.16.3.118:8081/api/";
 
+
     public static Retrofit getInstance(Context context) {
         Gson gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd")

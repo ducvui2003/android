@@ -23,15 +23,9 @@ import java.util.List;
 public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.VoteViewHolder> {
     private Context context;
     private List<ClassifyStory> listCommic;
-    private String email;
     public VoteAdapter(Context context, List<ClassifyStory> listCommic) {
         this.context = context;
         this.listCommic = listCommic;
-    }
-    public VoteAdapter(Context context, List<ClassifyStory> listCommic, String email) {
-        this.context = context;
-        this.listCommic = listCommic;
-        this.email = email;
     }
     public void setData(List<ClassifyStory> list) {
         this.listCommic = list;

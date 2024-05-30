@@ -26,15 +26,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.model.Category;
 import com.example.truyenapp.response.AttendanceResponse;
+import com.example.truyenapp.utils.DialogHelper;
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.mapper.BookMapper;
-import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
@@ -42,16 +42,15 @@ import com.example.truyenapp.response.UserResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
+import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
-import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.activity.DiemThuong;
+import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -76,12 +75,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     //    Button logoutBtn;
     Menu menu;
     MenuItem mn_it_chucnangquantri;
-    Account account;
-    TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_emailhome, tv_diemthuong, tv_diemdanh;
-
-    Database db;
-    Story story;
-    String email;
+    TextView tv_TimKemHome, tv_xephang, tv_theloai, tv_usernamehome, tv_diemthuong, tv_diemdanh;
+    String username, email;
     private UserResponse userResponse;
 
     private List<Story> newComic = new ArrayList<>();
@@ -90,6 +85,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
+
+    private DialogHelper dialogHelper;
+
+    private boolean isLoggedIn;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -105,7 +105,6 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
      * This method is used to fetch user information
      * author: Hoang
      */
-
     private void getUserInfo() {
         // Call the getUserInfo method from the UserAPI interface
         JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);
@@ -123,8 +122,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     // Assign the user object to the userResponse variable
                     userResponse = user;
                     // Set the email of the user in the TextView tv_emailhome
-                    tv_emailhome.setText(user.getEmail());
-                    email = user.getEmail();
+                    username = user.getUsername();
+                    tv_usernamehome.setText(username);
+                    loginBtn.setVisibility(View.GONE);
                     verifyUserRole();
                 }
             }
@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     }
 
     public void verifyUserRole() {
-        if(userResponse != null) {
+        if (userResponse != null) {
             mn_it_chucnangquantri.setVisible(SystemConstant.ROLE_ADMIN.equals(userResponse.getRole()));
         } else {
             mn_it_chucnangquantri.setVisible(false);
@@ -153,12 +153,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        db = new Database(getActivity());
         getUserInfo();
         init();
         Intent i = getActivity().getIntent();
         email = i.getStringExtra("email");
-        tv_emailhome.setText(email);
+        tv_usernamehome.setText(email);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
@@ -176,15 +175,21 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setAdapter(rv_2);
         rv3.setAdapter(rv_3);
 
-        getNewComic();
-        getTopComic();
-        getFullComic();
+//        getNewComic();
+//        getTopComic();
+//        getFullComic();
 
-        ActionBar();
-        ActionViewFlipper();
+        setEventActionBar();
+        setEventViewFlipper();
         setOnClickListener();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(getActivity().getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
     }
 
     private void init() {
@@ -200,14 +205,16 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         tv_TimKemHome = (TextView) view.findViewById(R.id.tv_TimKiemHome);
         tv_xephang = (TextView) view.findViewById(R.id.tv_xephang);
         tv_theloai = (TextView) view.findViewById(R.id.tv_theloai);
-        tv_diemthuong = view.findViewById(R.id.tv_diemthuong);
-        tv_diemdanh = view.findViewById(R.id.tv_diemdanh);
+        tv_diemthuong = view.findViewById(R.id.btn_to_redeem_reward);
+        tv_diemdanh = view.findViewById(R.id.btn_attendance_home_fragment);
         rv = view.findViewById(R.id.rv);
         rv2 = view.findViewById(R.id.rv2);
         rv3 = view.findViewById(R.id.rv3);
         menu = navigationView.getMenu();
         mn_it_chucnangquantri = menu.findItem(R.id.it_chucnangquantri);
-        tv_emailhome = headerLayout.findViewById(R.id.tv_emailhome);
+        tv_usernamehome = headerLayout.findViewById(R.id.tv_usernamehome);
+
+        this.dialogHelper = new DialogHelper(this.getContext());
     }
 
     private void setOnClickListener() {
@@ -225,53 +232,43 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             case R.id.home_login_btn:
                 Intent dialog_box = new Intent(getActivity(), Signin.class);
                 startActivity(dialog_box);
-                getActivity().finish();
                 break;
             case R.id.tv_TimKiemHome:
                 Intent dialog_box1 = new Intent(getActivity(), SearchActivity.class);
-                dialog_box1.putExtra("email", email);
                 startActivity(dialog_box1);
                 break;
             case R.id.tv_xephang:
-                Intent dialog_box2 = new Intent(getActivity(), RankActivity.class);//
-                dialog_box2.putExtra("email", email);
+                Intent dialog_box2 = new Intent(getActivity(), RankActivity.class);
                 startActivity(dialog_box2);
                 break;
             case R.id.tv_theloai:
                 Intent dialog_box3 = new Intent(getActivity(), CategoryActivity.class);
-                dialog_box3.putExtra("email", email);
                 startActivity(dialog_box3);
                 break;
-            case R.id.tv_diemthuong:
-                if (email != null) {
-                    Intent dialog_box4 = new Intent(getActivity(), DiemThuong.class);
-                    dialog_box4.putExtra("email", email);
+            case R.id.btn_to_redeem_reward:
+                if (isLoggedIn) {
+                    Intent dialog_box4 = new Intent(getActivity(), RedeemRewardActivity.class);
                     startActivity(dialog_box4);
                 } else {
-                    Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
+                    dialogHelper.showDialogLogin().show();
                 }
                 break;
-            case R.id.tv_diemdanh: {
-//                Check đăng nhập trước khi điểm danh
-                boolean isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(getActivity().getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
+            case R.id.btn_attendance_home_fragment: {
                 if (isLoggedIn) {
-                    Toast.makeText(getActivity(), "Vui lòng đăng nhập để sử dụng chức năng này!", Toast.LENGTH_SHORT).show();
-                    return;
+                    attendanceAPI();
+                } else {
+                    if (this.getActivity() instanceof HomeActivity) {
+                        DialogHelper dialogHelper = new DialogHelper(this.getContext());
+                        dialogHelper.showDialogLogin().show();
+                    }
                 }
                 break;
             }
-//            case R.id.bt_dxhome: {
-//                Intent intent = new Intent(getActivity(), HomeActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                Toast.makeText(getActivity().getApplicationContext(), "Đăng xuất thành công", Toast.LENGTH_SHORT).show();
-//                startActivity(intent);
-//                getActivity().finish();
-//            }
         }
     }
 
-    private void ActionViewFlipper() {
-        ArrayList<String> arrGTSP = new ArrayList<>();
+    private void setEventViewFlipper() {
+        List<String> arrGTSP = new ArrayList<>();
         arrGTSP.add("https://m.media-amazon.com/images/M/MV5BMjYxZjFkNTEtZjYzNC00MTdhLThiM2ItYmRiOWJiYTJkYzMxXkEyXkFqcGdeQXVyNDQxNjcxNQ@@._V1_FMjpg_UX1000_.jpg");
         arrGTSP.add("https://www.mangageko.com/media/manga_covers/36284.jpg");
         arrGTSP.add("https://upload.wikimedia.org/wikipedia/en/5/52/Y%C5%8Dkoso_Jitsuryoku_Shij%C5%8D_Shugi_no_Ky%C5%8Dshitsu_e%2C_Volume_1.jpg");
@@ -292,7 +289,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         viewFlipper.setOutAnimation(anim_slide_out);
     }
 
-    private void ActionBar() {
+    private void setEventActionBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         navigationView.bringToFront();
@@ -312,24 +309,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         });
     }
 
-
-    public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.isDrawerOpen(GravityCompat.START);
-        } else {
-            ((AppCompatActivity) getActivity()).onBackPressed();
-        }
-    }
-
-
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.it_quanlytaikhoan:
                 Intent dialog_box = new Intent(getActivity(), QuanLyTaiKhoan.class);
-                dialog_box.putExtra("email", account.getEmail());
                 startActivity(dialog_box);
                 break;
             case R.id.it_quanlytruyen:
@@ -338,12 +322,10 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 break;
             case R.id.it_quanlybinhluan:
                 Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
-                dialog_box2.putExtra("email", account.getEmail());
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:
                 Intent dialog_box3 = new Intent(getActivity(), QuanLyThongKe.class);
-                dialog_box3.putExtra("email", account.getEmail());
                 startActivity(dialog_box3);
                 break;
             case R.id.it_xephang:
@@ -351,7 +333,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box4);
                 break;
             case R.id.it_theloai:
-                Intent dialog_box5 = new Intent(getActivity(), Category.class);
+                Intent dialog_box5 = new Intent(getActivity(), CategoryActivity.class);
                 startActivity(dialog_box5);
                 break;
         }
@@ -365,15 +347,16 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 APIResponse<AttendanceResponse> apiResponse = response.body();
                 if (apiResponse.getCode() == 200) {
                     AttendanceResponse attendanceResponse = apiResponse.getResult();
-                    Toast.makeText(getActivity(), "Điểm danh thành công! +" + attendanceResponse.getScore() + " điểm", Toast.LENGTH_SHORT).show();
+                    dialogHelper.showDialog("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
                 } else {
-                    Toast.makeText(getActivity(), "Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!", Toast.LENGTH_SHORT).show();
+                    dialogHelper.showDialog("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
                 }
             }
+
             @Override
             public void onFailure(Call<APIResponse<AttendanceResponse>> call, Throwable throwable) {
                 Log.e("TAG", "Attendance failed: " + throwable.getMessage());
-                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }
@@ -390,6 +373,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 _rv.setData(newComic);
             }
+
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
 
@@ -409,17 +393,21 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 rv_2.setData(topComic);
             }
+
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
 
             }
         });
     }
+
     public void getFullComic() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         response.getFullComic("", "desc", 5).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
+
+                Log.d("API", response.toString());
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     Story classifyStory = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
@@ -427,6 +415,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 }
                 rv_3.setData(comicFullChapter);
             }
+
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
 
