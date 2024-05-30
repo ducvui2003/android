@@ -23,20 +23,24 @@ import java.util.List;
 public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.VoteViewHolder> {
     private Context context;
     private List<ClassifyStory> listCommic;
+
     public VoteAdapter(Context context, List<ClassifyStory> listCommic) {
         this.context = context;
         this.listCommic = listCommic;
     }
+
     public void setData(List<ClassifyStory> list) {
         this.listCommic = list;
         notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public VoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
         return new VoteAdapter.VoteViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull VoteViewHolder holder, int position) {
         ClassifyStory commic = listCommic.get(position);
@@ -54,6 +58,7 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.VoteViewHolder
             holder.itemView.getContext().startActivity(intent);
         });
     }
+
     @Override
     public int getItemCount() {
         if (listCommic != null) {
@@ -61,12 +66,14 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.VoteViewHolder
         }
         return 0;
     }
+
     public class VoteViewHolder extends RecyclerView.ViewHolder {
         private View detailCommicView;
         private ImageView imgCommic;
         private TextView nameCommic;
         private TextView dateCommic;
         private TextView info;
+
         public VoteViewHolder(View view) {
             super(view);
             this.imgCommic = view.findViewById(R.id.item_rcv_thumnail);

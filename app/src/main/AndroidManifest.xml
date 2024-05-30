@@ -70,7 +70,7 @@
             android:name="com.example.truyenapp.admin.ShowThongTinTaiKhoan"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ShowThongTinBinhLuan"
+            android:name="com.example.truyenapp.admin.CommentDetailManagerActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.ShowThongTinThongKe"

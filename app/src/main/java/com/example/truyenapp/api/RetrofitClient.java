@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitClient {
-    private final static String BASE_URL = "http://10.20.2.82:8081/api/";
+    private final static String BASE_URL = "http://172.16.2.201:8081/api/";
 
 
     public static Retrofit getInstance(Context context) {
@@ -42,20 +42,6 @@ public final class RetrofitClient {
                 return chain.proceed(request);
             });
         }
-
-        return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(httpClient.build())
-                .build();
-    }
-
-    public static Retrofit getInstance() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd")
-                .create();
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
 
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)

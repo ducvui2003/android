@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,11 +38,11 @@ public class RankViewFragment extends Fragment {
     private List<ClassifyStory> listCommic = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private Integer categoryId;
-    private boolean isLoading;
-    private boolean isLastPage;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
     private int totalPage;
     private int currentPage = 1;
-    private int pageSize = 5;
+    private final int PAGE_SIZE = 5;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,8 @@ public class RankViewFragment extends Fragment {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
-//        getData();
+        getData();
+        currentPage = 1;
     }
 
     private void init() {
@@ -93,26 +95,26 @@ public class RankViewFragment extends Fragment {
         this.rcv.setAdapter(adapter);
     }
 
-    private void setFirstData() {
+    private void setFirstData(List<ClassifyStory> list) {
+        this.listCommic.addAll(list);
         adapter.setData(this.listCommic);
         if (currentPage < totalPage) {
             adapter.addFooterLoading();
-            isLoading = true;
-            currentPage++;
         } else {
             isLastPage = true;
         }
     }
 
-    private void loadNextPage() {
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadNextPage(List<ClassifyStory> list) {
+        adapter.removeFooterLoading();
+        this.listCommic.addAll(list);
         adapter.notifyDataSetChanged();
         this.isLoading = false;
         if (currentPage < totalPage) {
             adapter.addFooterLoading();
-            isLoading = true;
         } else {
             isLastPage = true;
-            adapter.removeFooterLoading();
         }
     }
 
@@ -121,9 +123,9 @@ public class RankViewFragment extends Fragment {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         Call<APIResponse<DataListResponse<BookResponse>>> call;
         if (categoryId != null) {
-            call = response.rank("view", categoryId, currentPage, pageSize);
+            call = response.rank("view", categoryId, currentPage, PAGE_SIZE);
         } else {
-            call = response.rank("view", currentPage, pageSize);
+            call = response.rank("view", currentPage, PAGE_SIZE);
         }
         call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
@@ -133,18 +135,22 @@ public class RankViewFragment extends Fragment {
                 if (data == null || data.getResult() == null || data.getResult().getData() == null) {
                     return;
                 }
+
+//                Status code ko tim thay
+                if (data.getCode() == 400)
+                    return;
+                List<ClassifyStory> listTemp = new ArrayList<>();
                 currentPage = data.getResult().getCurrentPage();
                 totalPage = data.getResult().getTotalPages();
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());
-                    listCommic.add(classifyStory);
+                    listTemp.add(classifyStory);
                 }
                 if (currentPage == 1) {
-                    setFirstData();
+                    setFirstData(listTemp);
                 } else {
-                    adapter.removeFooterLoading();
-                    loadNextPage();
+                    loadNextPage(listTemp);
                 }
             }
 

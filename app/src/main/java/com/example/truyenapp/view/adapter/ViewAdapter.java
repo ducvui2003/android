@@ -2,6 +2,7 @@ package com.example.truyenapp.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.paging.LoadingViewHolder;
 import com.example.truyenapp.utils.Format;
 
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.List;
 public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_LOADING = 1;
-    private boolean isLoading = false;
+    private boolean isLoading;
     private Context context;
     private List<ClassifyStory> listCommic;
 
@@ -61,12 +63,14 @@ public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        Log.d("onBindViewHolder", "onBindViewHolder: " + holder.getItemViewType());
         if (holder.getItemViewType() == TYPE_ITEM) {
             RankViewHolder rankViewHolder = (RankViewHolder) holder;
             ClassifyStory commic = listCommic.get(position);
             if (commic == null) {
                 return;
             }
+            Log.d("commic", commic.toString());
             String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
             Glide.with(this.context).load(commic.getLinkImage()).into(rankViewHolder.imgCommic);
             rankViewHolder.nameCommic.setText(commic.getNameStory());
@@ -78,9 +82,24 @@ public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.itemView.getContext().startActivity(intent);
             });
         } else {
-            ((LoadingViewHolder) holder).progressBar.setIndeterminate(true);
+            ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
         }
 
+    }
+
+    public void addFooterLoading() {
+        isLoading = true;
+        listCommic.add(new ClassifyStory());
+    }
+
+    public void removeFooterLoading() {
+        isLoading = false;
+        int position = listCommic.size() - 1;
+        ClassifyStory commic = listCommic.get(position);
+        if (commic != null) {
+            listCommic.remove(position);
+            notifyItemRemoved(position);
+        }
     }
 
     @Override
@@ -105,30 +124,6 @@ public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             this.info = view.findViewById(R.id.item_rcv_info_commic);
             this.dateCommic = view.findViewById(R.id.item_rcv_date_commic);
             this.detailCommicView = view.findViewById(R.id.item_detail_commic);
-        }
-    }
-
-    public class LoadingViewHolder extends RecyclerView.ViewHolder {
-        private ProgressBar progressBar;
-
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            this.progressBar = itemView.findViewById(R.id.progress_bar);
-        }
-    }
-
-    public void addFooterLoading() {
-        isLoading = true;
-        listCommic.add(new ClassifyStory());
-    }
-
-    public void removeFooterLoading() {
-        isLoading = false;
-        int position = listCommic.size() - 1;
-        ClassifyStory commic = listCommic.get(position);
-        if (commic != null) {
-            listCommic.remove(position);
-            notifyItemRemoved(position);
         }
     }
 }
