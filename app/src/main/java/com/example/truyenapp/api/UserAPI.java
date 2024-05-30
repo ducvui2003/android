@@ -1,6 +1,7 @@
 package com.example.truyenapp.api;
 
 import com.example.truyenapp.model.APIResponse;
+import com.example.truyenapp.model.AccountVerifyRequest;
 import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.request.ForgotPasswordRequest;
 import com.example.truyenapp.request.UserRequest;
@@ -32,4 +33,8 @@ public interface UserAPI {
 
     @POST("v1/users/register")
     Call<APIResponse<Void>> register(@Body UserRequest userRequest);
+
+    @POST("v1/users/verify-account")
+    Call<APIResponse<Void>> verifyAccount(@Body AccountVerifyRequest accountVerifyRequest);
+
 }

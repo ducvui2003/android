@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,7 +18,6 @@ import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.model.APIResponse;
 import com.example.truyenapp.request.UserRequest;
 
-import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Signup extends AppCompatActivity implements View.OnClickListener {
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     TextView textView;
     EditText emailField, passwordField, passwordConfirmField, usernameField;
     Button btnSignUp;
@@ -57,7 +55,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signupBtn:
-                Intent dialog_box = new Intent(this, Signup.class);
+                Intent dialog_box = new Intent(this, SignUpActivity.class);
                 startActivity(dialog_box);
                 finish();
                 break;
@@ -117,21 +115,22 @@ public class Signup extends AppCompatActivity implements View.OnClickListener {
                 if (response.isSuccessful()) {
                     APIResponse<Void> apiResponse = response.body();
                     if (apiResponse != null) {
-                        Toast.makeText(Signup.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(Signup.this, Signin.class);
+//                        Toast.makeText(Signup.this, "", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUpActivity.this, VerifyAccountActivity.class);
+                        intent.putExtra("email", userRequest.getEmail());
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(Signup.this, "Đăng ký thất bại: " + (apiResponse != null ? apiResponse.getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignUpActivity.this, "Đăng ký thất bại: " + (apiResponse != null ? apiResponse.getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(Signup.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Đăng ký thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
-                Toast.makeText(Signup.this, "Đăng ký thất bại: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "Đăng ký thất bại: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

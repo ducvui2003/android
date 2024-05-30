@@ -67,7 +67,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
 
             case R.id.signupBtn:
                 // Redirect to Signup activity when 'signupBtn' is clicked
-                Intent dialog_box1 = new Intent(this, Signup.class);
+                Intent dialog_box1 = new Intent(this, SignUpActivity.class);
                 startActivity(dialog_box1);
                 break;
 

@@ -30,7 +30,6 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
     private ImageView logo;
     private UserAPI userAPI;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +54,6 @@ public class ForgotPassword extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
-
     /**
      * Sends a password reset email to the provided email address.
      */

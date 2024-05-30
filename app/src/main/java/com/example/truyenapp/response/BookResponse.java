@@ -16,12 +16,10 @@ public class BookResponse {
     String author;
     String description;
     Integer view;
-    String status;
     Double rating;
     String thumbnail;
     Integer quantityChapter;
     List<String> categoryNames;
     Date publishDate;
     String status;
-
 }
