@@ -22,5 +22,4 @@ public class BookResponse {
     List<String> categoryNames;
     Date publishDate;
     String status;
-
 }

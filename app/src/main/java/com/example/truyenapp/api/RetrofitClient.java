@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class RetrofitClient {
-    private final static String BASE_URL = "https://3799-118-70-31-96.ngrok-free.app/api/";
+    private final static String BASE_URL = "http://172.16.3.118:8081/api/";
 
 
     public static Retrofit getInstance(Context context) {
@@ -34,7 +34,8 @@ public final class RetrofitClient {
         // Thêm Interceptor để thêm JWT vào header
         if (jwtToken != null) {
             httpClient.addInterceptor(chain -> {
-                Request original = chain.request();
+                Request original = chain.request();    String status;
+
                 Request request = original.newBuilder()
                         .header("Authorization", "Bearer " + jwtToken.getToken())
                         .method(original.method(), original.body())
@@ -49,4 +50,5 @@ public final class RetrofitClient {
                 .client(httpClient.build())
                 .build();
     }
+
 }
