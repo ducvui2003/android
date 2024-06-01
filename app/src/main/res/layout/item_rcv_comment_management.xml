@@ -9,7 +9,7 @@
     app:cardCornerRadius="8dp">
 
     <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/ll_rcv_qlbinhluan"
+        android:id="@+id/container_comment_management"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"

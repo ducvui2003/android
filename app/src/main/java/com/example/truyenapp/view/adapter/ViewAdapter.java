@@ -63,14 +63,12 @@ public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Log.d("onBindViewHolder", "onBindViewHolder: " + holder.getItemViewType());
         if (holder.getItemViewType() == TYPE_ITEM) {
             RankViewHolder rankViewHolder = (RankViewHolder) holder;
             ClassifyStory commic = listCommic.get(position);
             if (commic == null) {
                 return;
             }
-            Log.d("commic", commic.toString());
             String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
             Glide.with(this.context).load(commic.getLinkImage()).into(rankViewHolder.imgCommic);
             rankViewHolder.nameCommic.setText(commic.getNameStory());

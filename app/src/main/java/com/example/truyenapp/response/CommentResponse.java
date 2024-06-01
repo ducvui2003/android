@@ -13,10 +13,21 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CommentResponse {
     private Integer id;
-    private Integer userId;
+    private UserCommentDTO user;
     private String bookName;
-    private String chapterNumber;
+    private String chapterName;
     private String content;
     private Date createdAt;
     private Integer state;
+    private String thumbnail;
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UserCommentDTO {
+        private String username;
+        private String email;
+        private String avatar;
+    }
 }

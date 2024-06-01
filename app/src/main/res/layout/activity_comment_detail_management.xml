@@ -13,14 +13,14 @@
         android:textColor="@color/white"
         android:textSize="26dp"/>
     <ImageView
-        android:id="@+id/img_qlbl"
+        android:id="@+id/image_comment_detail_management"
         android:layout_width="150dp"
         android:layout_marginTop="20dp"
         android:layout_height="150dp"
         android:src="@drawable/new1"
         android:layout_gravity="center"/>
     <TextView
-        android:id="@+id/tv_qlbl_tentruyen"
+        android:id="@+id/tv_comment_detail_management_commic"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:textColor="@color/green"
         android:gravity="center"/>
     <TextView
-        android:id="@+id/tv_qlbl_tenchapter"
+        android:id="@+id/tv_comment_detail_management_chapter"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:textStyle="bold"
             android:text="ID:"/>
         <TextView
-            android:id="@+id/tv_qlbl_id"
+            android:id="@+id/tv_comment_detail_management_id"
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
             android:textStyle="bold"
             android:text="Email:"/>
         <TextView
-            android:id="@+id/tv_qlbl_email"
+            android:id="@+id/tv_comment_detail_management_email"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:textStyle="bold"
             android:text="Nội dung bình luận: "/>
         <TextView
-            android:id="@+id/tv_qlbl_noidung"
+            android:id="@+id/tv_comment_detail_management_content"
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -113,7 +113,7 @@
             android:textStyle="bold"
             android:text="Ngày đăng: "/>
         <TextView
-            android:id="@+id/tv_qlbl_ngaydang"
+            android:id="@+id/tv_comment_detail_management_publishDay"
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
             android:textStyle="bold"
             android:text="Trạng thái: "/>
         <TextView
-            android:id="@+id/tv_qlbl_trangthai"
+            android:id="@+id/tv_comment_detail_management_state"
             android:layout_marginLeft="20dp"
             android:textColor="@color/black"
             android:layout_width="wrap_content"

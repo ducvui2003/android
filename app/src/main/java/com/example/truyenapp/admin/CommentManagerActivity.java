@@ -10,13 +10,10 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.mapper.CommentMapper;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.adapter.admin.CommentManagerAdapter;
-import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Comment;
 
 import java.util.ArrayList;
@@ -27,13 +24,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CommentManagerActivity extends AppCompatActivity {
-    Database db;
     private RecyclerView rcv;
     private CommentManagerAdapter adapter;
     private final int PAGE_SIZE = 10;
     private int currentPage = 1;
     private int totalPage;
-    List<Comment> comments = new ArrayList<>();
+    List<Comment> comments;
     CommentAPI commentAPI;
 
     @Override
@@ -42,22 +38,18 @@ public class CommentManagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comment_management);
 
         init();
-        db = new Database(this);
-        handleRecyclerView();
         callAPI();
     }
 
-    private void handleRecyclerView() {
+    private void init() {
+        rcv = findViewById(R.id.rcv_comment_management);
+        this.commentAPI = RetrofitClient.getInstance(this).create(CommentAPI.class);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rcv.setLayoutManager(linearLayoutManager);
-        ArrayList<Comment> list = db.getListBinhLuan();
-        adapter = new CommentManagerAdapter(this, list);
+        this.comments = new ArrayList<>();
+        adapter = new CommentManagerAdapter(this, comments);
         rcv.setAdapter(adapter);
-    }
 
-    private void init() {
-        rcv = findViewById(R.id.rcv_quanlybinhluan);
-        this.commentAPI = RetrofitClient.getInstance(this).create(CommentAPI.class);
     }
 
     private void callAPI() {
@@ -75,8 +67,8 @@ public class CommentManagerActivity extends AppCompatActivity {
                 List<Comment> listTemp = new ArrayList<>();
                 currentPage = data.getResult().getCurrentPage();
                 totalPage = data.getResult().getTotalPages();
-                for (CommentResponse bookResponse : data.getResult().getData()) {
-                    Comment comment = CommentMapper.INSTANCE.commentResponseToComment(bookResponse);
+                for (CommentResponse commentResponse : data.getResult().getData()) {
+                    Comment comment = CommentMapper.INSTANCE.commentResponseToComment(commentResponse);
                     listTemp.add(comment);
                 }
                 comments.addAll(listTemp);

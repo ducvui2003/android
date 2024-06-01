@@ -10,12 +10,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface CommentMapper {
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
-    @Mapping(source = "id", target = "id")
-    @Mapping(source = "userId", target = "idAccount")
-    @Mapping(source = "bookName", target = "bookName")
-    @Mapping(source = "chapterNumber", target = "chapterNumber")
-    @Mapping(source = "content", target = "content")
-    @Mapping(source = "createdAt", target = "createdAt")
-    @Mapping(source = "state", target = "state")
+
+    @Mapping(target = "email", source = "user.email")
     Comment commentResponseToComment(CommentResponse bookResponse);
 }
