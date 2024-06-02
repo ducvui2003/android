@@ -26,7 +26,6 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.view.fragment.AccountFragment;
 import com.example.truyenapp.view.fragment.NotificationFragment;
 import com.example.truyenapp.view.fragment.TuSachFragment;
-import com.example.truyenapp.database.Database;
 
 import retrofit2.Call;
 import retrofit2.Callback;
