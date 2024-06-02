@@ -28,11 +28,10 @@ import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.ChangePasswordActivity;
 import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.ShowBinhLuan;
-import com.example.truyenapp.view.activity.ShowDanhGia;
+import com.example.truyenapp.view.activity.RatingsHistory;
 import com.example.truyenapp.view.activity.AccountInfoActivity;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -201,7 +200,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.tv_danhgiacuatoi:
-                intent = new Intent(getActivity(), ShowDanhGia.class);
+                intent = new Intent(getActivity(), RatingsHistory.class);
                 startActivity(intent);
                 break;
             case R.id.tv_doimatkhau:
