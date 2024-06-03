@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import com.example.truyenapp.constraints.CommentState;
 import com.example.truyenapp.view.activity.Signin;
 
 import lombok.Setter;
@@ -53,14 +54,47 @@ public class DialogHelper {
         return builder;
     }
 
-    public AlertDialog.Builder showDialog(String message) {
+    public AlertDialog.Builder showDialogAttendance(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Điểm danh").setMessage(message);
 
         builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                 dialogInterface.cancel();
+                dialogInterface.cancel();
+            }
+        });
+        return builder;
+    }
+
+    public AlertDialog.Builder showDialogCommentState(CommentState commentState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Thay đổi trạng thái bình luận").setMessage("Bạn có chắc chắn muốn " + (commentState.getState() == 1 ? "hiện" : "ẩn") + " bình luận này không?");
+
+        builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogEvent.onPositiveClick();
+                dialogInterface.cancel();
+            }
+        });
+        builder.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogEvent.onNegativeClick();
+                dialogInterface.cancel();
+            }
+        });
+        return builder;
+    }
+
+    public AlertDialog.Builder showDialogChangeStateCommentSuccess() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Thành công").setMessage("Thay đổi trạng thái bình luận thành công!");
+        builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
             }
         });
         return builder;
