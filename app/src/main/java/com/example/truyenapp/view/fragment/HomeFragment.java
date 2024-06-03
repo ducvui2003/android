@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truyenapp.model.Category;
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.utils.DialogHelper;
 import com.example.truyenapp.view.activity.CategoryActivity;
@@ -44,13 +45,13 @@ import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.RankActivity;
+import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -105,6 +106,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
      * This method is used to fetch user information
      * author: Hoang
      */
+
     private void getUserInfo() {
         // Call the getUserInfo method from the UserAPI interface
         JWTToken jwtToken = SharedPreferencesHelper.getObject(getContext(), SystemConstant.JWT_TOKEN, JWTToken.class);
@@ -232,6 +234,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             case R.id.home_login_btn:
                 Intent dialog_box = new Intent(getActivity(), Signin.class);
                 startActivity(dialog_box);
+                getActivity().finish();
                 break;
             case R.id.tv_TimKiemHome:
                 Intent dialog_box1 = new Intent(getActivity(), SearchActivity.class);
@@ -347,16 +350,16 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 APIResponse<AttendanceResponse> apiResponse = response.body();
                 if (apiResponse.getCode() == 200) {
                     AttendanceResponse attendanceResponse = apiResponse.getResult();
-                    dialogHelper.showDialog("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
+                    dialogHelper.showDialogAttendance("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
                 } else {
-                    dialogHelper.showDialog("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
+                    dialogHelper.showDialogAttendance("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
                 }
             }
 
             @Override
             public void onFailure(Call<APIResponse<AttendanceResponse>> call, Throwable throwable) {
                 Log.e("TAG", "Attendance failed: " + throwable.getMessage());
-                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
+                dialogHelper.showDialogAttendance("Lỗi, vui lòng thử lại").show();
             }
         });
     }
