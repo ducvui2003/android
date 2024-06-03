@@ -177,9 +177,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setAdapter(rv_2);
         rv3.setAdapter(rv_3);
 
-//        getNewComic();
-//        getTopComic();
-//        getFullComic();
+        getNewComic();
+        getTopComic();
+        getFullComic();
 
         setEventActionBar();
         setEventViewFlipper();

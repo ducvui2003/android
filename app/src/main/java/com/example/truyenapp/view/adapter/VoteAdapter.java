@@ -67,6 +67,7 @@ public class VoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (commic == null) {
                 return;
             }
+            Log.d("date", commic.getPostingDate() + "");
             String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
             Glide.with(this.context).load(commic.getLinkImage()).into(rankVoteHolder.imgCommic);
             rankVoteHolder.nameCommic.setText(commic.getNameStory());
@@ -84,7 +85,7 @@ public class VoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addFooterLoading() {
         isLoading = true;
-        listCommic.add(new ClassifyStory());
+        listCommic.add(null);
     }
 
     public void removeFooterLoading() {

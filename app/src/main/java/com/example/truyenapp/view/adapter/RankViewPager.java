@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.truyenapp.view.fragment.RankViewFragment;
-import com.example.truyenapp.view.fragment.RankVoteFragment;
+import com.example.truyenapp.view.fragment.ComicViewFragment;
+import com.example.truyenapp.view.fragment.ComicVoteFragment;
 
 public class RankViewPager extends FragmentStateAdapter {
 
@@ -19,9 +19,9 @@ public class RankViewPager extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new RankVoteFragment();
+                return new ComicVoteFragment();
             case 1:
-                return new RankViewFragment();
+                return new ComicViewFragment();
         }
         return null;
     }

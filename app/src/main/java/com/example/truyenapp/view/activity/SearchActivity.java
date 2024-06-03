@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void init() {
         this.inputSearch = findViewById(R.id.edt_search);
-        this.autoCompleteTextView = findViewById(R.id.auto_complete_txt);
+        this.autoCompleteTextView = findViewById(R.id.auto_complete_category);
         this.notify = findViewById(R.id.activity_search_notify);
         this.rcvCommic = findViewById(R.id.activity_rcv_commic);
         this.inputSearchRecord = findViewById(R.id.activity_search_recog);

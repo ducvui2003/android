@@ -42,7 +42,10 @@ public interface SearchAPI {
     @GET("v1/books/newComic")
     Call<APIResponse<DataListResponse<BookResponse>>> getNewComic(@Query("size") Integer pageSize);
 
-    @GET("v1/books/search")
-    Call<APIResponse<DataListResponse<BookResponse>>> search(@Query("categoryId") Integer category);
+    @GET("v1/books/newComic")
+    Call<APIResponse<DataListResponse<BookResponse>>> getNewComic(@Query("page") Integer page, @Query("size") Integer pageSize);
+
+    @GET("v1/books/newComic")
+    Call<APIResponse<DataListResponse<BookResponse>>> getNewComic(@Query("categoryId") Integer category, @Query("page") Integer page, @Query("size") Integer pageSize);
 
 }

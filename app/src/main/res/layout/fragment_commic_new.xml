@@ -3,12 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LatestDateFragment">
+    tools:context=".view.fragment.ComicNewFragment">
 
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="10dp">-->
         <LinearLayout
             android:background="@color/white"
             android:layout_width="match_parent"
@@ -23,6 +19,5 @@
 
             </androidx.recyclerview.widget.RecyclerView>
         </LinearLayout>
-<!--    </ScrollView>-->
 
 </FrameLayout>

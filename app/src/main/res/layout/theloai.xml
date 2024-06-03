@@ -30,19 +30,19 @@
                     android:layout_height="wrap_content"
                     android:inputType="none"
                     android:layout_weight="1"
-                    android:id="@+id/auto_complete_txt"/>
+                    android:id="@+id/auto_complete_category"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout_tl"
+                android:id="@+id/tab_layout_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager2_tl"
+                android:id="@+id/view_pager2_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/tab_layout_tl"/>
+                android:layout_below="@+id/tab_layout_category"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
