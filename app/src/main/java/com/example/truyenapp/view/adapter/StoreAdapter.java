@@ -150,6 +150,5 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreAdapter.StoreItemVie
             tv_tenvatpham = itemView.findViewById(R.id.tv_store_item_name);
             bt_doivatpham = itemView.findViewById(R.id.btn_store_item);
         }
-
     }
 }

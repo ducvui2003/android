@@ -124,6 +124,7 @@ public class DialogHelper {
 
     public AlertDialog.Builder showDialogExchangeSuccess(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message);
         builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
