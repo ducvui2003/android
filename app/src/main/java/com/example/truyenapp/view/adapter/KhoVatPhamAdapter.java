@@ -47,13 +47,13 @@ public class KhoVatPhamAdapter extends RecyclerView.Adapter<KhoVatPhamAdapter.Kh
             return;
         }
 
-        Glide.with(this.context).load(item.getLinkImage()).into(holder.img_khovatpham);
+        Glide.with(this.context).load(item.getImage()).into(holder.img_khovatpham);
         holder.tv_tenvatpham.setText(item.getNameItem());
         holder.tv_diem.setText("Điểm: "+ item.getPoint());
         holder.bt_sudungvatpham.setOnClickListener(view -> {
-            Boolean kt=db.checkLinkAnh(account, item.getLinkImage());
+            Boolean kt=db.checkLinkAnh(account, item.getImage());
             if(kt==false){
-                Boolean updateLinkAnh=db.updateLinkAnh(account, item.getLinkImage());
+                Boolean updateLinkAnh=db.updateLinkAnh(account, item.getImage());
                 if(updateLinkAnh==true){
                     Toast.makeText(this.context,"Sử dụng avatar thành công",Toast.LENGTH_SHORT).show();
                 }else {
@@ -81,8 +81,8 @@ public class KhoVatPhamAdapter extends RecyclerView.Adapter<KhoVatPhamAdapter.Kh
         public KhoVatPhamViewHolder(@NonNull View itemView) {
             super(itemView);
             img_khovatpham=itemView.findViewById(R.id.img_khovatpham);
-            tv_diem=itemView.findViewById(R.id.tv_diem);
-            tv_tenvatpham=itemView.findViewById(R.id.tv_tenvatpham);
+            tv_diem=itemView.findViewById(R.id.tv_store_item_score);
+            tv_tenvatpham=itemView.findViewById(R.id.tv_store_item_name);
             bt_sudungvatpham=itemView.findViewById(R.id.bt_sudungvatpham);
 
         }

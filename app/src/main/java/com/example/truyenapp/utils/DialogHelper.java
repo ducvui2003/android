@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.example.truyenapp.constraints.CommentState;
+import com.example.truyenapp.enums.ExchangeStatus;
 import com.example.truyenapp.view.activity.Signin;
 
 import lombok.Setter;
@@ -99,4 +100,37 @@ public class DialogHelper {
         });
         return builder;
     }
+
+    public AlertDialog.Builder showDialogExchange() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Đổi quà").setMessage("Bạn có chắc muốn đổi phần quà không?");
+
+        builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogEvent.onPositiveClick();
+                dialogInterface.dismiss();
+            }
+        });
+        builder.setNegativeButton("Đóng", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogEvent.onNegativeClick();
+                dialogInterface.cancel();
+            }
+        });
+        return builder;
+    }
+
+    public AlertDialog.Builder showDialogExchangeSuccess(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setPositiveButton("Đóng", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        return builder;
+    }
+
 }

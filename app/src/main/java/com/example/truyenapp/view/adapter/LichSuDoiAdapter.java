@@ -68,8 +68,8 @@ public class LichSuDoiAdapter extends RecyclerView.Adapter<LichSuDoiAdapter.Lich
         public LichSuDoiViewHolder(@NonNull View itemView) {
             super(itemView);
             img_vatphamdoi=itemView.findViewById(R.id.img_vatphamdoi);
-            tv_diem=itemView.findViewById(R.id.tv_diem);
-            tv_tenvatpham=itemView.findViewById(R.id.tv_tenvatpham);
+            tv_diem=itemView.findViewById(R.id.tv_store_item_score);
+            tv_tenvatpham=itemView.findViewById(R.id.tv_store_item_name);
             tv_ngaydoi=itemView.findViewById(R.id.tv_ngaydoi);
 
         }
