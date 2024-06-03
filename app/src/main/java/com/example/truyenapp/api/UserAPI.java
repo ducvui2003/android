@@ -35,6 +35,11 @@ public interface UserAPI {
 
     @POST("v1/attendance")
     Call<APIResponse<AttendanceResponse>> attendance();
+    @GET("v1/attendance/reward-point")
+    Call<APIResponse<RewardPointResponse>> getRewardPoint();
+
+    @GET("v1/attendance/history")
+    Call<APIResponse<DataListResponse<RewardPoint>>> getAttendanceHistory();
 
     @POST("v1/users/register")
     Call<APIResponse<Void>> register(@Body UserRequest userRequest);

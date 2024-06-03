@@ -1,6 +1,8 @@
 package com.example.truyenapp.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
+import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
@@ -33,8 +36,13 @@ public class RankViewFragment extends Fragment {
     private RecyclerView rcv;
     private ViewAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
-
+    private LinearLayoutManager linearLayoutManager;
     private Integer categoryId;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int totalPage;
+    private int currentPage = 1;
+    private final int PAGE_SIZE = 5;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,45 +60,98 @@ public class RankViewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        getViewList();
+        getData();
+        rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {
+            @Override
+            public void loadMoreItem() {
+                isLoading = true;
+                currentPage += 1;
+                getData();
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+        });
     }
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
-        getViewList();
+        getData();
+        currentPage = 1;
     }
 
     private void init() {
         this.rcv = view.findViewById(R.id.rcv_theloai_view);
         this.adapter = new ViewAdapter(getActivity(), listCommic);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        this.linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);
     }
 
+    private void setFirstData(List<ClassifyStory> list) {
+        this.listCommic.addAll(list);
+        adapter.setData(this.listCommic);
+        if (currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadNextPage(List<ClassifyStory> list) {
+        adapter.removeFooterLoading();
+        this.listCommic.addAll(list);
+        adapter.notifyDataSetChanged();
+        this.isLoading = false;
+        if (currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
+
     //    call api lấy dữ liệu danh sách truyện theo lượt xem
-    public void getViewList() {
+    public void getData() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         Call<APIResponse<DataListResponse<BookResponse>>> call;
         if (categoryId != null) {
-            call = response.rank("view", categoryId);
+            call = response.rank("view", categoryId, currentPage, PAGE_SIZE);
         } else {
-            call = response.rank("view");
+            call = response.rank("view", currentPage, PAGE_SIZE);
         }
         call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
-                listCommic.clear();
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+
                 if (data == null || data.getResult() == null || data.getResult().getData() == null) {
                     return;
                 }
+
+//                Status code ko tim thay
+                if (data.getCode() == 400)
+                    return;
+                List<ClassifyStory> listTemp = new ArrayList<>();
+                currentPage = data.getResult().getCurrentPage();
+                totalPage = data.getResult().getTotalPages();
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());
-                    listCommic.add(classifyStory);
+                    listTemp.add(classifyStory);
                 }
-                adapter.setData(listCommic);
+                if (currentPage == 1) {
+                    setFirstData(listTemp);
+                } else {
+                    loadNextPage(listTemp);
+                }
             }
 
             @Override
