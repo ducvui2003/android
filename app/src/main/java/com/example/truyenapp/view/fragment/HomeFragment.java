@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.model.Category;
 import com.example.truyenapp.response.AttendanceResponse;
+import com.example.truyenapp.utils.DialogHelper;
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
@@ -42,16 +43,15 @@ import com.example.truyenapp.response.UserResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
+import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.RankActivity;
+import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
-import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.activity.DiemThuong;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -86,6 +86,11 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
+
+    private DialogHelper dialogHelper;
+
+    private boolean isLoggedIn;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -138,7 +143,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     }
 
     public void verifyUserRole() {
-        if(userResponse != null) {
+        if (userResponse != null) {
             mn_it_chucnangquantri.setVisible(SystemConstant.ROLE_ADMIN.equals(userResponse.getRole()));
         } else {
             mn_it_chucnangquantri.setVisible(false);
