@@ -11,10 +11,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_theloai_new"
+                android:id="@+id/rcv_comic_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginBottom="10dp">
 
             </androidx.recyclerview.widget.RecyclerView>

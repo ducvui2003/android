@@ -21,14 +21,14 @@ import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class NewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ComicNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_LOADING = 1;
     private boolean isLoading;
     private Context context;
     private List<ClassifyStory> listComic;
 
-    public NewAdapter(Context context, List<ClassifyStory> listComic) {
+    public ComicNewAdapter(Context context, List<ClassifyStory> listComic) {
         this.context = context;
         this.listComic = listComic;
     }
@@ -39,9 +39,9 @@ public class NewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
         if (TYPE_ITEM == viewType) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
-            return new NewAdapter.NewHolder(view);
+            return new ComicNewAdapter.NewHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_loading, parent, false);
             return new LoadingViewHolder(view);
         }
     }

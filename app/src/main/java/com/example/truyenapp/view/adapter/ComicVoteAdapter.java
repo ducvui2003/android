@@ -2,6 +2,7 @@ package com.example.truyenapp.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,26 +22,26 @@ import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ComicVoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_LOADING = 1;
     private boolean isLoading;
     private Context context;
-    private List<ClassifyStory> listComic;
+    private List<ClassifyStory> listCommic;
 
-    public ViewAdapter(Context context, List<ClassifyStory> listComic) {
+    public ComicVoteAdapter(Context context, List<ClassifyStory> listCommic) {
         this.context = context;
-        this.listComic = listComic;
+        this.listCommic = listCommic;
     }
 
     public void setData(List<ClassifyStory> list) {
-        this.listComic = list;
+        this.listCommic = list;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (listComic != null && position == listComic.size() - 1 && isLoading)
+        if (listCommic != null && position == listCommic.size() - 1 && isLoading)
             return TYPE_LOADING;
         return TYPE_ITEM;
     }
@@ -51,75 +52,74 @@ public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         View view;
         if (TYPE_ITEM == viewType) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
-            return new RankViewHolder(view);
+            return new VoteViewHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_loading, parent, false);
             return new LoadingViewHolder(view);
         }
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == TYPE_ITEM) {
-            RankViewHolder rankViewHolder = (RankViewHolder) holder;
-            ClassifyStory comic = listComic.get(position);
-            if (comic == null) {
+            VoteViewHolder rankVoteHolder = (VoteViewHolder) holder;
+            ClassifyStory commic = listCommic.get(position);
+            if (commic == null) {
                 return;
             }
-            String publishDate = Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
-            Glide.with(this.context).load(comic.getLinkImage()).into(rankViewHolder.imgComic);
-            rankViewHolder.nameComic.setText(comic.getNameStory());
-            rankViewHolder.info.setText("Tổng lượt xem: " + comic.getView());
-            rankViewHolder.dateComic.setText("Ngày đăng: " + publishDate);
-            rankViewHolder.detailComicView.setOnClickListener(view -> {
+            Log.d("date", commic.getPostingDate() + "");
+            String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
+            Glide.with(this.context).load(commic.getLinkImage()).into(rankVoteHolder.imgCommic);
+            rankVoteHolder.nameCommic.setText(commic.getNameStory());
+            rankVoteHolder.info.setText("Đánh giá: " + commic.getEvaluate());
+            rankVoteHolder.dateCommic.setText("Ngày đăng: " + publishDate);
+            rankVoteHolder.detailCommicView.setOnClickListener(view -> {
                 Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
-                intent.putExtra(BundleConstraint.ID_COMMIC, comic.getId());
+                intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
                 holder.itemView.getContext().startActivity(intent);
             });
         } else {
             ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
         }
-
     }
 
     public void addFooterLoading() {
         isLoading = true;
-        listComic.add(null);
+        listCommic.add(null);
     }
 
     public void removeFooterLoading() {
         isLoading = false;
-        int position = listComic.size() - 1;
-        ClassifyStory commic = listComic.get(position);
+        int position = listCommic.size() - 1;
+        ClassifyStory commic = listCommic.get(position);
         if (commic != null) {
-            listComic.remove(position);
+            listCommic.remove(position);
             notifyItemRemoved(position);
         }
     }
 
     @Override
     public int getItemCount() {
-        if (listComic != null)
-            return listComic.size();
+        if (listCommic != null) {
+            return listCommic.size();
+        }
         return 0;
     }
 
-    public static class RankViewHolder extends RecyclerView.ViewHolder {
-        private View detailComicView;
-        private ImageView imgComic;
-        private TextView nameComic;
-        private TextView dateComic;
+    public class VoteViewHolder extends RecyclerView.ViewHolder {
+        private View detailCommicView;
+        private ImageView imgCommic;
+        private TextView nameCommic;
+        private TextView dateCommic;
         private TextView info;
 
-
-        public RankViewHolder(View view) {
+        public VoteViewHolder(View view) {
             super(view);
-            this.imgComic = view.findViewById(R.id.item_rcv_thumnail);
-            this.nameComic = view.findViewById(R.id.item_rcv_name_commic);
+            this.imgCommic = view.findViewById(R.id.item_rcv_thumnail);
+            this.nameCommic = view.findViewById(R.id.item_rcv_name_commic);
             this.info = view.findViewById(R.id.item_rcv_info_commic);
-            this.dateComic = view.findViewById(R.id.item_rcv_date_commic);
-            this.detailComicView = view.findViewById(R.id.item_detail_commic);
+            this.dateCommic = view.findViewById(R.id.item_rcv_date_commic);
+            this.detailCommicView = view.findViewById(R.id.item_detail_commic);
         }
     }
 }

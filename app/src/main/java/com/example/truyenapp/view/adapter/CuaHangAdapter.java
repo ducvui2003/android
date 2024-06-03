@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.view.activity.CuaHang;
+import com.example.truyenapp.view.activity.StoreActivity;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.Item;
@@ -26,14 +26,14 @@ public class CuaHangAdapter extends RecyclerView.Adapter<CuaHangAdapter.CuaHangV
     private List<Item> list;
     private Account account;
     private Database db;
-    private CuaHang cuaHang;
+    private StoreActivity storeActivity;
 
-    public CuaHangAdapter(Context context, List<Item> list, Account account, Database db, CuaHang cuaHang) {
+    public CuaHangAdapter(Context context, List<Item> list, Account account, Database db, StoreActivity storeActivity) {
         this.context = context;
         this.list = list;
         this.account = account;
         this.db=db;
-        this.cuaHang = cuaHang;
+        this.storeActivity = storeActivity;
     }
 
     @NonNull
@@ -65,7 +65,7 @@ public class CuaHangAdapter extends RecyclerView.Adapter<CuaHangAdapter.CuaHangV
                     Boolean doithuong=db.insertDoiThuong(item.getId(), account.getId());
                     if(doithuong==true){
                         db.updateDiemThuong(account,-(item.getPoint()));
-                        cuaHang.reload();
+                        storeActivity.reload();
                         Toast.makeText(this.context,"Đổi vật phẩm thành công",Toast.LENGTH_SHORT).show();
                     }else{
                         Toast.makeText(this.context,"Xảy ra lỗi. Vui lòng thử lại sau!",Toast.LENGTH_SHORT).show();

@@ -21,7 +21,7 @@ import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.ViewAdapter;
+import com.example.truyenapp.view.adapter.ComicViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class ComicViewFragment extends Fragment {
     private View view;
     private RecyclerView rcv;
-    private ViewAdapter adapter;
+    private ComicViewAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private Integer categoryId;
@@ -51,7 +51,7 @@ public class ComicViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_commic_view, container, false);
+        view = inflater.inflate(R.layout.fragment_comic_card_list, container, false);
         return view;
     }
 
@@ -89,8 +89,8 @@ public class ComicViewFragment extends Fragment {
     }
 
     private void init() {
-        this.rcv = view.findViewById(R.id.rcv_theloai_view);
-        this.adapter = new ViewAdapter(getActivity(), listCommic);
+        this.rcv = view.findViewById(R.id.rcv_comic_card);
+        this.adapter = new ComicViewAdapter(getActivity(), listCommic);
         this.linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);

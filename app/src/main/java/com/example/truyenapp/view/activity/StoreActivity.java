@@ -9,41 +9,40 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.view.adapter.FragmentAdapterCuaHang;
+import com.example.truyenapp.constraints.BundleConstraint;
+import com.example.truyenapp.view.adapter.FragmentAdapterStore;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-public class CuaHang extends AppCompatActivity {
+public class StoreActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
-    FragmentAdapterCuaHang adapterCuaHang;
-    Database db;
-    Account account;
-    TextView tv_diemtichluy;
+    FragmentAdapterStore adpaterFragmentStore;
+    TextView tvTotalScore;
+
+    String[] TAB_TEXT = {"Cửa hàng", "Kho vật phẩm", "Lịch sử"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.cuahang);
+        setContentView(R.layout.activity_store);
 
-        Anhxa();
+        init();
 
-        db=new Database(this);
-        Intent intent=getIntent();
-        String email=intent.getStringExtra("email");
-        account =db.getTaiKhoan(email);
-        tv_diemtichluy.setText(""+ account.getRewardPoint());
+        Intent intent = getIntent();
+        Double totalScore = intent.getDoubleExtra(BundleConstraint.TOTAL_SCORE, 0);
+        tvTotalScore.setText(String.valueOf(totalScore));
 
 
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        adapterCuaHang=new FragmentAdapterCuaHang(fragmentManager,getLifecycle());
-        pager2.setAdapter(adapterCuaHang);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        adpaterFragmentStore = new FragmentAdapterStore(fragmentManager, getLifecycle());
+        pager2.setAdapter(adpaterFragmentStore);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Cửa hàng"));
-        tabLayout.addTab(tabLayout.newTab().setText("Kho vật phẩm"));
-        tabLayout.addTab(tabLayout.newTab().setText("Lịch sử"));
-
+        new TabLayoutMediator(tabLayout, pager2,
+                (tab, position) -> tab.setText(TAB_TEXT[position])
+        ).attach();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -67,20 +66,26 @@ public class CuaHang extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
-    };
+    }
 
-    public void reload(){
+    ;
+
+    public void reload() {
         Intent intent = getIntent();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
-        overridePendingTransition(0,0);
+        overridePendingTransition(0, 0);
         startActivity(intent);
     }
 
-    private void Anhxa(){
-        tabLayout=findViewById(R.id.tab_layout_cuahang);
-        pager2=findViewById(R.id.view_pager2_cuahang);
-        tv_diemtichluy=findViewById(R.id.tv_diemtichluy);
+    private void init() {
+        tabLayout = findViewById(R.id.tab_layout_cuahang);
+        pager2 = findViewById(R.id.view_pager2_cuahang);
+        tvTotalScore = findViewById(R.id.tv_diemtichluy);
+    }
+
+    private void getRedeemReward() {
+
     }
 }

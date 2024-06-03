@@ -49,7 +49,7 @@
             android:name="com.example.truyenapp.view.activity.RedeemRewardActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.CuaHang"
+            android:name="com.example.truyenapp.view.activity.StoreActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.ShowDanhGia"

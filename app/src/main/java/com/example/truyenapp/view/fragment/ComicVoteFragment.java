@@ -21,7 +21,7 @@ import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.VoteAdapter;
+import com.example.truyenapp.view.adapter.ComicVoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class ComicVoteFragment extends Fragment {
     private View view;
     private RecyclerView rcv;
-    private VoteAdapter adapter;
+    private ComicVoteAdapter adapter;
     private List<ClassifyStory> listCommic = new ArrayList<>();
     private Integer categoryId;
     private boolean isLoading = false;
@@ -50,7 +50,7 @@ public class ComicVoteFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_commic_vote, container, false);
+        view = inflater.inflate(R.layout.fragment_comic_card_list, container, false);
         return view;
     }
 
@@ -80,8 +80,8 @@ public class ComicVoteFragment extends Fragment {
     }
 
     private void init() {
-        this.rcv = view.findViewById(R.id.rcv_theloai_vote);
-        this.adapter = new VoteAdapter(getActivity(), listCommic);
+        this.rcv = view.findViewById(R.id.rcv_comic_card);
+        this.adapter = new ComicVoteAdapter(getActivity(), listCommic);
         this.linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);

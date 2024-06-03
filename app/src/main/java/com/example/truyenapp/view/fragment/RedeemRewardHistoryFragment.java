@@ -12,25 +12,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.view.adapter.KhoVatPhamAdapter;
+import com.example.truyenapp.view.adapter.LichSuDoiAdapter;
 import com.example.truyenapp.database.Database;
+import com.example.truyenapp.model.RewardExchange;
 import com.example.truyenapp.model.Account;
-import com.example.truyenapp.model.Item;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link KhoVatPhamFragment#newInstance} factory method to
+ * Use the {@link RedeemRewardHistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class KhoVatPhamFragment extends Fragment {
+public class RedeemRewardHistoryFragment extends Fragment {
+
 
     View view;
     Database db;
     Account account;
     public RecyclerView rcv;
-    public KhoVatPhamAdapter rcv_adapter;
+    public LichSuDoiAdapter rcv_adapter;
     String email;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -42,7 +43,7 @@ public class KhoVatPhamFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public KhoVatPhamFragment() {
+    public RedeemRewardHistoryFragment() {
         // Required empty public constructor
     }
 
@@ -52,11 +53,11 @@ public class KhoVatPhamFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment KhoVatPhamFragment.
+     * @return A new instance of fragment LichSuDoiFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static KhoVatPhamFragment newInstance(String param1, String param2) {
-        KhoVatPhamFragment fragment = new KhoVatPhamFragment();
+    public static RedeemRewardHistoryFragment newInstance(String param1, String param2) {
+        RedeemRewardHistoryFragment fragment = new RedeemRewardHistoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,8 +78,7 @@ public class KhoVatPhamFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view=inflater.inflate(R.layout.fragment_kho_vat_pham, container, false);
-
+        view = inflater.inflate(R.layout.fragment_lich_su_doi, container, false);
         Anhxa();
         db=new Database(getActivity());
 
@@ -87,7 +87,6 @@ public class KhoVatPhamFragment extends Fragment {
         account =db.getTaiKhoan(email);
 
         recyclerViewCuaHang();
-
         return view;
     }
 
@@ -95,14 +94,12 @@ public class KhoVatPhamFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        String lenhSqlite_vatpham="select * from vatpham where id in (select idvatpham from doithuong where idtaikhoan="+ account.getId()+")";
-        ArrayList<Item> item =db.getVatPham(lenhSqlite_vatpham);
-        rcv_adapter=new KhoVatPhamAdapter(getActivity(), item, account,db);
+        ArrayList<RewardExchange> rewardExchanges =db.getLichSuDoi(account);
+        rcv_adapter=new LichSuDoiAdapter(getActivity(), rewardExchanges, account,db);
         rcv.setAdapter(rcv_adapter);
     }
 
     public void Anhxa(){
-        rcv=view.findViewById(R.id.rcv_khovatpham);
+        rcv=view.findViewById(R.id.rcv_lichsudoi);
     }
-
 }
