@@ -51,7 +51,7 @@ public class ComicViewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_comic_card_list, container, false);
+        view = inflater.inflate(R.layout.fragment_rcv_linear, container, false);
         return view;
     }
 

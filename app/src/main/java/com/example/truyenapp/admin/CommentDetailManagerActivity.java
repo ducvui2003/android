@@ -12,7 +12,7 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.constraints.CommentState;
+import com.example.truyenapp.enums.CommentState;
 import com.example.truyenapp.mapper.CommentMapper;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.response.APIResponse;

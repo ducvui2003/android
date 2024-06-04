@@ -1,4 +1,4 @@
-package com.example.truyenapp.constraints;
+package com.example.truyenapp.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

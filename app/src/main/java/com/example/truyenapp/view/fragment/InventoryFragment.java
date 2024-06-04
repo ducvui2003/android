@@ -16,10 +16,10 @@ import android.view.ViewGroup;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RedeemRewardAPI;
 import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.model.Item;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.StoreAdapter;
+import com.example.truyenapp.view.adapter.InventoryAdapter;
+import com.example.truyenapp.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,19 +28,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StoreFragment extends Fragment {
+public class InventoryFragment extends Fragment {
 
-    View view;
-    public RecyclerView rcv;
-    public StoreAdapter adapter;
-    List<Item> itemList = new ArrayList<>();
-    RedeemRewardAPI redeemRewardAPI;
-
+    private View view;
+    private RecyclerView rcv;
+    private InventoryAdapter adapter;
+    private List<Item> listItem;
+    private RedeemRewardAPI redeemRewardAPI;
 
     @Override
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -57,33 +56,34 @@ public class StoreFragment extends Fragment {
         callAPI();
     }
 
-
     public void init() {
         rcv = view.findViewById(R.id.rcv_comic_card);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcv.setLayoutManager(linearLayoutManager);
-        adapter = new StoreAdapter(getActivity(), itemList);
+        listItem = new ArrayList<>();
+        adapter = new InventoryAdapter(getActivity(), listItem);
         rcv.setAdapter(adapter);
         redeemRewardAPI = RetrofitClient.getInstance(this.getContext()).create(RedeemRewardAPI.class);
     }
 
     public void callAPI() {
-        redeemRewardAPI.getItem().enqueue(new Callback<APIResponse<DataListResponse<Item>>>() {
+        redeemRewardAPI.getItemsUser().enqueue(new Callback<APIResponse<DataListResponse<Item>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<Item>>> call, Response<APIResponse<DataListResponse<Item>>> response) {
-                APIResponse<DataListResponse<Item>> data = response.body();
-                if (data.getCode() == 400 || data.getResult() == null || data.getResult().getData() == null)
+                APIResponse<DataListResponse<Item>> apiResponse = response.body();
+                if (apiResponse.getCode() == 400) {
                     return;
-                for (Item item : data.getResult().getData()) {
-                    itemList.add(item);
                 }
+                List<Item> items = apiResponse.getResult().getData();
+                listItem.addAll(items);
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<Item>>> call, Throwable throwable) {
-                Log.d("API", "onFailure: " + throwable.getMessage());
+                Log.d("InventoryFragment", "onFailure: " + throwable.getMessage());
             }
         });
     }
+
 }

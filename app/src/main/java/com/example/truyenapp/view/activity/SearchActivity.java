@@ -50,11 +50,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> categoryAdapter;
     Map<Integer, String> mapCategory;
-    List<ModelSearch> listCommic;
+    List<ModelSearch> listComic;
     public String category;
     public String keyword = "";
     private Integer categoryId;
-    private RecyclerView rcvCommic;
+    private RecyclerView rcvComic;
     private static final int REQUEST_CODE_SPEECH_INPUT = 100;
     private SearchAdapter searchAdapter;
 
@@ -66,8 +66,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         init();
         categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         autoCompleteTextView.setAdapter(categoryAdapter);
-        searchAdapter = new SearchAdapter(this, listCommic);
-        rcvCommic.setAdapter(searchAdapter);
+        searchAdapter = new SearchAdapter(this, listComic);
+        rcvComic.setAdapter(searchAdapter);
         initCategory();
 //        Handle Search
         handleEvent();
@@ -77,13 +77,13 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.inputSearch = findViewById(R.id.edt_search);
         this.autoCompleteTextView = findViewById(R.id.auto_complete_category);
         this.notify = findViewById(R.id.activity_search_notify);
-        this.rcvCommic = findViewById(R.id.activity_rcv_commic);
+        this.rcvComic = findViewById(R.id.activity_rcv_commic);
         this.inputSearchRecord = findViewById(R.id.activity_search_recog);
 //
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rcvCommic.setLayoutManager(linearLayoutManager);
+        rcvComic.setLayoutManager(linearLayoutManager);
         this.mapCategory = new HashMap<>();
-        this.listCommic = new ArrayList<>();
+        this.listComic = new ArrayList<>();
     }
 
 
@@ -134,7 +134,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     //    API
     private void searchAPI() {
-        listCommic.clear();
+        listComic.clear();
         SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);
         response.search(keyword, categoryId).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
@@ -148,7 +148,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ModelSearch item = BookMapper.INSTANCE.bookResponseToModelSearch(bookResponse);
                     item.setCategory(nameCategory);
-                    listCommic.add(item);
+                    listComic.add(item);
                 }
                 showNotify("");
                 searchAdapter.notifyDataSetChanged();

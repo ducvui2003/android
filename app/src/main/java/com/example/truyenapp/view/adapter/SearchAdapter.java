@@ -23,7 +23,6 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemViewHolder> {
     private Context context;
     private List<ModelSearch> list;
-    private String email;
 
     public SearchAdapter(Context context, List<ModelSearch> list) {
         this.context = context;
@@ -56,7 +55,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
         holder.tv_timkiem_theloai.setText(commic.getCategory());
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
-            intent.putExtra("email", email);
             intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
             holder.itemView.getContext().startActivity(intent);
         });

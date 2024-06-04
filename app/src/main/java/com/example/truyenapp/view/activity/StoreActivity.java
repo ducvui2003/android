@@ -20,7 +20,7 @@ public class StoreActivity extends AppCompatActivity {
     FragmentAdapterStore adapterFragmentStore;
     TextView tvTotalScore;
 
-    String[] TAB_TEXT = {"Cửa hàng", "Kho vật phẩm", "Lịch sử"};
+    String[] TAB_TEXT = {"Cửa hàng", "Kho vật phẩm"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

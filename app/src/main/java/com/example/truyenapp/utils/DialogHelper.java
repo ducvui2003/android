@@ -5,8 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.example.truyenapp.constraints.CommentState;
-import com.example.truyenapp.enums.ExchangeStatus;
+import com.example.truyenapp.enums.CommentState;
 import com.example.truyenapp.view.activity.Signin;
 
 import lombok.Setter;

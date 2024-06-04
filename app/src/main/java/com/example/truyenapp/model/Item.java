@@ -1,5 +1,7 @@
 package com.example.truyenapp.model;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Item {
     private int id;
-    private String nameItem;
+    private String name;
     private int point;
     private String image;
+    private Date date;
 }

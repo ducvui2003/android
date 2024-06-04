@@ -50,7 +50,7 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
 
     private void init() {
         ll_cuahang = findViewById(R.id.redeem_reward_store);
-        ll_lichsu = findViewById(R.id.ll_lichsu);
+        ll_lichsu = findViewById(R.id.redeem_reward_history);
         btnAttendance = findViewById(R.id.button_attendance_redeem_reward);
         tv_diemtichluy = findViewById(R.id.tv_diemtichluy);
         tv_songaydd = findViewById(R.id.tv_songaydd);
@@ -94,7 +94,7 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             }
-            case R.id.ll_lichsu:
+            case R.id.redeem_reward_history:
                 Intent intent1 = new Intent(this, RedeemRewardHistoryActivity.class);
                 startActivity(intent1);
                 break;

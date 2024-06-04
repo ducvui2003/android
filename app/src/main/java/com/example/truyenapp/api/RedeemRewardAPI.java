@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface RedeemRewardAPI {
     @GET("v1/items")
@@ -18,4 +19,10 @@ public interface RedeemRewardAPI {
 
     @POST("v1/items")
     Call<APIResponse<ExchangeStatus>> exchange(@Body ExchangeRequest exchangeRequest);
+
+    @GET("v1/items/user")
+    Call<APIResponse<DataListResponse<Item>>> getItemsUser();
+
+    @GET("v1/items/user/use/{id}")
+    Call<APIResponse> useItem(@Path("id") Integer itemId);
 }

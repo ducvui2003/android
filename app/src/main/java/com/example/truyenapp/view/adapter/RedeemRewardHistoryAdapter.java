@@ -15,12 +15,12 @@ import com.example.truyenapp.model.RewardPoint;
 
 import java.util.List;
 
-public class RedeemWardHistoryAdapter extends RecyclerView.Adapter<RedeemWardHistoryAdapter.Holder> {
+public class RedeemRewardHistoryAdapter extends RecyclerView.Adapter<RedeemRewardHistoryAdapter.Holder> {
     private Context context;
     private List<RewardPoint> list;
 
 
-    public RedeemWardHistoryAdapter(Context context, List<RewardPoint> list) {
+    public RedeemRewardHistoryAdapter(Context context, List<RewardPoint> list) {
         this.context = context;
         this.list = list;
     }
@@ -45,8 +45,8 @@ public class RedeemWardHistoryAdapter extends RecyclerView.Adapter<RedeemWardHis
             return;
         }
 
-        holder.tv_diem.setText("+ " + rewardPoint.getPoint() + " điểm");
-        holder.tv_ngaynhan.setText(rewardPoint.getDate().toString());
+        holder.tvScore.setText("+ " + rewardPoint.getPoint() + " điểm");
+        holder.tvDate.setText(rewardPoint.getDate().toString());
     }
 
     @Override
@@ -58,13 +58,13 @@ public class RedeemWardHistoryAdapter extends RecyclerView.Adapter<RedeemWardHis
     }
 
     protected class Holder extends RecyclerView.ViewHolder {
-        private TextView tv_diem, tv_ngaynhan;
+        private TextView tvScore, tvDate;
 
         public Holder(@NonNull View itemView) {
             super(itemView);
 
-            tv_diem = itemView.findViewById(R.id.tv_diem_lsnd);
-            tv_ngaynhan = itemView.findViewById(R.id.tv_ngaynhan_lsnd);
+            tvScore = itemView.findViewById(R.id.tv_redeem_reward_history_score);
+            tvDate = itemView.findViewById(R.id.tv_redeem_reward_history_date);
         }
     }
 }
