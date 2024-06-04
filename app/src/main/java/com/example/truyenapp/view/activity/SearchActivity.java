@@ -132,7 +132,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.searchAPI();
     }
 
-    //    API
     private void searchAPI() {
         listComic.clear();
         SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);

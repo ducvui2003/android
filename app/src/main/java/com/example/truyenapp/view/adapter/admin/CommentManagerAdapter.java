@@ -19,6 +19,7 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.enums.CommentState;
 import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.paging.PagingAdapter;
 import com.example.truyenapp.request.CommentChangeRequest;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.utils.DialogEvent;
@@ -31,39 +32,23 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentManagerAdapter extends RecyclerView.Adapter<CommentManagerViewHolder> {
-    private Context context;
-    private List<Comment> list;
-
+public class CommentManagerAdapter extends PagingAdapter<Comment, CommentManagerViewHolder> {
     public CommentManagerAdapter(Context context, List<Comment> list) {
-        this.context = context;
-        this.list = list;
+        super(context, list);
+        setItemRcv(R.layout.item_rcv_comment_management);
     }
 
-    @NonNull
     @Override
-    public CommentManagerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_comment_management, parent, false);
+    protected CommentManagerViewHolder createItemViewHolder(View view) {
         return new CommentManagerViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentManagerViewHolder holder, int position) {
-        Comment comment = list.get(position);
+    protected void bindData(CommentManagerViewHolder holder, Comment comment) {
         if (comment == null) {
             return;
         }
         holder.setData(comment);
         holder.handleOnCLick();
     }
-
-
-    @Override
-    public int getItemCount() {
-        if (list != null) {
-            return list.size();
-        }
-        return 0;
-    }
-
 }

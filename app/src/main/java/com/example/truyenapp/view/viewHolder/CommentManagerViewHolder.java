@@ -3,6 +3,7 @@ package com.example.truyenapp.view.viewHolder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -46,6 +47,10 @@ public class CommentManagerViewHolder extends RecyclerView.ViewHolder implements
     }
 
     public void setData(Comment comment) {
+        Log.d("Comment", comment.toString());
+        if (comment == null) {
+            return;
+        }
         this.comment = comment;
         id.setText("" + comment.getId());
         name.setText(comment.getBookName());

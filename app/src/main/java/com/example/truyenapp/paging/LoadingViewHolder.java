@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 
+import kotlin.jvm.internal.PropertyReference0Impl;
 import lombok.Getter;
 
 @Getter

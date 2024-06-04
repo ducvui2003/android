@@ -35,11 +35,12 @@ public class StoreItemViewHolder extends RecyclerView.ViewHolder {
 
     public StoreItemViewHolder(@NonNull View itemView) {
         super(itemView);
+        view = itemView;
         img_vatpham = itemView.findViewById(R.id.img_vatpham);
         tv_diem = itemView.findViewById(R.id.tv_store_item_score);
         tv_tenvatpham = itemView.findViewById(R.id.tv_store_item_name);
         bt_doivatpham = itemView.findViewById(R.id.btn_store_item);
-        redeemRewardAPI = RetrofitClient.getInstance(view.getContext()).create(RedeemRewardAPI.class);
+        redeemRewardAPI = RetrofitClient.getInstance(itemView.getContext()).create(RedeemRewardAPI.class);
     }
 
     public void setData(Item item) {

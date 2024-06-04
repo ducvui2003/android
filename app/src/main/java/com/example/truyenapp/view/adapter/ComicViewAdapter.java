@@ -17,92 +17,42 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.LoadingViewHolder;
+import com.example.truyenapp.paging.PagingAdapter;
 import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class ComicViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final int TYPE_ITEM = 0;
-    private static final int TYPE_LOADING = 1;
-    private boolean isLoading;
-    private Context context;
-    private List<ClassifyStory> listComic;
+public class ComicViewAdapter extends PagingAdapter<ClassifyStory, ComicViewAdapter.RankViewHolder> {
 
-    public ComicViewAdapter(Context context, List<ClassifyStory> listComic) {
-        this.context = context;
-        this.listComic = listComic;
+    public ComicViewAdapter(Context context, List<ClassifyStory> list) {
+        super(context, list);
     }
 
     public void setData(List<ClassifyStory> list) {
-        this.listComic = list;
+        this.list = list;
         notifyDataSetChanged();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (listComic != null && position == listComic.size() - 1 && isLoading)
-            return TYPE_LOADING;
-        return TYPE_ITEM;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        if (TYPE_ITEM == viewType) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
-            return new RankViewHolder(view);
-        } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_loading, parent, false);
-            return new LoadingViewHolder(view);
-        }
-    }
-
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder.getItemViewType() == TYPE_ITEM) {
-            RankViewHolder rankViewHolder = (RankViewHolder) holder;
-            ClassifyStory comic = listComic.get(position);
-            if (comic == null) {
-                return;
-            }
-            String publishDate = Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
-            Glide.with(this.context).load(comic.getLinkImage()).into(rankViewHolder.imgComic);
-            rankViewHolder.nameComic.setText(comic.getNameStory());
-            rankViewHolder.info.setText("Tổng lượt xem: " + comic.getView());
-            rankViewHolder.dateComic.setText("Ngày đăng: " + publishDate);
-            rankViewHolder.detailComicView.setOnClickListener(view -> {
-                Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
-                intent.putExtra(BundleConstraint.ID_COMMIC, comic.getId());
-                holder.itemView.getContext().startActivity(intent);
-            });
-        } else {
-            ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
-        }
-
-    }
-
-    public void addFooterLoading() {
-        isLoading = true;
-        listComic.add(null);
-    }
-
-    public void removeFooterLoading() {
-        isLoading = false;
-        int position = listComic.size() - 1;
-        ClassifyStory commic = listComic.get(position);
-        if (commic != null) {
-            listComic.remove(position);
-            notifyItemRemoved(position);
-        }
+    protected RankViewHolder createItemViewHolder(View view) {
+        return new RankViewHolder(view);
     }
 
     @Override
-    public int getItemCount() {
-        if (listComic != null)
-            return listComic.size();
-        return 0;
+    protected void bindData(RankViewHolder holder, ClassifyStory comic) {
+        if (comic == null) {
+            return;
+        }
+        String publishDate = Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
+        Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgComic);
+        holder.nameComic.setText(comic.getNameStory());
+        holder.info.setText("Tổng lượt xem: " + comic.getView());
+        holder.dateComic.setText("Ngày đăng: " + publishDate);
+        holder.detailComicView.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
+            intent.putExtra(BundleConstraint.ID_COMMIC, comic.getId());
+            holder.itemView.getContext().startActivity(intent);
+        });
     }
 
     public static class RankViewHolder extends RecyclerView.ViewHolder {
