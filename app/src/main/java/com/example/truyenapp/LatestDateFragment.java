@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ClassifyStory;
-import com.example.truyenapp.model.Story;
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.view.activity.CategoryActivity;
 import com.example.truyenapp.view.adapter.TheLoaiAdapter;
 
@@ -23,7 +23,7 @@ public class LatestDateFragment extends Fragment{
     View view;
     CategoryActivity categoryActivity;
     Database db;
-    Story story;
+    Comic comic;
     public RecyclerView rcv;
     public TheLoaiAdapter rcv_adapter;
     String email;

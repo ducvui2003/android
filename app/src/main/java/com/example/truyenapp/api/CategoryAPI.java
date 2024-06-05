@@ -10,6 +10,4 @@ import retrofit2.http.GET;
 public interface CategoryAPI {
     @GET("v1/categories")
     Call<List<CategoryResponse>> getAll();
-
-
 }

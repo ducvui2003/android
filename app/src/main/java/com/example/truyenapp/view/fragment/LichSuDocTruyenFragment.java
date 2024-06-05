@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Story;
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.view.adapter.TruyenDaDocAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ReadingHistory;
@@ -31,7 +31,7 @@ public class LichSuDocTruyenFragment extends Fragment {
     String email;
     Account account;
     Database db;
-    Story story;
+    Comic comic;
     public RecyclerView rcv;
     public TruyenDaDocAdapter rcv_adapter;
 

@@ -1,7 +1,6 @@
 package com.example.truyenapp.view.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.Notification;
-import com.example.truyenapp.model.Story;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ThongBaoViewHolder> {
     private Context context;

@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.activity.DocChapter;
+import com.example.truyenapp.model.Comic;
+import com.example.truyenapp.view.activity.ReadChapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.model.ReadingHistory;
@@ -52,17 +52,17 @@ public class TruyenDaDocAdapter extends RecyclerView.Adapter<TruyenDaDocAdapter.
 
         int id=truyendadoc.getIdChapter();
         Chapter chapter=db.getOneChapter(id);
-        Story story =db.getOneTruyen(chapter);
-        String tenchaptermoinhat=db.getTenChapterNew(story.getId());
+        Comic comic =db.getOneTruyen(chapter);
+        String tenchaptermoinhat=db.getTenChapterNew(comic.getId());
 
-        Glide.with(this.context).load(story.getLinkImage()).into(holder.img_truyendadoc);
-        holder.tv_tentruyen.setText(story.getNameStory());
+        Glide.with(this.context).load(comic.getLinkImage()).into(holder.img_truyendadoc);
+        holder.tv_tentruyen.setText(comic.getNameStory());
         holder.tv_chapterdangxem.setText("Chapter đang xem: "+chapter.getTenchapter());
         holder.tv_chaptermoinhat.setText("Chapter mới nhất: "+tenchaptermoinhat);
 
         holder.ll_rcv_truyendadoc.setOnClickListener(view -> {
-            Intent intent=new Intent(holder.itemView.getContext(), DocChapter.class);
-            intent.putExtra("id_truyen", story.getId());
+            Intent intent=new Intent(holder.itemView.getContext(), ReadChapter.class);
+            intent.putExtra("id_truyen", comic.getId());
             intent.putExtra("id_chapter",truyendadoc.getIdChapter());
             intent.putExtra("email", account.getEmail());
             holder.itemView.getContext().startActivity(intent);

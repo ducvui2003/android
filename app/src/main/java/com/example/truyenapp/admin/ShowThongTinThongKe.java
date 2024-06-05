@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.model.Statistical;
-import com.example.truyenapp.model.Story;
 
 public class ShowThongTinThongKe extends AppCompatActivity {
     ImageView img;
@@ -35,10 +35,10 @@ public class ShowThongTinThongKe extends AppCompatActivity {
     }
 
     private void setData(){
-        Story story =db.getTruyenById(statistical.getIdStory());
+        Comic comic =db.getTruyenById(statistical.getIdStory());
 
-        Glide.with(this).load(story.getLinkImage()).into(img);
-        tv_qltk_tentruyen.setText(story.getNameStory());
+        Glide.with(this).load(comic.getLinkImage()).into(img);
+        tv_qltk_tentruyen.setText(comic.getNameStory());
         tv_qltk_id.setText(""+ statistical.getId());
         tv_qltk_danhgia.setText(""+db.TBDanhGiaTruyen(statistical.getIdStory()));
         tv_qltk_tongdanhgia.setText(""+db.getTongDanhGiaTruyen(statistical.getIdStory()));

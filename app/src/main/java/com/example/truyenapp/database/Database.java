@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.model.Evaluate;
@@ -15,9 +16,7 @@ import com.example.truyenapp.model.ModelSearch;
 import com.example.truyenapp.model.ContentOfChapter;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.model.Account;
-import com.example.truyenapp.model.Notification;
 import com.example.truyenapp.model.Statistical;
-import com.example.truyenapp.model.Story;
 import com.example.truyenapp.model.Item;
 
 import java.util.ArrayList;
@@ -2575,8 +2574,8 @@ public class Database extends SQLiteOpenHelper {
             return true;
     }
 
-    public ArrayList<Story> getListTruyen(){
-        ArrayList<Story> truyenlist = new ArrayList<>();
+    public ArrayList<Comic> getListTruyen(){
+        ArrayList<Comic> truyenlist = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from truyen",null);
@@ -2605,8 +2604,8 @@ public class Database extends SQLiteOpenHelper {
         return listtentruyen;
     }
 
-    public ArrayList<Story> getTruyen(String lenhSQL) {
-        ArrayList<Story> truyenlist = new ArrayList<>();
+    public ArrayList<Comic> getTruyen(String lenhSQL) {
+        ArrayList<Comic> truyenlist = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(lenhSQL,null);
@@ -2620,7 +2619,7 @@ public class Database extends SQLiteOpenHelper {
         return truyenlist;
     }
 
-    public Story getTruyenById(int id){
+    public Comic getTruyenById(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from truyen where id=?",new String[] {""+id});
         cursor.moveToFirst();
@@ -2873,7 +2872,7 @@ public class Database extends SQLiteOpenHelper {
         return listtimkiem;
     }
 
-    public Story getOneTruyen(Chapter chapter){
+    public Comic getOneTruyen(Chapter chapter){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from truyen where id=?",new String[] {""+chapter.getIdtruyen()});
         cursor.moveToFirst();

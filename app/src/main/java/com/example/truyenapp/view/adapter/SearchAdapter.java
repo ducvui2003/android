@@ -6,14 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.truyenapp.CTTruyen;
+import com.example.truyenapp.view.activity.DetailComicActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ModelSearch;
@@ -55,7 +54,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
         holder.tv_timkiem_dg.setText("Đánh giá: " + commic.getEvaluate());
         holder.tv_timkiem_theloai.setText(commic.getCategory());
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
+            Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
             intent.putExtra("email", email);
             intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
             holder.itemView.getContext().startActivity(intent);

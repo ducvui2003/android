@@ -2,7 +2,6 @@ package com.example.truyenapp.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.truyenapp.CTTruyen;
+import com.example.truyenapp.view.activity.DetailComicActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ClassifyStory;
@@ -73,7 +72,7 @@ public class VoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rankVoteHolder.info.setText("Đánh giá: " + commic.getEvaluate());
             rankVoteHolder.dateCommic.setText("Ngày đăng: " + publishDate);
             rankVoteHolder.detailCommicView.setOnClickListener(view -> {
-                Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
+                Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
                 intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
                 holder.itemView.getContext().startActivity(intent);
             });

@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.ContentOfChapter;
+import com.example.truyenapp.response.ChapterContentRespone;
 
 import java.util.List;
 
 public class DocChapterAdapter extends RecyclerView.Adapter<DocChapterAdapter.DocChapterViewHolder> {
 
-    private List<ContentOfChapter> list;
+    private List<ChapterContentRespone> list;
     private Context context;
 
-    public DocChapterAdapter(List<ContentOfChapter> list, Context context) {
+    public DocChapterAdapter(List<ChapterContentRespone> list, Context context) {
         this.list = list;
         this.context = context;
     }
@@ -34,7 +35,7 @@ public class DocChapterAdapter extends RecyclerView.Adapter<DocChapterAdapter.Do
 
     @Override
     public void onBindViewHolder(@NonNull DocChapterAdapter.DocChapterViewHolder holder, int position) {
-        ContentOfChapter contentOfChapter =list.get(position);
+        ChapterContentRespone contentOfChapter =list.get(position);
         if(contentOfChapter ==null){
             return;
         }

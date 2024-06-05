@@ -1,5 +1,7 @@
 package com.example.truyenapp.api;
 
+import com.example.truyenapp.response.APIResponse;
+import com.example.truyenapp.response.ChapterContentRespone;
 import com.example.truyenapp.response.ChapterResponse;
 
 import java.util.List;
@@ -15,5 +17,6 @@ public interface ChapterAPI {
 
     @GET("v1/chapters/{id}")
     Call<ChapterResponse> getChapter(@Path("id") int id);
-
+    @GET("v1/chapter-{id}")
+    Call<APIResponse<List<ChapterContentRespone>>> getChapterContent(@Path("id") Integer id);
 }
