@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.admin.ShowThongTinThongKe;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.model.Statistical;
-import com.example.truyenapp.model.Story;
 
 import java.util.ArrayList;
 
@@ -45,8 +45,8 @@ public class QLThongKeAdapter extends RecyclerView.Adapter<QLThongKeAdapter.QLTh
         }
 
         holder.tv_idqlthongke.setText(""+ statistical.getId());
-        Story story =db.getTruyenById(statistical.getIdStory());
-        holder.tv_qltktentruyen.setText(story.getNameStory());
+        Comic comic =db.getTruyenById(statistical.getIdStory());
+        holder.tv_qltktentruyen.setText(comic.getNameStory());
         holder.ll_rcv_qlthongke.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), ShowThongTinThongKe.class);
             intent.putExtra("id_thongke", statistical.getId());

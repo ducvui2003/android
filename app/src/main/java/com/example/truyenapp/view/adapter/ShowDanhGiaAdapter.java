@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Evaluate;
-import com.example.truyenapp.model.Story;
+import com.example.truyenapp.model.Comic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,14 +47,14 @@ public class ShowDanhGiaAdapter extends RecyclerView.Adapter<ShowDanhGiaAdapter.
 
         int idtruyen=db.getIdTruyen(evaluate.getIdChapter());
         String lenhSQlite="select * from truyen where id="+idtruyen;
-        ArrayList<Story> list=db.getTruyen(lenhSQlite);
-        Story story =list.get(0);
+        ArrayList<Comic> list=db.getTruyen(lenhSQlite);
+        Comic comic =list.get(0);
 
-        Glide.with(this.context).load(story.getLinkImage()).into(holder.img_tong_truyen);
+        Glide.with(this.context).load(comic.getLinkImage()).into(holder.img_tong_truyen);
         holder.tv_tong_ngaydang.setText(evaluate.getEvaluateDate());
         holder.tv_tong_pl.setText("Đánh giá: "+ evaluate.getStar());
         holder.tv_tong_tenchapter.setText(db.getTenChapter(evaluate.getIdChapter()));
-        holder.tv_tong_tentruyen.setText(story.getNameStory());
+        holder.tv_tong_tentruyen.setText(comic.getNameStory());
     }
 
     @Override
