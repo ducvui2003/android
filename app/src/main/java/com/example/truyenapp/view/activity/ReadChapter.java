@@ -34,7 +34,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     private RecyclerView rcv, rcvComment;
     private DocChapterAdapter rcvAdapter;
     private BinhLuanAdapter rcvCommentAdapter;
-    public int idChapter, idComic;
+    public Integer idChapter, idComic;
     TextView chapterName, star;
     ImageView imgBackChapter, imgPre, imgNext;
     Button btnRate, btnComment;
@@ -43,24 +43,15 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     private ChapterAPI chapterAPI;
     private ArrayList<String> listChapterName;
     private int position;
+    private ArrayList<Integer> listChapterId;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.docchapter);
         init();
-        chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        rcv.setLayoutManager(linearLayoutManager);
-
-        Intent intent = getIntent();
-        idChapter = intent.getIntExtra(BundleConstraint.ID_CHAPTER, 0);
-        idComic = intent.getIntExtra(BundleConstraint.ID_COMMIC, 0);
-        rcv.setAdapter(rcvAdapter);
-        position = intent.getIntExtra("position", 0);
-        listChapterName = intent.getStringArrayListExtra("listChapterName");
-        chapterName.setText(listChapterName.get(position));
+        initIntent();
         setOnClickListener();
         getChapterContent(idChapter);
     }
@@ -77,6 +68,21 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
         btnRate = findViewById(R.id.bt_danhgia);
         rtb = findViewById(R.id.rtb);
         star = findViewById(R.id.tv_sosaochapter);
+        chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        this.rcv.setLayoutManager(linearLayoutManager);
+        this.rcv.setAdapter(rcvAdapter);
+    }
+
+    private void initIntent() {
+        this.intent = getIntent();
+        this.idChapter = intent.getIntExtra(BundleConstraint.ID_CHAPTER, 0);
+        this.idComic = intent.getIntExtra(BundleConstraint.ID_COMMIC, 0);
+        this.position = intent.getIntExtra(BundleConstraint.POSITION, 0);
+        this.listChapterName = intent.getStringArrayListExtra(BundleConstraint.LIST_CHAPTER_NAME);
+        this.chapterName.setText(listChapterName.get(position));
+        this.listChapterId = intent.getIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID);
     }
 
     @Override
@@ -85,16 +91,14 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
             case R.id.img_pre:
                 if (!isPre()) return;
                 Intent intent = new Intent(this, ReadChapter.class);
-                setupIntent(intent);
-                intent.putExtra("position", getIntent().getIntExtra("position", 0) -1);
+                setupIntent(intent, position - 1);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.img_next:
                 if (!isNext()) return;
                 Intent intent1 = new Intent(this, ReadChapter.class);
-                setupIntent(intent1);
-                intent1.putExtra("position", getIntent().getIntExtra("position", 0) + 1);
+                setupIntent(intent1, position + 1);
                 startActivity(intent1);
                 break;
             case R.id.img_backdoctruyen:
@@ -142,18 +146,19 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     }
 
     public boolean isNext() {
-        if (position == listChapterName.size() - 1) return false;
-        return true;
+        return position != listChapterName.size() - 1;
     }
 
     public boolean isPre() {
-        if (position == 0) return false;
-        return true;
+        return position != 0;
     }
 
-    private void setupIntent(Intent intent){
-        intent.putExtra(BundleConstraint.ID_CHAPTER, idChapter);
+    private void setupIntent(Intent intent, int position) {
+        intent.putExtra(BundleConstraint.QUANTITY, listChapterName.size());
         intent.putExtra(BundleConstraint.ID_COMMIC, idComic);
-        intent.putExtra("listChapterName", listChapterName);
+        intent.putExtra(BundleConstraint.POSITION, position);
+        intent.putExtra(BundleConstraint.LIST_CHAPTER_NAME, listChapterName);
+        intent.putIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID, listChapterId);
+        intent.putExtra(BundleConstraint.ID_CHAPTER, listChapterId.get(position));
     }
 }

@@ -24,11 +24,12 @@ import com.example.truyenapp.view.activity.ReadChapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder>{
+public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterViewHolder> {
     private Context context;
     private List<ChapterResponse> list;
     private boolean isLogin;
-    public ChapterAdapter(Context context,List<ChapterResponse> list) {
+
+    public ChapterAdapter(Context context, List<ChapterResponse> list) {
         this.context = context;
         this.list = list;
     }
@@ -36,38 +37,38 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
     @NonNull
     @Override
     public ChapterAdapter.ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_chapter,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_chapter, parent, false);
         return new ChapterAdapter.ChapterViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChapterAdapter.ChapterViewHolder holder, int position) {
-        ChapterResponse chapter=list.get(position);
-        if(chapter==null){
+        ChapterResponse chapter = list.get(position);
+        if (chapter == null) {
             return;
         }
         holder.textViewChapter.setText(chapter.getName());
-        holder.view.setText("Lượt xem: "+chapter.getView());
-        holder.ngayDang.setText("Ngày đăng: "+chapter.getPublishDate());
+        holder.view.setText("Lượt xem: " + chapter.getView());
+        holder.ngayDang.setText("Ngày đăng: " + chapter.getPublishDate());
         holder.chapterItem.setOnClickListener(view -> {
             this.isLogin = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(context, SystemConstant.JWT_TOKEN, JWTToken.class));
-            if(isLogin){
-                Intent intent=new Intent(holder.itemView.getContext(), ReadChapter.class);
-                intent.putExtra(BundleConstraint.ID_CHAPTER,chapter.getId());
-                intent.putExtra("chapterName", chapter.getName());
-                intent.putExtra("quantity",list.size());
-                intent.putStringArrayListExtra("listChapterName", getChapterName());
-                intent.putExtra("position", position);
+            if (isLogin) {
+                Intent intent = new Intent(holder.itemView.getContext(), ReadChapter.class);
+                intent.putExtra(BundleConstraint.QUANTITY, list.size());
+                intent.putExtra(BundleConstraint.POSITION, position);
+                intent.putStringArrayListExtra(BundleConstraint.LIST_CHAPTER_NAME, getChapterName());
+                intent.putIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID, getChapterId());
+                intent.putExtra(BundleConstraint.ID_CHAPTER, getChapterId().get(position));
                 holder.itemView.getContext().startActivity(intent);
-            }else {
-             Toast.makeText(this.context,"Vui lòng đăng nhập để xem nội dung truyện!",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this.context, "Vui lòng đăng nhập để xem nội dung truyện!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        if(list!=null){
+        if (list != null) {
             return list.size();
         }
         return 0;
@@ -80,15 +81,20 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
 
         public ChapterViewHolder(@NonNull View itemView) {
             super(itemView);
-            textViewChapter =itemView.findViewById(R.id.tv_chapter);
-            ngayDang =itemView.findViewById(R.id.tv_ngaydang);
-            view =itemView.findViewById(R.id.tv_luotxem);
-            chapterItem =itemView.findViewById(R.id.ll_rcv_chapter);
+            textViewChapter = itemView.findViewById(R.id.tv_chapter);
+            ngayDang = itemView.findViewById(R.id.tv_ngaydang);
+            view = itemView.findViewById(R.id.tv_luotxem);
+            chapterItem = itemView.findViewById(R.id.ll_rcv_chapter);
         }
     }
 
-    public ArrayList<String> getChapterName(){
+    public ArrayList<String> getChapterName() {
         ArrayList<String> listChapterName = list.stream().collect(ArrayList::new, (list, chapter) -> list.add(chapter.getName()), ArrayList::addAll);
         return listChapterName;
+    }
+
+    private ArrayList<Integer> getChapterId() {
+        ArrayList<Integer> listChapterId = list.stream().collect(ArrayList::new, (list, chapter) -> list.add(chapter.getId()), ArrayList::addAll);
+        return listChapterId;
     }
 }
