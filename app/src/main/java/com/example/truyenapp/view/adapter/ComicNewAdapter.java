@@ -10,13 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ClassifyStory;
-import com.example.truyenapp.paging.LoadingViewHolder;
 import com.example.truyenapp.paging.PagingAdapter;
 import com.example.truyenapp.utils.Format;
+import com.example.truyenapp.view.activity.DetailComicActivity;
 
 import java.util.List;
 
@@ -48,8 +47,8 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
         holder.dateComic.setText("Ngày đăng: " + publishDate);
         holder.info.setVisibility(View.GONE);
         holder.detailComicView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
-            intent.putExtra(BundleConstraint.ID_COMMIC, comic.getId());
+            Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
+            intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }

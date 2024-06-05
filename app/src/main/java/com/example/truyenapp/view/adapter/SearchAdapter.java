@@ -13,10 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.truyenapp.CTTruyen;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ModelSearch;
+import com.example.truyenapp.view.activity.DetailComicActivity;
 
 import java.util.List;
 
@@ -55,8 +55,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.review.setText("Đánh giá: " + Math.round(commic.getEvaluate() * 10) / 10.0);
         holder.category.setText(commic.getCategory());
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), CTTruyen.class);
-            intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
+            Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
+            intent.putExtra(BundleConstraint.ID_COMIC, commic.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }

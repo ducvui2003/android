@@ -19,7 +19,7 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
-import com.example.truyenapp.view.adapter.BinhLuanTruyenAdapter;
+import com.example.truyenapp.view.adapter.CommentAdapter;
 
 import retrofit2.Callback;
 
@@ -28,7 +28,7 @@ public class DetailFragment extends Fragment {
     private View view;
     private TextView rating, totalView, totalComment, description;
     private RecyclerView rcvBinhLuan;
-    private BinhLuanTruyenAdapter rcvAdapter;
+    private CommentAdapter rcvAdapter;
     private int idComic;
     private BookAPI bookAPI;
 
