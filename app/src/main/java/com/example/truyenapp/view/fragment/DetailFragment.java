@@ -13,13 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.BookAPI;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CommentResponse;
@@ -36,12 +37,19 @@ import retrofit2.Response;
 public class DetailFragment extends Fragment {
     private View view;
     private TextView rating, totalView, totalComment, description;
-    private RecyclerView rcvComment;
-    private CommentAdapter commentAdapter;
-    private List<CommentResponse> commentList;
+    private RecyclerView rcv;
+    private CommentAdapter adapter;
+    private List<CommentResponse> list;
+    private LinearLayoutManager linearLayoutManager;
     private int idComic;
     private BookAPI bookAPI;
     private CommentAPI commentAPI;
+    //Paging comment
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int totalPage;
+    private int currentPage = 1;
+    private final int PAGE_SIZE = 5;
 
     public DetailFragment(int idComic) {
         this.idComic = idComic;
@@ -64,7 +72,25 @@ public class DetailFragment extends Fragment {
         init();
         bookAPI = RetrofitClient.getInstance(getContext()).create(BookAPI.class);
         getDetail(idComic);
-        getComments();
+        getData();
+        rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {
+            @Override
+            public void loadMoreItem() {
+                isLoading = true;
+                currentPage += 1;
+                getData();
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+        });
     }
 
     private void init() {
@@ -72,12 +98,13 @@ public class DetailFragment extends Fragment {
         totalView = view.findViewById(R.id.tv_tongluotxem);
         totalComment = view.findViewById(R.id.tv_tongbinhluan);
         description = view.findViewById(R.id.tv_motatruyen);
-        rcvComment = view.findViewById(R.id.rcv_comic_detail_comment);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        rcvComment.setLayoutManager(linearLayoutManager);
-        commentList = new ArrayList<>();
-        commentAdapter = new CommentAdapter(getContext(), commentList);
-        rcvComment.setAdapter(commentAdapter);
+        rcv = view.findViewById(R.id.rcv_comic_detail_comment);
+        linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        rcv.setLayoutManager(linearLayoutManager);
+        list = new ArrayList<>();
+        adapter = new CommentAdapter(getContext(), list);
+        adapter.setItemRcv(R.layout.item_rcv_comment);
+        rcv.setAdapter(adapter);
         commentAPI = RetrofitClient.getInstance(getContext()).create(CommentAPI.class);
     }
 
@@ -100,6 +127,29 @@ public class DetailFragment extends Fragment {
                 Log.d("DetailFragment", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private void setFirstData(List<CommentResponse> list) {
+        this.list.addAll(list);
+        adapter.setData(this.list);
+        if (currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadNextPage(List<CommentResponse> list) {
+        adapter.removeFooterLoading();
+        this.list.addAll(list);
+        adapter.notifyDataSetChanged();
+        this.isLoading = false;
+        if (currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
     }
 
     public void getDetail(int comicId) {
@@ -127,16 +177,28 @@ public class DetailFragment extends Fragment {
         });
     }
 
-    public void getComments() {
-        commentAPI.getComments("BY_BOOK", idComic, 0, 10).enqueue(new Callback<APIResponse<DataListResponse<CommentResponse>>>() {
+    public void getData() {
+        commentAPI.getComments("BY_BOOK", idComic, currentPage, PAGE_SIZE).enqueue(new Callback<APIResponse<DataListResponse<CommentResponse>>>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<CommentResponse>>> call, Response<APIResponse<DataListResponse<CommentResponse>>> response) {
-                APIResponse<DataListResponse<CommentResponse>> apiResponse = response.body();
-                if (apiResponse == null || apiResponse.getCode() == 400) return;
-                DataListResponse<CommentResponse> dataListResponse = apiResponse.getResult();
-                commentList.addAll(dataListResponse.getData());
-                commentAdapter.setList(commentList);
+                APIResponse<DataListResponse<CommentResponse>> data = response.body();
+                if (data == null || data.getResult() == null || data.getResult().getData() == null) {
+                    return;
+                }
+
+                if (data.getCode() == 400)
+                    return;
+                List<CommentResponse> listTemp = new ArrayList<>();
+                currentPage = data.getResult().getCurrentPage();
+                totalPage = data.getResult().getTotalPages();
+                listTemp.addAll(data.getResult().getData());
+                adapter.setData(listTemp);
+                if (currentPage == 1) {
+                    setFirstData(listTemp);
+                } else {
+                    loadNextPage(listTemp);
+                }
             }
 
             @Override

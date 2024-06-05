@@ -14,36 +14,30 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.model.Account;
+import com.example.truyenapp.paging.PagingAdapter;
 import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-
-    private Context context;
-    private List<CommentResponse> list;
+public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapter.CommentViewHolder> {
 
     public CommentAdapter(Context context, List<CommentResponse> list) {
-        this.context = context;
-        this.list = list;
+        super(context, list);
     }
 
-    public void setList(List<CommentResponse> list) {
+    public void setData(List<CommentResponse> list) {
         this.list = list;
         notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
-    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_comment, parent, false);
+    protected CommentViewHolder createItemViewHolder(View view) {
         return new CommentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        CommentResponse comment = list.get(position);
+    protected void bindData(CommentViewHolder holder, CommentResponse comment) {
         if (comment == null) {
             return;
         }
@@ -57,12 +51,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.chapter.setText(nameChapter);
     }
 
+    @NonNull
     @Override
-    public int getItemCount() {
-        if (list != null) {
-            return list.size();
-        }
-        return 0;
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_comment, parent, false);
+        return new CommentViewHolder(view);
     }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {

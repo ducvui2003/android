@@ -32,7 +32,7 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
 
 
     public void setData(List<ClassifyStory> list) {
-        setList(list);
+        setData(list);
         notifyDataSetChanged();
     }
 

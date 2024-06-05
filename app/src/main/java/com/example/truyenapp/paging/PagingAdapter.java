@@ -1,6 +1,7 @@
 package com.example.truyenapp.paging;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,6 +78,7 @@ public abstract class PagingAdapter<T, VH extends RecyclerView.ViewHolder> exten
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
+        Log.d("TAG", "onBindViewHolder: " + " " + list.size());
         if (holder.getItemViewType() == TYPE_ITEM) {
             bindData(holder, list.get(position));
         } else {
