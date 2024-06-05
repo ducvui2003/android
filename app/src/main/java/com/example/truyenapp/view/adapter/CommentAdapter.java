@@ -18,13 +18,13 @@ import com.example.truyenapp.model.Account;
 
 import java.util.List;
 
-public class BinhLuanTruyenAdapter extends RecyclerView.Adapter<BinhLuanTruyenAdapter.BinhLuanTruyenViewHolder>{
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder>{
 
     private Context context;
     private List<Comment> list;
     private Database db;
 
-    public BinhLuanTruyenAdapter(Context context, List<Comment> list, Database db) {
+    public CommentAdapter(Context context, List<Comment> list, Database db) {
         this.context = context;
         this.list = list;
         this.db = db;
@@ -32,13 +32,13 @@ public class BinhLuanTruyenAdapter extends RecyclerView.Adapter<BinhLuanTruyenAd
 
     @NonNull
     @Override
-    public BinhLuanTruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_binhluan_truyen,parent,false);
-        return new BinhLuanTruyenAdapter.BinhLuanTruyenViewHolder(view);
+        return new CommentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BinhLuanTruyenViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
         Comment binhLuan=list.get(position);
         if(binhLuan==null){
             return;
@@ -62,18 +62,18 @@ public class BinhLuanTruyenAdapter extends RecyclerView.Adapter<BinhLuanTruyenAd
         return 0;
     }
 
-    public class BinhLuanTruyenViewHolder extends RecyclerView.ViewHolder{
+    public class CommentViewHolder extends RecyclerView.ViewHolder{
         private TextView tv_taikhoan_blt,tv_nd_blt,tv_ngaybinhluant,tv_tenchapter_blt;
         private ImageView img_avatar;
 
-        public BinhLuanTruyenViewHolder(@NonNull View itemView) {
+        public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tv_nd_blt=itemView.findViewById(R.id.tv_nd_blt);
-            tv_taikhoan_blt=itemView.findViewById(R.id.tv_taikhoan_blt);
-            tv_ngaybinhluant=itemView.findViewById(R.id.tv_ngaybinhluant);
-            tv_tenchapter_blt=itemView.findViewById(R.id.tv_tenchapter_blt);
-            img_avatar=itemView.findViewById(R.id.img_avatar);
+            tv_nd_blt=itemView.findViewById(R.id.tv_item_comment_content);
+            tv_taikhoan_blt=itemView.findViewById(R.id.tv_item_comment_name);
+            tv_ngaybinhluant=itemView.findViewById(R.id.tv_item_comment_date);
+            tv_tenchapter_blt=itemView.findViewById(R.id.tv_item_comment_chapter);
+            img_avatar=itemView.findViewById(R.id.image_item_comment_avatar);
         }
     }
 }

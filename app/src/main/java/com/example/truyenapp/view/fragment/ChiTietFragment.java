@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.Story;
-import com.example.truyenapp.view.adapter.BinhLuanTruyenAdapter;
+import com.example.truyenapp.view.adapter.CommentAdapter;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.model.Account;
@@ -37,7 +37,7 @@ public class ChiTietFragment extends Fragment {
     Account account;
     String email;
     private RecyclerView rcv_binhluan;
-    private BinhLuanTruyenAdapter rcv_adapter;
+    private CommentAdapter rcv_adapter;//
     int id_truyen;
 
 
@@ -128,7 +128,7 @@ public class ChiTietFragment extends Fragment {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL,false);
         rcv_binhluan.setLayoutManager(linearLayoutManager);
         ArrayList<Comment> listBinhLuan=db.getBinhLuanTruyen(id_truyen);
-        rcv_adapter=new BinhLuanTruyenAdapter(getActivity(),listBinhLuan,db);
+        rcv_adapter=new CommentAdapter(getActivity(),listBinhLuan,db);
         rcv_binhluan.setAdapter(rcv_adapter);
     }
 }

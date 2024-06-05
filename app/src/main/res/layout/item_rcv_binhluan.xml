@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <ImageView
-        android:id="@+id/img_avatar"
+        android:id="@+id/image_item_comment_avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/logox"
