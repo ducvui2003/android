@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.truyenapp.CTTruyen;
+import com.example.truyenapp.view.activity.DetailComicActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.ReadingHistory;
@@ -195,19 +195,19 @@ public class GoiYTruyenFragment extends Fragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cv_truyenmoi:
-                Intent dialog_box = new Intent(getActivity(), CTTruyen.class);
+                Intent dialog_box = new Intent(getActivity(), DetailComicActivity.class);
                 dialog_box.putExtra("email",email);
                 dialog_box.putExtra("id_truyen",idmoi);
                 startActivity(dialog_box);
                 break;
             case R.id.cv_truyenluotxem:
-                Intent dialog_box1 = new Intent(getActivity(), CTTruyen.class);
+                Intent dialog_box1 = new Intent(getActivity(), DetailComicActivity.class);
                 dialog_box1.putExtra("email",email);
                 dialog_box1.putExtra("id_truyen",idluotxem);
                 startActivity(dialog_box1);
                 break;
             case R.id.cv_truyendanhgia:
-                Intent dialog_box2 = new Intent(getActivity(), CTTruyen.class);
+                Intent dialog_box2 = new Intent(getActivity(), DetailComicActivity.class);
                 dialog_box2.putExtra("email",email);
                 dialog_box2.putExtra("id_truyen",iddanhgia);
                 startActivity(dialog_box2);

@@ -13,15 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.truyenapp.CTTruyen;
+import com.example.truyenapp.constraints.BundleConstraint;
+import com.example.truyenapp.model.Comic;
+import com.example.truyenapp.view.activity.DetailComicActivity;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Story;
 
 import java.util.List;
 
 public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenViewHolder>{
     private Context context;
-    private List<Story> list;
+    private List<Comic> list;
     private String email;
 
     public TruyenAdapter(Context context, String email) {
@@ -29,14 +30,14 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
         this.email = email;
     }
 
-    public TruyenAdapter(List<Story> list, Context context, String email)
+    public TruyenAdapter(List<Comic> list, Context context, String email)
     {
         this.list=list;
         this.context=context;
         this.email=email;
     }
-    public void setData(List<Story> storyList) {
-        this.list = storyList;
+    public void setData(List<Comic> comicList) {
+        this.list = comicList;
         this.notifyDataSetChanged();
     }
     @NonNull
@@ -47,17 +48,17 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
     }
     @Override
     public void onBindViewHolder(@NonNull TruyenAdapter.TruyenViewHolder holder, int position) {
-        Story story =list.get(position);
-        if(story ==null){
+        Comic comic =list.get(position);
+        if(comic ==null){
             return;
         }
 
-        Glide.with(this.context).load(story.getLinkImage()).into(holder.imgtruyen);
-        holder.tv_tentruyen.setText(story.getNameStory());
+        Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgtruyen);
+        holder.tv_tentruyen.setText(comic.getNameStory());
         holder.ll_rcv.setOnClickListener(view -> {
-            Intent intent=new Intent(holder.itemView.getContext(), CTTruyen.class);
-            intent.putExtra("id_truyen", story.getId());
-            intent.putExtra("email",email);
+            Intent intent=new Intent(holder.itemView.getContext(), DetailComicActivity.class);
+            intent.putExtra(BundleConstraint.ID_COMMIC, comic.getId());
+//            intent.putExtra("email",email);
             holder.itemView.getContext().startActivity(intent);
         });
     }

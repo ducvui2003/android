@@ -34,7 +34,7 @@
             android:name="com.example.truyenapp.view.activity.HomeActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.CTTruyen"
+            android:name="com.example.truyenapp.view.activity.DetailComicActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.SearchActivity"
@@ -43,7 +43,7 @@
             android:name="com.example.truyenapp.view.activity.RankActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.DocChapter"
+            android:name="com.example.truyenapp.view.activity.ReadChapter"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.RedeemRewardActivity"

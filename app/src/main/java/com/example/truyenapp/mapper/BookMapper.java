@@ -1,7 +1,7 @@
 package com.example.truyenapp.mapper;
 
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.model.ModelSearch;
-import com.example.truyenapp.model.Story;
 import com.example.truyenapp.response.BookResponse;
 
 import org.mapstruct.Mapper;
@@ -25,5 +25,5 @@ public interface BookMapper {
     @Mapping(source = "author", target = "author")
     @Mapping(source = "description", target = "describe")
     @Mapping(source = "thumbnail", target = "linkImage")
-    Story bookResponseToStory(BookResponse bookResponse);
+    Comic bookResponseToStory(BookResponse bookResponse);
 }

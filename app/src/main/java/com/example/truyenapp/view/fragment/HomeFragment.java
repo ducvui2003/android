@@ -26,7 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.truyenapp.model.Category;
+import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.utils.DialogHelper;
 import com.example.truyenapp.view.activity.CategoryActivity;
@@ -51,7 +51,6 @@ import com.example.truyenapp.admin.CommentManagerActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
-import com.example.truyenapp.model.Story;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.TruyenAdapter;
 import com.google.android.material.navigation.NavigationView;
@@ -80,9 +79,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     String username, email;
     private UserResponse userResponse;
 
-    private List<Story> newComic = new ArrayList<>();
-    private List<Story> topComic = new ArrayList<>();
-    private List<Story> comicFullChapter = new ArrayList<>();
+    private List<Comic> newComic = new ArrayList<>();
+    private List<Comic> topComic = new ArrayList<>();
+    private List<Comic> comicFullChapter = new ArrayList<>();
     private RecyclerView rv, rv2, rv3;
     private TruyenAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
@@ -374,8 +373,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     return;
                 }
                 for (BookResponse bookResponse : data.getResult().getData()) {
-                    Story story = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
-                    newComic.add(story);
+                    Comic comic = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    newComic.add(comic);
                 }
                 _rv.setData(newComic);
             }
@@ -398,8 +397,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     return;
                 }
                 for (BookResponse bookResponse : data.getResult().getData()) {
-                    Story story = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
-                    topComic.add(story);
+                    Comic comic = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    topComic.add(comic);
                 }
                 rv_2.setData(topComic);
             }
@@ -424,8 +423,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     return;
                 }
                 for (BookResponse bookResponse : data.getResult().getData()) {
-                    Story classifyStory = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
-                    comicFullChapter.add(classifyStory);
+                    Comic classifyComic = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
+                    comicFullChapter.add(classifyComic);
                 }
                 rv_3.setData(comicFullChapter);
             }
