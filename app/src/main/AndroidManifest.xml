@@ -52,7 +52,7 @@
             android:name="com.example.truyenapp.view.activity.StoreActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.ShowDanhGia"
+            android:name="com.example.truyenapp.view.activity.RatingsHistory"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.ShowBinhLuan"

@@ -19,6 +19,7 @@
         android:id="@+id/tv_danhgia_tong"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:textSize="20dp"
         android:text="Tổng đánh giá: "/>
     <ScrollView
