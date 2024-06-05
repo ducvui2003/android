@@ -5,6 +5,9 @@ public class Evaluate {
     private float star;
     private String evaluateDate;
 
+    public Evaluate() {
+    }
+
     public Evaluate(int id, int idChapter, int idAccount, float star, String evaluateDate) {
         this.id = id;
         this.idChapter = idChapter;

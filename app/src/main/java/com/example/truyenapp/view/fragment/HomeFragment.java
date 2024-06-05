@@ -369,6 +369,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+                if (data.getCode() == 400 ) {
+                    return;
+                }
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     Comic comic = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
                     newComic.add(comic);
@@ -378,7 +381,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
-
+                Log.e("TAG", "Can not get new comic: " + throwable.getMessage());
+                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }
@@ -389,6 +393,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+                if(data.getCode() == 400){
+                    return;
+                }
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     Comic comic = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
                     topComic.add(comic);
@@ -398,7 +405,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
-
+                Log.e("TAG", "Can not get top comic: " + throwable.getMessage());
+                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }
@@ -411,6 +419,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
                 Log.d("API", response.toString());
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
+                if (data.getCode() == 400) {
+                    return;
+                }
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     Comic classifyComic = BookMapper.INSTANCE.bookResponseToStory(bookResponse);
                     comicFullChapter.add(classifyComic);
@@ -420,7 +431,8 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
 
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
-
+                Log.e("TAG", "Can not get comic full: " + throwable.getMessage());
+                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }
