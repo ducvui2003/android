@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReadChapter extends AppCompatActivity implements View.OnClickListener {
+public class ReadChapterActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
     private DocChapterAdapter rcvAdapter;
     private BinhLuanAdapter rcvCommentAdapter;
@@ -49,7 +49,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.docchapter);
+        setContentView(R.layout.activity_read_chapter);
         init();
         initIntent();
         setOnClickListener();
@@ -58,7 +58,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
 
     private void init() {
         rcv = findViewById(R.id.rcv_docchapter);
-        rcvComment = findViewById(R.id.rcv_binhluan);
+        rcvComment = findViewById(R.id.rcv_chapter_comment);
         chapterName = findViewById(R.id.tv_tenchapter);
         imgBackChapter = findViewById(R.id.img_backdoctruyen);
         imgNext = findViewById(R.id.img_next);
@@ -90,14 +90,14 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.img_pre:
                 if (!isPre()) return;
-                Intent intent = new Intent(this, ReadChapter.class);
+                Intent intent = new Intent(this, ReadChapterActivity.class);
                 setupIntent(intent, position - 1);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.img_next:
                 if (!isNext()) return;
-                Intent intent1 = new Intent(this, ReadChapter.class);
+                Intent intent1 = new Intent(this, ReadChapterActivity.class);
                 setupIntent(intent1, position + 1);
                 startActivity(intent1);
                 break;
@@ -132,7 +132,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
                     APIResponse<List<ChapterContentRespone>> apiResponse = response.body();
                     if (apiResponse != null) {
                         List<ChapterContentRespone> chapterContentResponses = apiResponse.getResult();
-                        rcvAdapter = new DocChapterAdapter(chapterContentResponses, ReadChapter.this);
+                        rcvAdapter = new DocChapterAdapter(chapterContentResponses, ReadChapterActivity.this);
                         rcv.setAdapter(rcvAdapter);
                     }
                 }

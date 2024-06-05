@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         navigationView = (NavigationView) view.findViewById(R.id.nvv);
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
-        headerLayout = navigationView.inflateHeaderView(R.layout.header);
+        headerLayout = navigationView.inflateHeaderView(R.layout.fragment_header);
         loginBtn = (Button) headerLayout.findViewById(R.id.home_login_btn);
 
 
@@ -382,7 +382,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
                 Log.e("TAG", "Can not get new comic: " + throwable.getMessage());
-                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
+//                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }
@@ -406,7 +406,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
                 Log.e("TAG", "Can not get top comic: " + throwable.getMessage());
-                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
+//                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }
@@ -432,7 +432,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             @Override
             public void onFailure(Call<APIResponse<DataListResponse<BookResponse>>> call, Throwable throwable) {
                 Log.e("TAG", "Can not get comic full: " + throwable.getMessage());
-                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
+//                dialogHelper.showDialog("Lỗi, vui lòng thử lại").show();
             }
         });
     }

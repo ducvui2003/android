@@ -12,68 +12,70 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.model.Account;
+import com.example.truyenapp.response.CommentResponse;
+import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder>{
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     private Context context;
-    private List<Comment> list;
-    private Database db;
+    private List<CommentResponse> list;
 
-    public CommentAdapter(Context context, List<Comment> list, Database db) {
+    public CommentAdapter(Context context, List<CommentResponse> list) {
         this.context = context;
         this.list = list;
-        this.db = db;
+    }
+
+    public void setList(List<CommentResponse> list) {
+        this.list = list;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_binhluan_truyen,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_comment, parent, false);
         return new CommentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        Comment binhLuan=list.get(position);
-        if(binhLuan==null){
+        CommentResponse comment = list.get(position);
+        if (comment == null) {
             return;
         }
-
-        Account account =db.getTaiKhoanId(binhLuan.getIdAccount());
-        Glide.with(this.context).load(account.getLinkImage()).into(holder.img_avatar);
-        String email=db.getEmail(binhLuan.getIdAccount());
-        String tenchapter=db.getTenChapter(binhLuan.getIdChapter());
-        holder.tv_taikhoan_blt.setText(email);
-        holder.tv_nd_blt.setText(binhLuan.getContent());
-        holder.tv_ngaybinhluant.setText(binhLuan.getPostingDay());
-        holder.tv_tenchapter_blt.setText(tenchapter);
+        String link = comment.getUser().getAvatar();
+        String email = comment.getUser().getEmail();
+        String nameChapter = comment.getChapterName();
+        Glide.with(this.context).load(link).into(holder.avatar);
+        holder.name.setText(email);
+        holder.content.setText(comment.getContent());
+        holder.date.setText(Format.formatDate(comment.getCreatedAt().toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
+        holder.chapter.setText(nameChapter);
     }
 
     @Override
     public int getItemCount() {
-        if(list!=null){
+        if (list != null) {
             return list.size();
         }
         return 0;
     }
 
-    public class CommentViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_taikhoan_blt,tv_nd_blt,tv_ngaybinhluant,tv_tenchapter_blt;
-        private ImageView img_avatar;
+    class CommentViewHolder extends RecyclerView.ViewHolder {
+        private TextView name, content, date, chapter;
+        private ImageView avatar;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            tv_nd_blt=itemView.findViewById(R.id.tv_item_comment_content);
-            tv_taikhoan_blt=itemView.findViewById(R.id.tv_item_comment_name);
-            tv_ngaybinhluant=itemView.findViewById(R.id.tv_item_comment_date);
-            tv_tenchapter_blt=itemView.findViewById(R.id.tv_item_comment_chapter);
-            img_avatar=itemView.findViewById(R.id.image_item_comment_avatar);
+            content = itemView.findViewById(R.id.tv_item_comment_content);
+            name = itemView.findViewById(R.id.tv_item_comment_name);
+            date = itemView.findViewById(R.id.tv_item_comment_date);
+            chapter = itemView.findViewById(R.id.tv_item_comment_chapter);
+            avatar = itemView.findViewById(R.id.image_item_comment_avatar);
         }
     }
 }

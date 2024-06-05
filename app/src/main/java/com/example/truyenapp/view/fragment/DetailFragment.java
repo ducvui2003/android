@@ -1,36 +1,47 @@
 package com.example.truyenapp.view.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.BookAPI;
+import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
+import com.example.truyenapp.response.CommentResponse;
+import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.adapter.CommentAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DetailFragment extends Fragment {
-    private Comic comic;
     private View view;
     private TextView rating, totalView, totalComment, description;
-    private RecyclerView rcvBinhLuan;
-    private CommentAdapter rcvAdapter;
+    private RecyclerView rcvComment;
+    private CommentAdapter commentAdapter;
+    private List<CommentResponse> commentList;
     private int idComic;
     private BookAPI bookAPI;
+    private CommentAPI commentAPI;
 
     public DetailFragment(int idComic) {
         this.idComic = idComic;
@@ -43,7 +54,7 @@ public class DetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_chi_tiet, container, false);
+        view = inflater.inflate(R.layout.fragment_comic_detail, container, false);
         return view;
     }
 
@@ -53,6 +64,7 @@ public class DetailFragment extends Fragment {
         init();
         bookAPI = RetrofitClient.getInstance(getContext()).create(BookAPI.class);
         getDetail(idComic);
+        getComments();
     }
 
     private void init() {
@@ -60,11 +72,17 @@ public class DetailFragment extends Fragment {
         totalView = view.findViewById(R.id.tv_tongluotxem);
         totalComment = view.findViewById(R.id.tv_tongbinhluan);
         description = view.findViewById(R.id.tv_motatruyen);
-        rcvBinhLuan = view.findViewById(R.id.rcv_binhluan);
+        rcvComment = view.findViewById(R.id.rcv_comic_detail_comment);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        rcvComment.setLayoutManager(linearLayoutManager);
+        commentList = new ArrayList<>();
+        commentAdapter = new CommentAdapter(getContext(), commentList);
+        rcvComment.setAdapter(commentAdapter);
+        commentAPI = RetrofitClient.getInstance(getContext()).create(CommentAPI.class);
     }
 
-    public void getTotalComment(int idCommic) {
-        bookAPI.getAllComment(idCommic).enqueue(new Callback<APIResponse<Integer>>() {
+    public void getTotalComment(int comicId) {
+        bookAPI.getAllComment(comicId).enqueue(new Callback<APIResponse<Integer>>() {
             @Override
             public void onResponse(retrofit2.Call<APIResponse<Integer>> call, retrofit2.Response<APIResponse<Integer>> response) {
                 if (response.isSuccessful()) {
@@ -84,8 +102,8 @@ public class DetailFragment extends Fragment {
         });
     }
 
-    public void getDetail(int idCommic) {
-        bookAPI.getDescriptionBook(idCommic).enqueue(new Callback<APIResponse<BookResponse>>() {
+    public void getDetail(int comicId) {
+        bookAPI.getDescriptionBook(comicId).enqueue(new Callback<APIResponse<BookResponse>>() {
             @Override
             public void onResponse(retrofit2.Call<APIResponse<BookResponse>> call, retrofit2.Response<APIResponse<BookResponse>> response) {
                 if (response.isSuccessful()) {
@@ -95,7 +113,7 @@ public class DetailFragment extends Fragment {
                         rating.setText(String.valueOf(bookResponse.getRating()));
                         totalView.setText(String.valueOf(bookResponse.getView()));
                         description.setText(bookResponse.getDescription());
-                        getTotalComment(idCommic);
+//                        getTotalComment(comicId);
                     }
                 } else {
                     Log.println(Log.ERROR, "API", "Error");
@@ -109,5 +127,22 @@ public class DetailFragment extends Fragment {
         });
     }
 
+    public void getComments() {
+        commentAPI.getComments("BY_BOOK", idComic, 0, 10).enqueue(new Callback<APIResponse<DataListResponse<CommentResponse>>>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<CommentResponse>>> call, Response<APIResponse<DataListResponse<CommentResponse>>> response) {
+                APIResponse<DataListResponse<CommentResponse>> apiResponse = response.body();
+                if (apiResponse == null || apiResponse.getCode() == 400) return;
+                DataListResponse<CommentResponse> dataListResponse = apiResponse.getResult();
+                commentList.addAll(dataListResponse.getData());
+                commentAdapter.setList(commentList);
+            }
 
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<CommentResponse>>> call, Throwable throwable) {
+
+            }
+        });
+    }
 }

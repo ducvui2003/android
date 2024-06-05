@@ -21,4 +21,7 @@ public interface CommentAPI {
 
     @GET("v1/admin/comment/detail/{id}")
     public Call<APIResponse<CommentResponse>> getCommentDetail(@Path("id") Integer id);
+
+    @GET("v1/comment/chapter")
+    public Call<APIResponse<DataListResponse<CommentResponse>>> getComments(@Query("type") String type, @Query("id") Integer chapterId, @Query("page") int page, @Query("size") int size);
 }

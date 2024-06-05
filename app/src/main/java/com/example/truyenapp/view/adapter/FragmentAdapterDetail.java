@@ -1,4 +1,4 @@
-package com.example.truyenapp.view.fragment;
+package com.example.truyenapp.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,10 +6,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-public class FragmentAdapter extends FragmentStateAdapter {
+import com.example.truyenapp.view.fragment.ChapterFragment;
+import com.example.truyenapp.view.fragment.DetailFragment;
+
+public class FragmentAdapterDetail extends FragmentStateAdapter {
     private int idComic;
-    public  FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle){
-        super(fragmentManager,lifecycle);
+
+    public FragmentAdapterDetail(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+        super(fragmentManager, lifecycle);
     }
 
     public void setIdComic(int idComic) {
@@ -19,8 +23,7 @@ public class FragmentAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position)
-        {
+        switch (position) {
             case 1:
                 return new ChapterFragment(idComic);
         }
