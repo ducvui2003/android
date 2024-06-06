@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,14 +17,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.ChapterAPI;
+import com.example.truyenapp.api.RatingAPI;
 import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.constraints.BundleConstraint;
+import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterContentRespone;
+import com.example.truyenapp.response.RatingResponse;
+import com.example.truyenapp.response.UserResponse;
+import com.example.truyenapp.utils.SharedPreferencesHelper;
+import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.adapter.BinhLuanAdapter;
 import com.example.truyenapp.view.adapter.DocChapterAdapter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,6 +54,12 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     private int position;
     private ArrayList<Integer> listChapterId;
     private Intent intent;
+
+    private UserAPI userAPI;
+    private RatingAPI ratingAPI;
+    private UserResponse userResponse;
+    private int userId;
+    private RatingResponse ratingResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +84,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
         rtb = findViewById(R.id.rtb);
         star = findViewById(R.id.tv_sosaochapter);
         chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
+        connectAPI();
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
@@ -111,7 +127,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
 
                 break;
             case R.id.bt_danhgia:
-
+                createRating();
                 break;
         }
     }
@@ -122,6 +138,78 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
         imgNext.setOnClickListener(this);
         btnComment.setOnClickListener(this);
         btnRate.setOnClickListener(this);
+    }
+
+    private void connectAPI() {
+        userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
+        ratingAPI = RetrofitClient.getInstance(this).create(RatingAPI.class);
+    }
+
+    private void createRating() {
+        RatingResponse ratingResponse = getRatingValue();
+
+        ratingAPI.createRating(ratingResponse).enqueue(new Callback<APIResponse<Void>>() {
+            @Override
+            public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ReadChapter.this, "Thêm đánh giá thành công", Toast.LENGTH_SHORT).show();
+                } else {
+                    int statusCode = response.code();
+                    if(statusCode == 400) {
+                        Toast.makeText(ReadChapter.this, "Bạn đã đánh giá rồi", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ReadChapter.this, "Thêm đánh giá thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
+                Log.d("Rating", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    private RatingResponse getRatingValue() {
+        getUserInfo();
+        float rating = rtb.getRating();
+        if(rating == 0) {
+            Toast.makeText(this, "Vui lòng chọn số sao muốn đánh giá ", Toast.LENGTH_SHORT).show();
+        }
+        return new RatingResponse(0, idChapter, userId, rating, new Date());
+    }
+
+
+    private void getUserInfo() {
+        // Call the getUserInfo method from the UserAPI interface
+        JWTToken jwtToken = SharedPreferencesHelper.getObject(this, SystemConstant.JWT_TOKEN, JWTToken.class);
+        if (jwtToken == null) {
+            return;
+        }
+        userAPI.getUserInfo(jwtToken.getToken()).enqueue(new Callback<UserResponse>() {
+            // This method is called when the server response is received
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                // Get the UserResponse object from the response
+                UserResponse user = response.body();
+                // Check if the user object is not null
+                if (user != null) {
+                    // Assign the user object to the userResponse variable
+                    userResponse = user;
+                    // Set the email of the user in the TextView tv_emailhome
+                    userId = user.getId();
+                }
+            }
+
+            // This method is called when the request could not be executed due to cancellation, a connectivity problem or a timeout
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable throwable) {
+                // Log the error message
+                Log.e("TAG", "Login failed: " + throwable.getMessage());
+                // Show a toast message indicating that an error occurred
+//                Toast.makeText(getActivity(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void getChapterContent(int idChapter) {
