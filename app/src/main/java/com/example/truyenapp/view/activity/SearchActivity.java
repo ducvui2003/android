@@ -177,9 +177,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.category = autoCompleteTextView.getText().toString();
         this.categoryId = getCategory();
         this.keyword = getKeyword();
+        this.resetSearch();
+        this.getData();
+    }
+
+    public void resetSearch() {
+        this.isLoading = false;
+        this.isLastPage = false;
         this.currentPage = 1;
         this.listComic.clear();
-        this.getData();
+        adapter.notifyDataSetChanged();
     }
 
     private void getData() {
