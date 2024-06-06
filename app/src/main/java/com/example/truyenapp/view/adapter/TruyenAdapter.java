@@ -57,7 +57,7 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
         holder.tv_tentruyen.setText(comic.getNameStory());
         holder.ll_rcv.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), DetailComicActivity.class);
-            intent.putExtra(BundleConstraint.ID_COMMIC, comic.getId());
+            intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
 //            intent.putExtra("email",email);
             holder.itemView.getContext().startActivity(intent);
         });

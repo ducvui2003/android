@@ -49,7 +49,7 @@
             android:name="com.example.truyenapp.view.activity.RedeemRewardActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.CuaHang"
+            android:name="com.example.truyenapp.view.activity.StoreActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.RatingsHistory"
@@ -61,7 +61,7 @@
             android:name="com.example.truyenapp.admin.QuanLyTaiKhoan"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.CommentManagerActivity"
+            android:name="com.example.truyenapp.admin.CommentManagementActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.QuanLyThongKe"
@@ -73,7 +73,7 @@
             android:name="com.example.truyenapp.admin.ShowThongTinTaiKhoan"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.CommentDetailManagerActivity"
+            android:name="com.example.truyenapp.admin.CommentDetailManagementActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.ShowThongTinThongKe"

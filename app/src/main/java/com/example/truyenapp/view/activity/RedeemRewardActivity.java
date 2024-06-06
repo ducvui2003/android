@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.UserAPI;
+import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.AttendanceResponse;
@@ -48,8 +49,8 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void init() {
-        ll_cuahang = findViewById(R.id.ll_cuahang);
-        ll_lichsu = findViewById(R.id.ll_lichsu);
+        ll_cuahang = findViewById(R.id.redeem_reward_store);
+        ll_lichsu = findViewById(R.id.redeem_reward_history);
         btnAttendance = findViewById(R.id.button_attendance_redeem_reward);
         tv_diemtichluy = findViewById(R.id.tv_diemtichluy);
         tv_songaydd = findViewById(R.id.tv_songaydd);
@@ -62,15 +63,6 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
         btnAttendance.setOnClickListener(this);
         ll_lichsu.setOnClickListener(this);
     }
-
-//    private void reload() {
-//        Intent intent = getIntent();
-//        overridePendingTransition(0, 0);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-//        finish();
-//        overridePendingTransition(0, 0);
-//        startActivity(intent);
-//    }
 
     @SuppressLint("SetTextI18n")
     private void setData() {
@@ -88,8 +80,9 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_cuahang:
-                Intent intent = new Intent(this, CuaHang.class);
+            case R.id.redeem_reward_store:
+                Intent intent = new Intent(this, StoreActivity.class);
+                intent.putExtra(BundleConstraint.TOTAL_SCORE, totalPoint);
                 startActivity(intent);
                 break;
             case R.id.button_attendance_redeem_reward: {
@@ -101,7 +94,7 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
                 }
                 break;
             }
-            case R.id.ll_lichsu:
+            case R.id.redeem_reward_history:
                 Intent intent1 = new Intent(this, RedeemRewardHistoryActivity.class);
                 startActivity(intent1);
                 break;

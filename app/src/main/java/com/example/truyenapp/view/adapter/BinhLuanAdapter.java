@@ -69,7 +69,7 @@ public class BinhLuanAdapter extends RecyclerView.Adapter<BinhLuanAdapter.BinhLu
             tv_nd_bl=itemView.findViewById(R.id.tv_nd_bl);
             tv_taikhoan_bl=itemView.findViewById(R.id.tv_taikhoan_bl);
             tv_ngaybinhluan=itemView.findViewById(R.id.tv_ngaybinhluan);
-            img_avatar=itemView.findViewById(R.id.img_avatar);
+            img_avatar=itemView.findViewById(R.id.image_item_comment_avatar);
         }
     }
 }

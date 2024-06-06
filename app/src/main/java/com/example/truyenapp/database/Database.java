@@ -3019,7 +3019,7 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(lenhSQLite,null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            Item item = new Item(cursor.getInt(0),cursor.getString(1),cursor.getInt(2),cursor.getString(3));
+            Item item = new Item();
             listvatpham.add(item);
             cursor.moveToNext();
         }

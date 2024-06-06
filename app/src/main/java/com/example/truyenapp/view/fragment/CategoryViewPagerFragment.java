@@ -6,16 +6,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.truyenapp.LatestDateFragment;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryViewPagerFragment extends FragmentStateAdapter {
-    RankVoteFragment rankVoteFragment = new RankVoteFragment();
-    RankViewFragment rankViewFragment = new RankViewFragment();
-    LatestDateFragment latestDateFragment = new LatestDateFragment();
+    ComicVoteFragment comicVoteFragment = new ComicVoteFragment();
+    ComicViewFragment comicViewFragment = new ComicViewFragment();
+    ComicNewFragment comicNewFragment = new ComicNewFragment();
 
+    private final List<Fragment> fragmentList = new ArrayList<>();
 
     public CategoryViewPagerFragment(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
+        fragmentList.add(comicNewFragment);
+        fragmentList.add(comicVoteFragment);
+        fragmentList.add(comicViewFragment);
     }
 
     @NonNull
@@ -23,16 +28,19 @@ public class CategoryViewPagerFragment extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 1:
-                return rankVoteFragment;
+                return comicVoteFragment;
             case 2:
-                return rankViewFragment;
+                return comicViewFragment;
         }
-        return latestDateFragment;
+        return comicNewFragment;
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return fragmentList.size();
     }
 
+    public Fragment getFragment(int position) {
+        return fragmentList.get(position);
+    }
 }

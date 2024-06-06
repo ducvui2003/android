@@ -49,7 +49,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.docchapter);
+        setContentView(R.layout.activity_read_chapter);
         init();
         initIntent();
         setOnClickListener();
@@ -78,7 +78,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     private void initIntent() {
         this.intent = getIntent();
         this.idChapter = intent.getIntExtra(BundleConstraint.ID_CHAPTER, 0);
-        this.idComic = intent.getIntExtra(BundleConstraint.ID_COMMIC, 0);
+        this.idComic = intent.getIntExtra(BundleConstraint.ID_COMIC, 0);
         this.position = intent.getIntExtra(BundleConstraint.POSITION, 0);
         this.listChapterName = intent.getStringArrayListExtra(BundleConstraint.LIST_CHAPTER_NAME);
         this.chapterName.setText(listChapterName.get(position));
@@ -103,7 +103,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.img_backdoctruyen:
                 Intent intent2 = new Intent(this, DetailComicActivity.class);
-                intent2.putExtra(BundleConstraint.ID_COMMIC, idComic);
+                intent2.putExtra(BundleConstraint.ID_COMIC, idComic);
                 startActivity(intent2);
                 finish();
                 break;
@@ -155,7 +155,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
 
     private void setupIntent(Intent intent, int position) {
         intent.putExtra(BundleConstraint.QUANTITY, listChapterName.size());
-        intent.putExtra(BundleConstraint.ID_COMMIC, idComic);
+        intent.putExtra(BundleConstraint.ID_COMIC, idComic);
         intent.putExtra(BundleConstraint.POSITION, position);
         intent.putExtra(BundleConstraint.LIST_CHAPTER_NAME, listChapterName);
         intent.putIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID, listChapterId);
