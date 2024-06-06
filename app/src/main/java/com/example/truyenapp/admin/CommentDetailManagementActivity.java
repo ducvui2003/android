@@ -17,12 +17,13 @@ import com.example.truyenapp.mapper.CommentMapper;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.CommentResponse;
+import com.example.truyenapp.utils.Format;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentDetailManagerActivity extends AppCompatActivity {
+public class CommentDetailManagementActivity extends AppCompatActivity {
     Integer commentId;
     Comment comment;
     ImageView img;
@@ -46,7 +47,7 @@ public class CommentDetailManagerActivity extends AppCompatActivity {
         tv_id.setText(comment.getId() + "");
         tv_email.setText(comment.getEmail());
         tv_noidung.setText(comment.getContent());
-        tv_ngaydang.setText(comment.getCreatedAt().toString());
+        tv_ngaydang.setText(Format.formatDate(comment.getCreatedAt().toString(), "yyyy-MM-dd", "dd/MM/yyyy"));
         int state = comment.getState();
         if (state == CommentState.SHOW.getState()) {
             tv_trangthai.setText("Hoạt động");

@@ -32,7 +32,7 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
 
 
     public void setData(List<ClassifyStory> list) {
-        setData(list);
+        this.list = list;
         notifyDataSetChanged();
     }
 
@@ -44,7 +44,7 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
         String publishDate = Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
         Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgComic);
         holder.nameComic.setText(comic.getNameStory());
-        holder.dateComic.setText("Ngày đăng: " + publishDate);
+        holder.dateComic.setText("Ngày đăng: " + Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy"));
         holder.info.setVisibility(View.GONE);
         holder.detailComicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);

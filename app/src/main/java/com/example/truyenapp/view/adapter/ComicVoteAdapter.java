@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class ComicVoteAdapter extends PagingAdapter<ClassifyStory, ComicVoteAdap
         return new VoteViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void bindData(VoteViewHolder holder, ClassifyStory commic) {
         if (commic == null) {
@@ -43,7 +45,7 @@ public class ComicVoteAdapter extends PagingAdapter<ClassifyStory, ComicVoteAdap
         String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
         Glide.with(this.context).load(commic.getLinkImage()).into(holder.imgCommic);
         holder.nameCommic.setText(commic.getNameStory());
-        holder.info.setText("Đánh giá: " + commic.getEvaluate());
+        holder.info.setText("Đánh giá: " + Format.roundNumber(commic.getEvaluate()));
         holder.dateCommic.setText("Ngày đăng: " + publishDate);
         holder.detailCommicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);

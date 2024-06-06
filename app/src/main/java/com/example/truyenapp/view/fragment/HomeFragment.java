@@ -47,7 +47,7 @@ import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
-import com.example.truyenapp.admin.CommentManagerActivity;
+import com.example.truyenapp.admin.CommentManagementActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
@@ -323,7 +323,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
-                Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
+                Intent dialog_box2 = new Intent(getActivity(), CommentManagementActivity.class);
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:

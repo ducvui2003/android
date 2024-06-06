@@ -1,5 +1,8 @@
 package com.example.truyenapp.model;
 
+import lombok.ToString;
+
+@ToString
 public class ModelSearch {
     private int id, view, chapter;
     private float evaluate;

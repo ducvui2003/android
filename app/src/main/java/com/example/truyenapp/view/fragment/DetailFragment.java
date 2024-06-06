@@ -19,7 +19,6 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.BookAPI;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
@@ -103,7 +102,6 @@ public class DetailFragment extends Fragment {
         rcv.setLayoutManager(linearLayoutManager);
         list = new ArrayList<>();
         adapter = new CommentAdapter(getContext(), list);
-        adapter.setItemRcv(R.layout.item_rcv_comment);
         rcv.setAdapter(adapter);
         commentAPI = RetrofitClient.getInstance(getContext()).create(CommentAPI.class);
     }

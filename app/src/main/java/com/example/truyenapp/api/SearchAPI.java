@@ -29,7 +29,8 @@ public interface SearchAPI {
 
     @GET("v1/books/search")
     Call<APIResponse<DataListResponse<BookResponse>>> search(@Query("keyword") String keyword, @Query("categoryId") Integer category);
-
+    @GET("v1/books/search")
+    Call<APIResponse<DataListResponse<BookResponse>>> search(@Query("keyword") String keyword, @Query("categoryId") Integer category, @Query("page") Integer page, @Query("size") Integer pageSize);
     @GET("v1/books/category")
     Call<APIResponse<List<CategoryResponse>>> getCategory();
 

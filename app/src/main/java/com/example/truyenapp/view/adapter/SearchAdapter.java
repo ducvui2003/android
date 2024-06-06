@@ -3,6 +3,7 @@ package com.example.truyenapp.view.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,16 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.ModelSearch;
+import com.example.truyenapp.paging.PagingAdapter;
+import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.view.activity.DetailComicActivity;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
-    private Context context;
-    private List<ModelSearch> list;
-
+public class SearchAdapter extends PagingAdapter<ModelSearch, SearchAdapter.SearchViewHolder> {
     public SearchAdapter(Context context, List<ModelSearch> list) {
-        this.context = context;
-        this.list = list;
+        super(context, list);
+        setItemRcv(R.layout.item_rcv_search);
     }
 
     public void setData(List<ModelSearch> list) {
@@ -34,39 +34,29 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         this.notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
-    public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_search, parent, false);
+    protected SearchViewHolder createItemViewHolder(View view) {
         return new SearchViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
-        ModelSearch commic = list.get(position);
-        if (commic == null) {
+    protected void bindData(SearchViewHolder holder, ModelSearch comic) {
+        if (comic == null) {
             return;
         }
-        Glide.with(this.context).load(commic.getLinkImage()).into(holder.thumbnail);
-        holder.name.setText(commic.getNameStory());
-        holder.view.setText("Lượt xem: " + commic.getView());
-        holder.chapters.setText("Chapter: " + commic.getChapter());
-        holder.review.setText("Đánh giá: " + Math.round(commic.getEvaluate() * 10) / 10.0);
-        holder.category.setText(commic.getCategory());
+        Log.d("data", comic.toString());
+        Glide.with(this.context).load(comic.getLinkImage()).into(holder.thumbnail);
+        holder.name.setText(comic.getNameStory());
+        holder.view.setText("Lượt xem: " + comic.getView());
+        holder.chapters.setText("Chapter: " + comic.getChapter());
+        holder.review.setText("Đánh giá: " + Format.roundNumber(comic.getEvaluate()));
+        holder.category.setText(comic.getCategory());
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
-            intent.putExtra(BundleConstraint.ID_COMIC, commic.getId());
+            intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
             holder.itemView.getContext().startActivity(intent);
         });
-    }
-
-    @Override
-    public int getItemCount() {
-        if (list != null) {
-            return list.size();
-        }
-        return 0;
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder {

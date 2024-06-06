@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.mapper.BookMapper;
+import com.example.truyenapp.model.ClassifyStory;
+import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ModelSearch;
 import com.example.truyenapp.response.BookResponse;
@@ -51,12 +54,18 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     ArrayAdapter<String> categoryAdapter;
     Map<Integer, String> mapCategory;
     List<ModelSearch> listComic;
+    LinearLayoutManager linearLayoutManager;
     public String category;
     public String keyword = "";
     private Integer categoryId;
-    private RecyclerView rcvComic;
+    private RecyclerView rcv;
     private static final int REQUEST_CODE_SPEECH_INPUT = 100;
-    private SearchAdapter searchAdapter;
+    private SearchAdapter adapter;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int totalPage;
+    private int currentPage = 1;
+    private final int PAGE_SIZE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +75,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         init();
         categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         autoCompleteTextView.setAdapter(categoryAdapter);
-        searchAdapter = new SearchAdapter(this, listComic);
-        rcvComic.setAdapter(searchAdapter);
+        adapter = new SearchAdapter(this, listComic);
+        rcv.setAdapter(adapter);
         initCategory();
 //        Handle Search
         handleEvent();
@@ -77,15 +86,55 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.inputSearch = findViewById(R.id.edt_search);
         this.autoCompleteTextView = findViewById(R.id.auto_complete_category);
         this.notify = findViewById(R.id.activity_search_notify);
-        this.rcvComic = findViewById(R.id.activity_rcv_commic);
+        this.rcv = findViewById(R.id.activity_rcv_commic);
         this.inputSearchRecord = findViewById(R.id.activity_search_recog);
 //
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        rcvComic.setLayoutManager(linearLayoutManager);
+        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rcv.setLayoutManager(linearLayoutManager);
         this.mapCategory = new HashMap<>();
         this.listComic = new ArrayList<>();
+        rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {
+            @Override
+            public void loadMoreItem() {
+                isLoading = true;
+                currentPage += 1;
+                getData();
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+        });
     }
 
+    private void setFirstData(List<ModelSearch> list) {
+        this.listComic.addAll(list);
+        adapter.setData(this.listComic);
+        if (currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadNextPage(List<ModelSearch> list) {
+        adapter.removeFooterLoading();
+        this.listComic.addAll(list);
+        adapter.notifyDataSetChanged();
+        this.isLoading = false;
+        if (currentPage < totalPage) {
+            adapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
 
     private Integer getCategory() {
         String category = autoCompleteTextView.getText().toString();
@@ -112,7 +161,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
             return true;
         });
-
         inputSearchRecord.setOnClickListener(this);
     }
 
@@ -129,28 +177,41 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         this.category = autoCompleteTextView.getText().toString();
         this.categoryId = getCategory();
         this.keyword = getKeyword();
-        this.searchAPI();
+        this.currentPage = 1;
+        this.listComic.clear();
+        this.getData();
     }
 
-    private void searchAPI() {
-        listComic.clear();
+    private void getData() {
         SearchAPI response = RetrofitClient.getInstance(this).create(SearchAPI.class);
-        response.search(keyword, categoryId).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
+        response.search(keyword, categoryId, currentPage, PAGE_SIZE).enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
                 APIResponse<DataListResponse<BookResponse>> data = response.body();
-                if (response.code() == 400) {
+                if (data == null || data.getResult() == null || data.getResult().getData() == null) {
                     showNotify("Không có truyện cần tìm!!!");
                     return;
                 }
+
+                if (data.getCode() == 400) {
+                    showNotify("Không có truyện cần tìm!!!");
+                    return;
+                }
+                List<ModelSearch> listTemp = new ArrayList<>();
+                currentPage = data.getResult().getCurrentPage();
+                totalPage = data.getResult().getTotalPages();
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ModelSearch item = BookMapper.INSTANCE.bookResponseToModelSearch(bookResponse);
                     item.setCategory(nameCategory);
-                    listComic.add(item);
+                    listTemp.add(item);
                 }
                 showNotify("");
-                searchAdapter.notifyDataSetChanged();
+                if (currentPage == 1) {
+                    setFirstData(listTemp);
+                } else {
+                    loadNextPage(listTemp);
+                }
             }
 
             @Override

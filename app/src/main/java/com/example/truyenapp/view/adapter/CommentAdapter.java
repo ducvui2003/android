@@ -24,6 +24,7 @@ public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapte
 
     public CommentAdapter(Context context, List<CommentResponse> list) {
         super(context, list);
+        setItemRcv(R.layout.item_rcv_comment);
     }
 
     public void setData(List<CommentResponse> list) {
@@ -51,12 +52,6 @@ public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapte
         holder.chapter.setText(nameChapter);
     }
 
-    @NonNull
-    @Override
-    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_comment, parent, false);
-        return new CommentViewHolder(view);
-    }
 
     class CommentViewHolder extends RecyclerView.ViewHolder {
         private TextView name, content, date, chapter;

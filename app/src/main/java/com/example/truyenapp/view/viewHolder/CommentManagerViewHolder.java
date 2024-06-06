@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.admin.CommentDetailManagerActivity;
+import com.example.truyenapp.admin.CommentDetailManagementActivity;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
@@ -62,7 +62,7 @@ public class CommentManagerViewHolder extends RecyclerView.ViewHolder implements
 
     public void handleOnCLick() {
         this.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, CommentDetailManagerActivity.class);
+            Intent intent = new Intent(context, CommentDetailManagementActivity.class);
             intent.putExtra(BundleConstraint.ID_COMMENT, comment.getId());
             context.startActivity(intent);
         });
