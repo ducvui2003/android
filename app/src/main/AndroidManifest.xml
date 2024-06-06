@@ -43,7 +43,7 @@
             android:name="com.example.truyenapp.view.activity.RankActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.ReadChapterActivity"
+            android:name="com.example.truyenapp.view.activity.ReadChapter"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.RedeemRewardActivity"

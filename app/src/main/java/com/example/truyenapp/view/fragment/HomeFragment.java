@@ -358,7 +358,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
             @Override
             public void onFailure(Call<APIResponse<AttendanceResponse>> call, Throwable throwable) {
                 Log.e("TAG", "Attendance failed: " + throwable.getMessage());
-                dialogHelper.showDialogAttendance("Lỗi, vui lòng thử lại").show();
+//                dialogHelper.showDialogAttendance("Lỗi, vui lòng thử lại").show();
             }
         });
     }

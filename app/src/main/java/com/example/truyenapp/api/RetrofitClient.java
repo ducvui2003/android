@@ -34,8 +34,7 @@ public final class RetrofitClient {
         // Thêm Interceptor để thêm JWT vào header
         if (jwtToken != null) {
             httpClient.addInterceptor(chain -> {
-                Request original = chain.request();
-                String status;
+                Request original = chain.request();    String status;
 
                 Request request = original.newBuilder()
                         .header("Authorization", "Bearer " + jwtToken.getToken())
