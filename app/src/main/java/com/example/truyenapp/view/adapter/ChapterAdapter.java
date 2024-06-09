@@ -20,7 +20,7 @@ import com.example.truyenapp.utils.AuthenticationManager;
 import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
-import com.example.truyenapp.view.activity.ReadChapter;
+import com.example.truyenapp.view.activity.ReadChapterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         holder.chapterItem.setOnClickListener(view -> {
             this.isLogin = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(context, SystemConstant.JWT_TOKEN, JWTToken.class));
             if (isLogin) {
-                Intent intent = new Intent(holder.itemView.getContext(), ReadChapter.class);
+                Intent intent = new Intent(holder.itemView.getContext(), ReadChapterActivity.class);
                 intent.putExtra(BundleConstraint.QUANTITY, list.size());
                 intent.putExtra(BundleConstraint.POSITION, position);
                 intent.putStringArrayListExtra(BundleConstraint.LIST_CHAPTER_NAME, getChapterName());

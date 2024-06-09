@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,10 +18,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.ChapterAPI;
+import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
+import com.example.truyenapp.paging.PagingScrollListener;
+import com.example.truyenapp.request.CommentCreationRequestDTO;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterContentRespone;
+import com.example.truyenapp.response.CommentCreationResponseDTO;
+import com.example.truyenapp.response.CommentResponse;
+import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.adapter.CommentAdapter;
 import com.example.truyenapp.view.adapter.DocChapterAdapter;
 
@@ -33,18 +41,27 @@ import retrofit2.Response;
 public class ReadChapterActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
     private DocChapterAdapter rcvAdapter;
-    private CommentAdapter rcvCommentAdapter;
     public Integer idChapter, idComic;
     TextView chapterName, star;
     ImageView imgBackChapter, imgPre, imgNext;
     Button btnRate, btnComment;
-    EditText edtComment;
+    EditText editTextComment;
     RatingBar rtb;
     private ChapterAPI chapterAPI;
     private ArrayList<String> listChapterName;
     private int position;
     private ArrayList<Integer> listChapterId;
     private Intent intent;
+    //    Comment
+    private CommentAPI commentAPI;
+    private CommentAdapter commentAdapter;
+    private List<CommentResponse> comments;
+    private boolean isLoading = false;
+    private boolean isLastPage = false;
+    private int totalPage;
+    private int currentPage = 1;
+    private final int PAGE_SIZE = 5;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,22 +69,24 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_read_chapter);
         init();
         initIntent();
+        initComment();
         setOnClickListener();
         getChapterContent(idChapter);
+        getComment();
     }
 
     private void init() {
-        rcv = findViewById(R.id.rcv_docchapter);
-        rcvComment = findViewById(R.id.rcv_chapter_comment);
-        chapterName = findViewById(R.id.tv_tenchapter);
-        imgBackChapter = findViewById(R.id.img_backdoctruyen);
-        imgNext = findViewById(R.id.img_next);
-        imgPre = findViewById(R.id.img_pre);
-        edtComment = findViewById(R.id.edt_binhluan);
-        btnComment = findViewById(R.id.bt_binhluan);
-        btnRate = findViewById(R.id.bt_danhgia);
-        rtb = findViewById(R.id.rtb);
-        star = findViewById(R.id.tv_sosaochapter);
+        rcv = findViewById(R.id.rcv_read_chapter);
+        rcvComment = findViewById(R.id.rcv_read_chapter_comment);
+        chapterName = findViewById(R.id.tv_rea_chapter_name);
+        imgBackChapter = findViewById(R.id.image_read_chapter_back);
+        imgNext = findViewById(R.id.image_read_chapter_next);
+        imgPre = findViewById(R.id.image_read_chapter_prev);
+        editTextComment = findViewById(R.id.edit_read_chapter_comment);
+        btnComment = findViewById(R.id.button_read_chapter_comment);
+        btnRate = findViewById(R.id.button_read_chapter_rating);
+        rtb = findViewById(R.id.rtb_read_chapter);
+        star = findViewById(R.id.tv_read_chapter_star);
         chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
@@ -85,32 +104,60 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         this.listChapterId = intent.getIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID);
     }
 
+    private void initComment() {
+        this.commentAPI = RetrofitClient.getInstance(this).create(CommentAPI.class);
+        this.rcvComment = findViewById(R.id.rcv_read_chapter_comment);
+        this.linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        this.comments = new ArrayList<>();
+        this.commentAdapter = new CommentAdapter(this, this.comments);
+        this.rcvComment.setLayoutManager(linearLayoutManager);
+        this.rcvComment.setAdapter(commentAdapter);
+        rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {
+            @Override
+            public void loadMoreItem() {
+                isLoading = true;
+                currentPage += 1;
+                getComment();
+            }
+
+            @Override
+            public boolean isLoading() {
+                return isLoading;
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return isLastPage;
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_pre:
+            case R.id.image_read_chapter_prev:
                 if (!isPre()) return;
                 Intent intent = new Intent(this, ReadChapterActivity.class);
                 setupIntent(intent, position - 1);
                 startActivity(intent);
                 finish();
                 break;
-            case R.id.img_next:
+            case R.id.image_read_chapter_next:
                 if (!isNext()) return;
                 Intent intent1 = new Intent(this, ReadChapterActivity.class);
                 setupIntent(intent1, position + 1);
                 startActivity(intent1);
                 break;
-            case R.id.img_backdoctruyen:
+            case R.id.image_read_chapter_back:
                 Intent intent2 = new Intent(this, DetailComicActivity.class);
                 intent2.putExtra(BundleConstraint.ID_COMIC, idComic);
                 startActivity(intent2);
                 finish();
                 break;
-            case R.id.bt_binhluan:
-
+            case R.id.button_read_chapter_comment:
+                comment();
                 break;
-            case R.id.bt_danhgia:
+            case R.id.button_read_chapter_rating:
 
                 break;
         }
@@ -161,4 +208,86 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         intent.putIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID, listChapterId);
         intent.putExtra(BundleConstraint.ID_CHAPTER, listChapterId.get(position));
     }
+
+    //Comment
+    private void setFirstData(List<CommentResponse> list) {
+        this.comments.addAll(list);
+        commentAdapter.setData(this.comments);
+        if (currentPage < totalPage) {
+            commentAdapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void loadNextPage(List<CommentResponse> list) {
+        commentAdapter.removeFooterLoading();
+        this.comments.addAll(list);
+        commentAdapter.notifyDataSetChanged();
+        this.isLoading = false;
+        if (currentPage < totalPage) {
+            commentAdapter.addFooterLoading();
+        } else {
+            isLastPage = true;
+        }
+    }
+
+    public void getComment() {
+        commentAPI.getComments("BY_CHAPTER", idChapter, currentPage, PAGE_SIZE).enqueue(new Callback<APIResponse<DataListResponse<CommentResponse>>>() {
+            @Override
+            public void onResponse(Call<APIResponse<DataListResponse<CommentResponse>>> call, Response<APIResponse<DataListResponse<CommentResponse>>> response) {
+                APIResponse<DataListResponse<CommentResponse>> data = response.body();
+                if (data == null || data.getResult() == null || data.getResult().getData() == null) {
+                    return;
+                }
+                if (data.getCode() == 400)
+                    return;
+                List<CommentResponse> listTemp = data.getResult().getData();
+                currentPage = data.getResult().getCurrentPage();
+                totalPage = data.getResult().getTotalPages();
+                comments.addAll(listTemp);
+                if (currentPage == 1) {
+                    setFirstData(listTemp);
+                } else {
+                    loadNextPage(listTemp);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<DataListResponse<CommentResponse>>> call, Throwable t) {
+                Log.d("Comment", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void comment() {
+        String text = editTextComment.getText().toString();
+        if (text.isEmpty()) {
+            Toast.makeText(this, "Vui lòng không để trống comment", Toast.LENGTH_SHORT).show();
+        } else {
+            CommentCreationRequestDTO requestDTO = CommentCreationRequestDTO.builder().chapterId(idChapter).content(text).build();
+            commentAPI.create(requestDTO).enqueue(new Callback<APIResponse<CommentResponse>>() {
+                @Override
+                public void onResponse(Call<APIResponse<CommentResponse>> call, Response<APIResponse<CommentResponse>> response) {
+                    if (response.isSuccessful()) {
+                        APIResponse<CommentResponse> apiResponse = response.body();
+                        if (apiResponse != null) {
+                            CommentResponse commentResponse = apiResponse.getResult();
+                            comments.add(0, commentResponse);
+                            commentAdapter.notifyDataSetChanged();
+                        }
+                    }
+                    editTextComment.setText("");
+                }
+
+                @Override
+                public void onFailure(Call<APIResponse<CommentResponse>> call, Throwable throwable) {
+
+                }
+            });
+        }
+
+    }
+
 }
