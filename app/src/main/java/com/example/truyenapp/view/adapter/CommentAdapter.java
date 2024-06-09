@@ -66,4 +66,6 @@ public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapte
             avatar = itemView.findViewById(R.id.image_item_comment_avatar);
         }
     }
+
+
 }

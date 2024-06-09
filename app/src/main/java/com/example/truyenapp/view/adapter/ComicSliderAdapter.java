@@ -20,17 +20,17 @@ import com.example.truyenapp.R;
 
 import java.util.List;
 
-public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenViewHolder>{
+public class ComicSliderAdapter extends RecyclerView.Adapter<ComicSliderAdapter.TruyenViewHolder>{
     private Context context;
     private List<Comic> list;
     private String email;
 
-    public TruyenAdapter(Context context, String email) {
+    public ComicSliderAdapter(Context context, String email) {
         this.context = context;
         this.email = email;
     }
 
-    public TruyenAdapter(List<Comic> list, Context context, String email)
+    public ComicSliderAdapter(List<Comic> list, Context context, String email)
     {
         this.list=list;
         this.context=context;
@@ -42,12 +42,12 @@ public class TruyenAdapter extends RecyclerView.Adapter<TruyenAdapter.TruyenView
     }
     @NonNull
     @Override
-    public TruyenAdapter.TruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ComicSliderAdapter.TruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv,parent,false);
-        return new TruyenAdapter.TruyenViewHolder(view);
+        return new ComicSliderAdapter.TruyenViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull TruyenAdapter.TruyenViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ComicSliderAdapter.TruyenViewHolder holder, int position) {
         Comic comic =list.get(position);
         if(comic ==null){
             return;

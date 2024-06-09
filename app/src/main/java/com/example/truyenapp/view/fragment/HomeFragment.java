@@ -52,7 +52,7 @@ import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.view.activity.Signin;
-import com.example.truyenapp.view.adapter.TruyenAdapter;
+import com.example.truyenapp.view.adapter.ComicSliderAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private List<Comic> topComic = new ArrayList<>();
     private List<Comic> comicFullChapter = new ArrayList<>();
     private RecyclerView rv, rv2, rv3;
-    private TruyenAdapter _rv, rv_2, rv_3;
+    private ComicSliderAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
 
     private DialogHelper dialogHelper;
@@ -168,9 +168,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setLayoutManager(linearLayoutManager2);
         rv3.setLayoutManager(linearLayoutManager3);
 
-        _rv = new TruyenAdapter(getActivity(), email);
-        rv_2 = new TruyenAdapter(getActivity(), email);
-        rv_3 = new TruyenAdapter(getActivity(), email);
+        _rv = new ComicSliderAdapter(getActivity(), email);
+        rv_2 = new ComicSliderAdapter(getActivity(), email);
+        rv_3 = new ComicSliderAdapter(getActivity(), email);
 
         rv.setAdapter(_rv);
         rv2.setAdapter(rv_2);

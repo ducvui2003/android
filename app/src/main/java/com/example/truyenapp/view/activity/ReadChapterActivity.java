@@ -20,7 +20,7 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterContentRespone;
-import com.example.truyenapp.view.adapter.BinhLuanAdapter;
+import com.example.truyenapp.view.adapter.CommentAdapter;
 import com.example.truyenapp.view.adapter.DocChapterAdapter;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class ReadChapterActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
     private DocChapterAdapter rcvAdapter;
-    private BinhLuanAdapter rcvCommentAdapter;
+    private CommentAdapter rcvCommentAdapter;
     public Integer idChapter, idComic;
     TextView chapterName, star;
     ImageView imgBackChapter, imgPre, imgNext;

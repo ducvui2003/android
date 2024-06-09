@@ -20,7 +20,8 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterContentRespone;
-import com.example.truyenapp.view.adapter.BinhLuanAdapter;
+import com.example.truyenapp.response.CommentResponse;
+import com.example.truyenapp.view.adapter.CommentAdapter;
 import com.example.truyenapp.view.adapter.DocChapterAdapter;
 
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ import retrofit2.Response;
 public class ReadChapter extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
     private DocChapterAdapter rcvAdapter;
-    private BinhLuanAdapter rcvCommentAdapter;
+    private CommentAdapter rcvCommentAdapter;
+    private List<CommentResponse> listComment;
     public Integer idChapter, idComic;
     TextView chapterName, star;
     ImageView imgBackChapter, imgPre, imgNext;
@@ -45,6 +47,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     private int position;
     private ArrayList<Integer> listChapterId;
     private Intent intent;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
         star = findViewById(R.id.tv_sosaochapter);
         chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        this.linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(rcvAdapter);
     }
