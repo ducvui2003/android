@@ -55,7 +55,7 @@
             android:name="com.example.truyenapp.view.activity.RatingsHistory"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.ShowBinhLuan"
+            android:name="com.example.truyenapp.view.activity.AccountCommentActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.QuanLyTaiKhoan"

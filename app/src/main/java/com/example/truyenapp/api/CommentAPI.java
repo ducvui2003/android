@@ -2,6 +2,7 @@ package com.example.truyenapp.api;
 
 import com.example.truyenapp.request.CommentChangeRequest;
 import com.example.truyenapp.request.CommentCreationRequestDTO;
+import com.example.truyenapp.request.CommentResponseOverall;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.CommentCreationResponseDTO;
 import com.example.truyenapp.response.CommentResponse;
@@ -29,5 +30,8 @@ public interface CommentAPI {
 
     @POST("v1/comment")
     public Call<APIResponse<CommentResponse>> create(@Body CommentCreationRequestDTO request);
+
+    @GET("v1/comment/user")
+    public Call<APIResponse<CommentResponseOverall>> getCommentOverall(@Query("page") int page, @Query("size") int size);
 
 }

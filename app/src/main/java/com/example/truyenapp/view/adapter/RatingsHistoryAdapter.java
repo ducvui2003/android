@@ -67,9 +67,6 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
         BookResponse book = listBook.get(position);
         getChapterInfo(evaluate.getIdChapter(), holder);
 
-
-
-
         Glide.with(this.context).load(book.getThumbnail()).into(holder.img_tong_truyen);
         holder.tv_tong_ngaydang.setText(formatEvaluateDate(evaluate.getEvaluateDate()));
         holder.tv_tong_pl.setText("Đánh giá: " + evaluate.getStar());
