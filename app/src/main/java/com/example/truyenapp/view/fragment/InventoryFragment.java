@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +22,12 @@ import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.adapter.InventoryAdapter;
 import com.example.truyenapp.model.Item;
+import com.example.truyenapp.view.adapter.InventoryViewModel;
+import com.example.truyenapp.view.adapter.InventoryViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,12 +38,15 @@ public class InventoryFragment extends Fragment {
     private View view;
     private RecyclerView rcv;
     private InventoryAdapter adapter;
-    private List<Item> listItem;
-    private RedeemRewardAPI redeemRewardAPI;
+    List<Item> itemList = new ArrayList<>();
+    private InventoryViewModel inventoryViewModel;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        InventoryViewModelFactory factory = new InventoryViewModelFactory(requireContext());
+        inventoryViewModel = new ViewModelProvider(requireActivity(), factory).get(InventoryViewModel.class);
 
     }
 
@@ -53,37 +61,29 @@ public class InventoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        callAPI();
+        observeViewModel();
     }
 
     public void init() {
         rcv = view.findViewById(R.id.rcv_comic_card);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcv.setLayoutManager(linearLayoutManager);
-        listItem = new ArrayList<>();
-        adapter = new InventoryAdapter(getActivity(), listItem);
+        itemList = new ArrayList<>();
+        adapter = new InventoryAdapter(getActivity(), itemList);
         rcv.setAdapter(adapter);
-        redeemRewardAPI = RetrofitClient.getInstance(this.getContext()).create(RedeemRewardAPI.class);
     }
 
-    public void callAPI() {
-        redeemRewardAPI.getItemsUser().enqueue(new Callback<APIResponse<DataListResponse<Item>>>() {
+    public void observeViewModel() {
+        inventoryViewModel.getItems().observe(getViewLifecycleOwner(), new Observer<List<Item>>() {
             @Override
-            public void onResponse(Call<APIResponse<DataListResponse<Item>>> call, Response<APIResponse<DataListResponse<Item>>> response) {
-                APIResponse<DataListResponse<Item>> apiResponse = response.body();
-                if (apiResponse.getCode() == 400) {
-                    return;
+            public void onChanged(List<Item> items) {
+                if (items != null) {
+                    itemList.clear();
+                    List<Item> itemFilter = items.stream().filter(item -> item.isExchange()).collect(Collectors.toList());
+                    itemList.addAll(itemFilter);
+                    adapter.notifyDataSetChanged();
                 }
-                List<Item> items = apiResponse.getResult().getData();
-                listItem.addAll(items);
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<APIResponse<DataListResponse<Item>>> call, Throwable throwable) {
-                Log.d("InventoryFragment", "onFailure: " + throwable.getMessage());
             }
         });
     }
-
 }

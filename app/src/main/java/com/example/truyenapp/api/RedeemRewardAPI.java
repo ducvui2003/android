@@ -14,8 +14,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RedeemRewardAPI {
-    @GET("v1/items")
-    Call<APIResponse<DataListResponse<Item>>> getItem();
+
 
     @POST("v1/items")
     Call<APIResponse<ExchangeStatus>> exchange(@Body ExchangeRequest exchangeRequest);

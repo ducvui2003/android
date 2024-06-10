@@ -2,6 +2,7 @@ package com.example.truyenapp.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull InventoryViewHolder holder, int position) {
         Item item = list.get(position);
-        if (item == null) {
+        Log.d("tag", item.toString());
+        if (item == null || item.isExchange() == false) {
             return;
         }
         holder.setData(item);
