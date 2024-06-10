@@ -1,4 +1,4 @@
-package com.example.truyenapp.view.fragment;
+package com.example.truyenapp.view.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,17 +6,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.truyenapp.view.fragment.ComicNewFragment;
+import com.example.truyenapp.view.fragment.ComicViewFragment;
+import com.example.truyenapp.view.fragment.ComicVoteFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryViewPagerFragment extends FragmentStateAdapter {
+public class FragmentAdapterCategory extends FragmentStateAdapter {
     ComicVoteFragment comicVoteFragment = new ComicVoteFragment();
     ComicViewFragment comicViewFragment = new ComicViewFragment();
     ComicNewFragment comicNewFragment = new ComicNewFragment();
 
     private final List<Fragment> fragmentList = new ArrayList<>();
 
-    public CategoryViewPagerFragment(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+    public FragmentAdapterCategory(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
         fragmentList.add(comicNewFragment);
         fragmentList.add(comicVoteFragment);

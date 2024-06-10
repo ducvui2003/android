@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.viewHolder;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -52,19 +53,6 @@ public class InventoryViewHolder extends RecyclerView.ViewHolder {
             callAPI();
         });
     }
-
-
-//        Boolean kt=db.checkLinkAnh(account, item.getImage());
-//            if(kt==false){
-//                Boolean updateLinkAnh=db.updateLinkAnh(account, item.getImage());
-//                if(updateLinkAnh==true){
-//                    Toast.makeText(this.context,"Sử dụng avatar thành công",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(this.context,"Đã có lỗi xảy ra. Vui lòng thử lại sau",Toast.LENGTH_SHORT).show();
-//                }
-//            }else {
-//                Toast.makeText(this.context,"Hiện tại bạn đang sử dụng avater này",Toast.LENGTH_SHORT).show();
-//            }
 
 
     private void callAPI() {

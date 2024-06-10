@@ -27,7 +27,7 @@ import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.activity.ChangePasswordActivity;
 import com.example.truyenapp.view.activity.HomeActivity;
-import com.example.truyenapp.view.activity.ShowBinhLuan;
+import com.example.truyenapp.view.activity.AccountCommentActivity;
 import com.example.truyenapp.view.activity.RatingsHistory;
 import com.example.truyenapp.view.activity.AccountInfoActivity;
 
@@ -196,7 +196,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         Intent intent;
         switch (view.getId()) {
             case R.id.tv_binhluancuatoi:
-                intent = new Intent(getActivity(), ShowBinhLuan.class);
+                intent = new Intent(getActivity(), AccountCommentActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_danhgiacuatoi:

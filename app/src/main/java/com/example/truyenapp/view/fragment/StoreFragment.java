@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,8 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.model.Item;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.view.adapter.InventoryViewModel;
+import com.example.truyenapp.view.adapter.InventoryViewModelFactory;
 import com.example.truyenapp.view.adapter.StoreAdapter;
 
 import java.util.ArrayList;
@@ -34,13 +38,14 @@ public class StoreFragment extends Fragment {
     public RecyclerView rcv;
     public StoreAdapter adapter;
     List<Item> itemList = new ArrayList<>();
-    RedeemRewardAPI redeemRewardAPI;
-
+    private InventoryViewModel inventoryViewModel;
 
     @Override
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        InventoryViewModelFactory factory = new InventoryViewModelFactory(requireContext());
+        inventoryViewModel = new ViewModelProvider(requireActivity(), factory).get(InventoryViewModel.class);
     }
 
     @Override
@@ -54,7 +59,7 @@ public class StoreFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        callAPI();
+        observeViewModel();
     }
 
 
@@ -64,25 +69,17 @@ public class StoreFragment extends Fragment {
         rcv.setLayoutManager(linearLayoutManager);
         adapter = new StoreAdapter(getActivity(), itemList);
         rcv.setAdapter(adapter);
-        redeemRewardAPI = RetrofitClient.getInstance(this.getContext()).create(RedeemRewardAPI.class);
     }
 
-    public void callAPI() {
-        redeemRewardAPI.getItem().enqueue(new Callback<APIResponse<DataListResponse<Item>>>() {
+    public void observeViewModel() {
+        inventoryViewModel.getItems().observe(getViewLifecycleOwner(), new Observer<List<Item>>() {
             @Override
-            public void onResponse(Call<APIResponse<DataListResponse<Item>>> call, Response<APIResponse<DataListResponse<Item>>> response) {
-                APIResponse<DataListResponse<Item>> data = response.body();
-                if (data.getCode() == 400 || data.getResult() == null || data.getResult().getData() == null)
-                    return;
-                for (Item item : data.getResult().getData()) {
-                    itemList.add(item);
+            public void onChanged(List<Item> items) {
+                if (items != null) {
+                    itemList.clear();
+                    itemList.addAll(items);
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<APIResponse<DataListResponse<Item>>> call, Throwable throwable) {
-                Log.d("API", "onFailure: " + throwable.getMessage());
             }
         });
     }
