@@ -44,17 +44,6 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryViewHolder> 
             return;
         }
         holder.setData(item);
-//            Boolean kt=db.checkLinkAnh(account, item.getImage());
-//            if(kt==false){
-//                Boolean updateLinkAnh=db.updateLinkAnh(account, item.getImage());
-//                if(updateLinkAnh==true){
-//                    Toast.makeText(this.context,"Sử dụng avatar thành công",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(this.context,"Đã có lỗi xảy ra. Vui lòng thử lại sau",Toast.LENGTH_SHORT).show();
-//                }
-//            }else {
-//                Toast.makeText(this.context,"Hiện tại bạn đang sử dụng avater này",Toast.LENGTH_SHORT).show();
-//            }
     }
 
     @Override

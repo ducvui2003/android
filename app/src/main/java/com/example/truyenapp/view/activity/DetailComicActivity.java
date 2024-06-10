@@ -27,7 +27,7 @@ public class DetailComicActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_comic);
+        setContentView(R.layout.activity_detail_comic);
         Intent intent = getIntent();
         idComic = intent.getIntExtra(BundleConstraint.ID_COMIC, 0);
         init();
@@ -69,6 +69,4 @@ public class DetailComicActivity extends AppCompatActivity {
         pager2=findViewById(R.id.view_pager2);
         imgComic =findViewById(R.id.img_truyen);
     }
-
-
 }

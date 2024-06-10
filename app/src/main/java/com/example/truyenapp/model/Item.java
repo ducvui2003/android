@@ -15,4 +15,5 @@ public class Item {
     private int point;
     private String image;
     private Date date;
+    private boolean isExchange;
 }

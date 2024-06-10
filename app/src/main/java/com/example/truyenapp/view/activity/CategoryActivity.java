@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.truyenapp.view.fragment.CategoryViewPagerFragment;
+import com.example.truyenapp.view.adapter.FragmentAdapterCategory;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class CategoryActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
-    CategoryViewPagerFragment adapter;
+    FragmentAdapterCategory adapter;
     ArrayAdapter<String> categoryAdapter;
     String category;
     Map<Integer, String> mapCategory;
@@ -52,7 +52,7 @@ public class CategoryActivity extends AppCompatActivity {
         init();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        adapter = new CategoryViewPagerFragment(fragmentManager, getLifecycle());
+        adapter = new FragmentAdapterCategory(fragmentManager, getLifecycle());
         pager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, pager2,
                 (tab, position) -> tab.setText(TAB_TEXT[position])
