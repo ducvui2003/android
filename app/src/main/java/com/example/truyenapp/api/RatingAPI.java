@@ -17,6 +17,9 @@ public interface RatingAPI {
     @GET("v1/ratings/user/{id}")
     Call<APIResponse<List<RatingResponse>>> getRatingByUser(@Path("id") int userId);
 
+    @GET("v1/ratings/chapter/{chapterId}")
+    Call<APIResponse<RatingResponse>> getRatingByChapterId(@Path("chapterId") int chapterId);
+
     @POST("v1/ratings")
     Call<APIResponse<Void>> createRating(@Body RatingResponse ratingResponse);
 

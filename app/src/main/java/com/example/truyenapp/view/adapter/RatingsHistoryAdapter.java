@@ -147,7 +147,7 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
             btn_rate = itemView.findViewById(R.id.bt_danhgia);
             rateComponent = itemView.findViewById(R.id.rate_component);
 
-            btn_rate.setOnClickListener(v -> createRating(this, getBindingAdapterPosition()));
+            btn_rate.setOnClickListener(v -> updateRating(this, getBindingAdapterPosition()));
         }
     }
 
@@ -156,18 +156,16 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
         ratingAPI = RetrofitClient.getInstance(context).create(RatingAPI.class);
     }
 
-    private void createRating(@NonNull ShowDanhGiaViewHolder holder, int position) {
+    private void updateRating(@NonNull ShowDanhGiaViewHolder holder, int position) {
         Evaluate evaluate = list.get(position);
         if (evaluate == null) {
             return;
         }
-
         float rating = getUserRating(holder);
         if (rating == 0) {
             Toast.makeText(context, "Vui lòng chọn số sao muốn đánh giá", Toast.LENGTH_SHORT).show();
             return; // Không gửi yêu cầu nếu người dùng chưa chọn sao
         }
-
         RatingResponse ratingResponse = getRatingValue(holder, evaluate.getId(), evaluate.getIdChapter(), evaluate.getIdAccount(), getCurrentDateTime());
         if (ratingResponse != null) {
             ratingAPI.updateRating(ratingResponse).enqueue(new Callback<APIResponse<Void>>() {
@@ -206,7 +204,7 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
             return null;
         }
         Toast.makeText(context, createAt.toString(), Toast.LENGTH_SHORT).show();
-        return new RatingResponse(ratingId, chapterId, userId, rating, createAt);
+        return new RatingResponse(ratingId, chapterId, userId, rating, createAt, false);
     }
 
     private float getUserRating(ShowDanhGiaViewHolder holder) {

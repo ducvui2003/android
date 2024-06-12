@@ -15,5 +15,5 @@ public class RatingResponse {
     private Integer userId;
     private Float star;
     private Date createdAt;
-
+    private Boolean isDeleted;
 }
