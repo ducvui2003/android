@@ -12,15 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.truyenapp.view.fragment.CategoryViewPagerFragment;
+import com.example.truyenapp.view.adapter.FragmentAdapterCategory;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
-import com.example.truyenapp.database.Database;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.CategoryResponse;
-import com.example.truyenapp.view.fragment.RankViewFragment;
-import com.example.truyenapp.view.fragment.RankVoteFragment;
+import com.example.truyenapp.view.fragment.ComicNewFragment;
+import com.example.truyenapp.view.fragment.ComicViewFragment;
+import com.example.truyenapp.view.fragment.ComicVoteFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -35,26 +35,24 @@ import retrofit2.Response;
 public class CategoryActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 pager2;
-    CategoryViewPagerFragment adapter;
+    FragmentAdapterCategory adapter;
     ArrayAdapter<String> categoryAdapter;
     String category;
     Map<Integer, String> mapCategory;
-    Database db;
     AutoCompleteTextView autoCompleteTextView;
     Integer categoryId;
-    private final String[] TAB_TEXT = {"Mới nhất", "BXH Votes", "BXH Lượt Xem"};
+    private final String[] TAB_TEXT = {"Mới nhất", "Đánh giá ", "Lượt Xem"};
     private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.theloai);
+        setContentView(R.layout.actvity_category);
 
-        db = new Database(this);
         init();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        adapter = new CategoryViewPagerFragment(fragmentManager, getLifecycle());
+        adapter = new FragmentAdapterCategory(fragmentManager, getLifecycle());
         pager2.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, pager2,
                 (tab, position) -> tab.setText(TAB_TEXT[position])
@@ -68,7 +66,6 @@ public class CategoryActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
@@ -83,9 +80,9 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void init() {
-        this.tabLayout = findViewById(R.id.tab_layout_tl);
-        this.pager2 = findViewById(R.id.view_pager2_tl);
-        this.autoCompleteTextView = findViewById(R.id.auto_complete_txt);
+        this.tabLayout = findViewById(R.id.tab_layout_category);
+        this.pager2 = findViewById(R.id.view_pager2_category);
+        this.autoCompleteTextView = findViewById(R.id.auto_complete_category);
         categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         mapCategory = new HashMap<>();
     }
@@ -96,21 +93,25 @@ public class CategoryActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 handleSearch();
             }
-
         });
     }
 
     public void handleSearch() {
         this.category = autoCompleteTextView.getText().toString();
         this.categoryId = getCategory();
-        if (currentFragment instanceof RankViewFragment) {
-            RankViewFragment rankViewFragment = (RankViewFragment) currentFragment;
-            rankViewFragment.setCategoryId(categoryId);
+        currentFragment = adapter.getFragment(pager2.getCurrentItem());
+        if (currentFragment instanceof ComicViewFragment) {
+            ComicViewFragment comicViewFragment = (ComicViewFragment) currentFragment;
+            comicViewFragment.setCategoryId(categoryId);
             return;
         }
-        if (currentFragment instanceof RankVoteFragment) {
-            RankVoteFragment rankVoteFragment = (RankVoteFragment) currentFragment;
-            rankVoteFragment.setCategoryId(categoryId);
+        if (currentFragment instanceof ComicVoteFragment) {
+            ComicVoteFragment comicVoteFragment = (ComicVoteFragment) currentFragment;
+            comicVoteFragment.setCategoryId(categoryId);
+        }
+        if (currentFragment instanceof ComicNewFragment) {
+            ComicNewFragment comicNewFragment = (ComicNewFragment) currentFragment;
+            comicNewFragment.setCategoryId(categoryId);
         }
     }
 
@@ -142,6 +143,8 @@ public class CategoryActivity extends AppCompatActivity {
                 categoryAdapter.addAll(mapCategory.values());
                 categoryAdapter.notifyDataSetChanged();
                 handleEventSelect();
+                autoCompleteTextView.setText(mapCategory.get(0), false);
+                handleSearch();
             }
 
             @Override

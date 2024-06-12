@@ -47,12 +47,12 @@ import com.example.truyenapp.view.activity.HomeActivity;
 import com.example.truyenapp.view.activity.RankActivity;
 import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
-import com.example.truyenapp.admin.CommentManagerActivity;
+import com.example.truyenapp.admin.CommentManagementActivity;
 import com.example.truyenapp.admin.QuanLyTaiKhoan;
 import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.view.activity.Signin;
-import com.example.truyenapp.view.adapter.TruyenAdapter;
+import com.example.truyenapp.view.adapter.ComicSliderAdapter;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
     private List<Comic> topComic = new ArrayList<>();
     private List<Comic> comicFullChapter = new ArrayList<>();
     private RecyclerView rv, rv2, rv3;
-    private TruyenAdapter _rv, rv_2, rv_3;
+    private ComicSliderAdapter _rv, rv_2, rv_3;
     private UserAPI userAPI;
 
     private DialogHelper dialogHelper;
@@ -168,9 +168,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         rv2.setLayoutManager(linearLayoutManager2);
         rv3.setLayoutManager(linearLayoutManager3);
 
-        _rv = new TruyenAdapter(getActivity(), email);
-        rv_2 = new TruyenAdapter(getActivity(), email);
-        rv_3 = new TruyenAdapter(getActivity(), email);
+        _rv = new ComicSliderAdapter(getActivity(), email);
+        rv_2 = new ComicSliderAdapter(getActivity(), email);
+        rv_3 = new ComicSliderAdapter(getActivity(), email);
 
         rv.setAdapter(_rv);
         rv2.setAdapter(rv_2);
@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
         navigationView = (NavigationView) view.findViewById(R.id.nvv);
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
         drawerLayout = (DrawerLayout) view.findViewById(R.id.drlo);
-        headerLayout = navigationView.inflateHeaderView(R.layout.header);
+        headerLayout = navigationView.inflateHeaderView(R.layout.fragment_header);
         loginBtn = (Button) headerLayout.findViewById(R.id.home_login_btn);
 
 
@@ -323,7 +323,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box1);
                 break;
             case R.id.it_quanlybinhluan:
-                Intent dialog_box2 = new Intent(getActivity(), CommentManagerActivity.class);
+                Intent dialog_box2 = new Intent(getActivity(), CommentManagementActivity.class);
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:
