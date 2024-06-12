@@ -19,8 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.ChapterAPI;
 import com.example.truyenapp.api.CommentAPI;
+import com.example.truyenapp.api.RatingAPI;
 import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.constraints.BundleConstraint;
+import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.request.CommentCreationRequestDTO;
 import com.example.truyenapp.response.APIResponse;
@@ -28,10 +31,17 @@ import com.example.truyenapp.response.ChapterContentRespone;
 import com.example.truyenapp.response.CommentCreationResponseDTO;
 import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.response.RatingResponse;
+import com.example.truyenapp.response.UserResponse;
+import com.example.truyenapp.utils.SharedPreferencesHelper;
+import com.example.truyenapp.utils.SystemConstant;
 import com.example.truyenapp.view.adapter.CommentAdapter;
 import com.example.truyenapp.view.adapter.DocChapterAdapter;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -63,6 +73,12 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
     private final int PAGE_SIZE = 5;
     private LinearLayoutManager linearLayoutManager;
 
+    // Rating
+    private RatingAPI ratingAPI;
+    private UserAPI userAPI;
+    private int userId = 0;
+    private int ratingId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +88,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         initComment();
         setOnClickListener();
         getChapterContent(idChapter);
+        getRatingByChapterId();
         getComment();
     }
 
@@ -84,11 +101,11 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         imgPre = findViewById(R.id.image_read_chapter_prev);
         editTextComment = findViewById(R.id.edit_read_chapter_comment);
         btnComment = findViewById(R.id.button_read_chapter_comment);
-        btnRate = findViewById(R.id.button_read_chapter_rating);
-        rtb = findViewById(R.id.rtb_read_chapter);
+        btnRate = findViewById(R.id.button_rate);
+        rtb = findViewById(R.id.rating_bar);
         star = findViewById(R.id.tv_read_chapter_star);
         chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
-
+        connectAPI();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(rcvAdapter);
@@ -157,8 +174,12 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
             case R.id.button_read_chapter_comment:
                 comment();
                 break;
-            case R.id.button_read_chapter_rating:
-
+            case R.id.button_rate:
+                if (ratingId == 0) {
+                    createRatingWithUserInfo();
+                } else {
+                    updateRatingWithUserInfo();
+                }
                 break;
         }
     }
@@ -170,6 +191,12 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         btnComment.setOnClickListener(this);
         btnRate.setOnClickListener(this);
     }
+
+    private void connectAPI() {
+        userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
+        ratingAPI = RetrofitClient.getInstance(this).create(RatingAPI.class);
+    }
+
 
     public void getChapterContent(int idChapter) {
         chapterAPI.getChapterContent(idChapter).enqueue(new Callback<APIResponse<List<ChapterContentRespone>>>() {
@@ -288,6 +315,199 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
             });
         }
 
+    }
+
+    private void createRatingWithUserInfo() {
+        if (userId == 0) {
+            getUserInfo(new Runnable() {
+                @Override
+                public void run() {
+                    createRating();
+                }
+            });
+        } else {
+            createRating();
+        }
+    }
+
+    private void createRating() {
+        float rating = getUserRating();
+        if (rating == 0) {
+            Toast.makeText(this, "Vui lòng chọn số sao muốn đánh giá", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        RatingResponse ratingResponse = getRatingValue(ratingId, idChapter, userId, getCurrentDateTime());
+        if (ratingResponse != null) {
+            ratingAPI.createRating(ratingResponse).enqueue(new Callback<APIResponse<Void>>() {
+                @Override
+                public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
+                    runOnUiThread(() -> {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Thêm đánh giá thành công", Toast.LENGTH_SHORT).show();
+                        } else {
+                            int statusCode = response.code();
+                            if (statusCode == 400) {
+                                Toast.makeText(getApplicationContext(), "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Đánh giá thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
+                    runOnUiThread(() -> {
+                        Log.d("Rating", "onFailure: " + t.getMessage());
+                        Toast.makeText(getApplicationContext(), "Đánh giá thất bại: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+                }
+            });
+        }
+    }
+
+    private void updateRatingWithUserInfo() {
+        if (userId == 0) {
+            getUserInfo(new Runnable() {
+                @Override
+                public void run() {
+                    updateRating();
+                }
+            });
+        } else {
+            updateRating();
+        }
+    }
+
+    private void updateRating() {
+        if (userId == 0) {
+            // Log an error or handle the case where userId is not available
+            return;
+        }
+        float rating = getUserRating();
+        if (rating == 0) {
+            Toast.makeText(this, "Vui lòng chọn số sao muốn đánh giá", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        RatingResponse ratingResponse = getRatingValue(ratingId, idChapter, userId, getCurrentDateTime());
+        if (ratingResponse != null) {
+            ratingAPI.updateRating(ratingResponse).enqueue(new Callback<APIResponse<Void>>() {
+                @Override
+                public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Cập nhật đánh giá thành công", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Cập nhật đánh giá thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
+                    Log.d("Rating", "onFailure: " + t.getMessage());
+                }
+            });
+        }
+    }
+
+    public LocalDateTime getCurrentDateTime() {
+        return LocalDateTime.now();
+    }
+
+    private RatingResponse getRatingValue(int evaluateId, int chapterId, int userId, LocalDateTime evaluateDate) {
+        float rating = getUserRating();
+        Date createAt = Date.from(evaluateDate.atZone(ZoneId.systemDefault()).toInstant());
+        if (rating == 0) {
+            Toast.makeText(this, "Vui lòng chọn số sao muốn đánh giá", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        return new RatingResponse(evaluateId, chapterId, userId, rating, createAt, false);
+    }
+
+    private float getUserRating() {
+        return rtb.getRating();
+    }
+
+    private void getUserInfo(Runnable callback) {
+        // Call the getUserInfo method from the UserAPI interface
+        JWTToken jwtToken = SharedPreferencesHelper.getObject(this, SystemConstant.JWT_TOKEN, JWTToken.class);
+        if (jwtToken == null) {
+            return;
+        }
+        userAPI.getUserInfo(jwtToken.getToken()).enqueue(new Callback<UserResponse>() {
+            // This method is called when the server response is received
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                // Check if the response is successful and not null
+                if (response.isSuccessful() && response.body() != null) {
+                    // Get the UserResponse object from the response
+                    UserResponse user = response.body();
+                    // Set the userId of the user
+                    userId = user.getId();
+                    // Execute the callback
+                    callback.run();
+                } else {
+                    // Show a toast message indicating that an error occurred
+                    runOnUiThread(() -> {
+                        Toast.makeText(getApplicationContext(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                    });
+                }
+            }
+
+            // This method is called when the request could not be executed due to cancellation, a connectivity problem, or a timeout
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable throwable) {
+                // Log the error message
+                Log.e("TAG", "Login failed: " + throwable.getMessage());
+                // Show a toast message indicating that an error occurred
+                runOnUiThread(() -> {
+                    Toast.makeText(getApplicationContext(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    private void getRatingByChapterId() {
+        // Call the getRatingByChapterId method from the RatingAPI interface
+        ratingAPI.getRatingByChapterId(idChapter).enqueue(new Callback<APIResponse<RatingResponse>>() {
+            // This method is called when the server response is received
+            @Override
+            public void onResponse(Call<APIResponse<RatingResponse>> call, Response<APIResponse<RatingResponse>> response) {
+                // Get the APIResponse object from the response
+                APIResponse<RatingResponse> apiResponse = response.body();
+                // Check if the APIResponse object is not null
+                if (apiResponse != null) {
+                    // Get the RatingResponse object from the APIResponse object
+                    RatingResponse rating = apiResponse.getResult();
+                    // Check if the RatingResponse object is not null
+                    if (rating != null) {
+                        // set ratingId
+                        ratingId = rating.getId();
+                        // Set the text of the button to "Update"
+                        btnRate.setText("Cập nhât");
+                        // Set the rating value to the RatingBar
+                        rtb.setRating(rating.getStar());
+                        // Set the rating value to the TextView
+                        star.setText(String.valueOf(rating.getStar()));
+                    } else {
+                        // If no rating is available, reset the RatingBar and TextView
+                        ratingId = 0;
+                        rtb.setRating(0);
+                        star.setText("0");
+                    }
+                }
+            }
+
+            // This method is called when the request could not be executed due to cancellation, a connectivity problem, or a timeout
+            @Override
+            public void onFailure(Call<APIResponse<RatingResponse>> call, Throwable throwable) {
+                // Log the error message
+                Log.e("TAG", "Get rating by chapter id failed: " + throwable.getMessage());
+                // Show a toast message indicating that an error occurred
+                runOnUiThread(() -> {
+                    Toast.makeText(getApplicationContext(), "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
     }
 
 }

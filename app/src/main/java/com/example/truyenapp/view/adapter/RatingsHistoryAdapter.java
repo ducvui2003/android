@@ -142,9 +142,9 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
             img_tong_truyen = itemView.findViewById(R.id.img_tong_truyen);
             btn_edit = itemView.findViewById(R.id.btn_edit);
             btn_cancel = itemView.findViewById(R.id.btn_cancel);
-            tv_sosaochapter = itemView.findViewById(R.id.tv_sosaochapter);
-            rtb = itemView.findViewById(R.id.rtb);
-            btn_rate = itemView.findViewById(R.id.bt_danhgia);
+            tv_sosaochapter = itemView.findViewById(R.id.tv_read_chapter_star);
+            rtb = itemView.findViewById(R.id.rating_bar);
+            btn_rate = itemView.findViewById(R.id.button_rate);
             rateComponent = itemView.findViewById(R.id.rate_component);
 
             btn_rate.setOnClickListener(v -> updateRating(this, getBindingAdapterPosition()));

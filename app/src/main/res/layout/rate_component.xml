@@ -25,7 +25,7 @@
             android:textColor="@color/black"/>
 
         <TextView
-            android:id="@+id/tv_sosaochapter"
+            android:id="@+id/tv_read_chapter_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="130dp"
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <RatingBar
-        android:id="@+id/rtb"
+        android:id="@+id/rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numStars="5"
@@ -50,7 +50,7 @@
         android:layout_gravity="center"/>
 
     <Button
-        android:id="@+id/bt_danhgia"
+        android:id="@+id/button_rate"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="10dp"
