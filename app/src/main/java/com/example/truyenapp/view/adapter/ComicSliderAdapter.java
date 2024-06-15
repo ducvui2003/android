@@ -43,7 +43,7 @@ public class ComicSliderAdapter extends RecyclerView.Adapter<ComicSliderAdapter.
     @NonNull
     @Override
     public ComicSliderAdapter.TruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_slider,parent,false);
         return new ComicSliderAdapter.TruyenViewHolder(view);
     }
     @Override
