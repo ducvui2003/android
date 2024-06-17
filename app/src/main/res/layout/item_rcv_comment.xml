@@ -12,12 +12,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/image_item_comment_avatar"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/logo" />
+      <androidx.cardview.widget.CardView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          app:cardCornerRadius="8dp">
+          <ImageView
+              android:id="@+id/image_item_comment_avatar"
+              android:layout_width="80dp"
+              android:layout_height="80dp"
+              android:layout_gravity="center_vertical"
+              android:src="@drawable/logo" />
+      </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:id="@+id/ll_rcv"
@@ -31,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:padding="3dp"
+                android:paddingVertical="3dp"
                 android:text="trong09@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="16dp"
@@ -58,7 +64,7 @@
                 android:id="@+id/tv_item_comment_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="3dp"
+                android:paddingVertical="3dp"
                 android:text="2021-10-10"
                 android:textSize="12dp" />
         </LinearLayout>
