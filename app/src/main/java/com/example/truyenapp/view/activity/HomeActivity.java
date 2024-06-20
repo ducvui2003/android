@@ -127,11 +127,12 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
 
-   public  AlertDialog.Builder showDialogLogin() {
-        DialogHelper dialogHelper  = new DialogHelper(this, new DialogEvent() {
+    public AlertDialog.Builder showDialogLogin() {
+        DialogHelper dialogHelper = new DialogHelper(this, new DialogEvent() {
             @Override
             public void onPositiveClick() {
             }
+
             @Override
             public void onNegativeClick() {
                 defaultIdNav();
@@ -160,16 +161,16 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(context, "Trống", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onFailure(Call<APIResponse<Integer>> call, Throwable throwable) {
                 Log.e("TAG", "Login failed: " + throwable.getMessage());
-                // Show a toast message indicating that an error occurred
                 Toast.makeText(context, "Lỗi, vui lòng thử lại", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void defaultIdNav(){
+    private void defaultIdNav() {
         meowBottomNavigation.show(1, true);
     }
 }

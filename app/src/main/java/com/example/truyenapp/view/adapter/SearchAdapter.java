@@ -56,7 +56,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.TimKiemVie
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
             intent.putExtra("email", email);
-            intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
+            intent.putExtra(BundleConstraint.ID_COMIC, commic.getId());
             holder.itemView.getContext().startActivity(intent);
         });
     }

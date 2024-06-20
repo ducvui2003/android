@@ -4,7 +4,6 @@ package com.example.truyenapp.admin;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,15 +21,13 @@ import com.example.truyenapp.model.Account;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.view.adapter.admin.ManagerAccountAdapter;
 
-import java.text.Normalizer;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ManagerAccount extends AppCompatActivity implements View.OnClickListener {
+public class ManagementAccount extends AppCompatActivity {
     private Account account;
     private String email;
     private RecyclerView rcv;
@@ -50,7 +47,6 @@ public class ManagerAccount extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
         userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
-        setOnClickListener();
         recyclerViewQLTaiKhoan();
         getAccount();
     }
@@ -61,33 +57,14 @@ public class ManagerAccount extends AppCompatActivity implements View.OnClickLis
     }
 
     private void init() {
-        rcv = findViewById(R.id.rcvManagerAccount);
-        btnCancel = findViewById(R.id.btnCancelNewAccount);
-        btnAdd = findViewById(R.id.btnAddNewAccount);
-        edtEmail = findViewById(R.id.edtEmailNewAccount);
-        edtPassword = findViewById(R.id.edtPasswordNewAccount);
-        name = findViewById(R.id.edtNameOfNewAccount);
-        edtPhone = findViewById(R.id.edtPhoneOfNewAccount);
-        cardViewAddAcount = findViewById(R.id.cvAddAccount);
-    }
-
-    private void setOnClickListener() {
-        btnAdd.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnCancelNewAccount:
-                cardViewAddAcount.setVisibility(View.GONE);
-                break;
-            case R.id.btnAddNewAccount:
-                String email = edtEmail.getText().toString().trim();
-                String matkhau = edtPassword.getText().toString();
-                String ten = name.getText().toString().trim();
-                String dienThoai = edtPhone.getText().toString();
-        }
+        rcv = findViewById(R.id.rcv_manage_account);
+        btnCancel = findViewById(R.id.btn_cancel_add_account);
+        btnAdd = findViewById(R.id.btn_add_account);
+        edtEmail = findViewById(R.id.edt_email_new_account);
+        edtPassword = findViewById(R.id.edt_password);
+        name = findViewById(R.id.edt_name_new_account);
+        edtPhone = findViewById(R.id.edt_phone_new_account);
+        cardViewAddAcount = findViewById(R.id.cv_add_new_account);
     }
 
     public void getAccount() {
@@ -109,12 +86,4 @@ public class ManagerAccount extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-
-//    public static String removeAccent(String s) {
-//        s = s.toLowerCase();
-//        s = s.replaceAll("đ", "d");
-//        String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
-//        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-//        return pattern.matcher(temp).replaceAll("");
-//    }
 }

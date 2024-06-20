@@ -58,7 +58,7 @@
             android:name="com.example.truyenapp.view.activity.AccountCommentActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ManagerAccount"
+            android:name="com.example.truyenapp.admin.ManagementAccount"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.CommentManagementActivity"

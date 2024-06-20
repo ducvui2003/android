@@ -47,30 +47,28 @@ public class ManagerAccountAdapter extends RecyclerView.Adapter<ManagerAccountAd
     @Override
     public void onBindViewHolder(@NonNull ManagerAccountViewHolder holder, int position) {
         Account account = list.get(position);
-//        if(account ==null){
-//            return;
-//        }
+
         holder.id.setText(String.valueOf(account.getId()));
         int status= account.getStatus();
         if(status == 0){
-            holder.btnAppear.setVisibility(View.GONE);
-            holder.btnHide.setVisibility(View.VISIBLE);
+            holder.btnUnblock.setVisibility(View.GONE);
+            holder.btnBlock.setVisibility(View.VISIBLE);
             holder.status.setText("Hoạt động");
         }else {
-            holder.btnAppear.setVisibility(View.VISIBLE);
-            holder.btnHide.setVisibility(View.GONE);
+            holder.btnUnblock.setVisibility(View.VISIBLE);
+            holder.btnBlock.setVisibility(View.GONE);
             holder.linearLayoutManagerAccount.setBackgroundColor(Color.GRAY);
             holder.status.setText("Bị khóa");
         }
         holder.email.setText(account.getEmail());
 
-        holder.btnHide.setOnClickListener(view -> {
+        holder.btnBlock.setOnClickListener(view -> {
             userAPI.block(account.getId()).enqueue(new Callback<APIResponse<Void>>() {
                 @Override
                 public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
                     if (response.isSuccessful()) {
-                        holder.btnHide.setVisibility(View.GONE);
-                        holder.btnAppear.setVisibility(View.VISIBLE);
+                        holder.btnBlock.setVisibility(View.GONE);
+                        holder.btnUnblock.setVisibility(View.VISIBLE);
                         holder.linearLayoutManagerAccount.setBackgroundColor(Color.GRAY);
                         holder.status.setText("Bị khóa");
                     }
@@ -83,13 +81,13 @@ public class ManagerAccountAdapter extends RecyclerView.Adapter<ManagerAccountAd
 
         });
 
-        holder.btnAppear.setOnClickListener(view -> {
+        holder.btnUnblock.setOnClickListener(view -> {
             userAPI.unblock(account.getId()).enqueue(new Callback<APIResponse<Void>>() {
                 @Override
                 public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
                     if (response.isSuccessful()) {
-                        holder.btnAppear.setVisibility(View.GONE);
-                        holder.btnHide.setVisibility(View.VISIBLE);
+                        holder.btnUnblock.setVisibility(View.GONE);
+                        holder.btnBlock.setVisibility(View.VISIBLE);
                         holder.linearLayoutManagerAccount.setBackgroundColor(Color.rgb(255, 87, 34));
                         holder.status.setText("Hoạt động");
                     }
@@ -118,16 +116,16 @@ public class ManagerAccountAdapter extends RecyclerView.Adapter<ManagerAccountAd
 
     public class ManagerAccountViewHolder extends RecyclerView.ViewHolder{
         private TextView id, email, status;
-        private Button btnHide, btnAppear;
+        private Button btnBlock, btnUnblock;
         private LinearLayout linearLayoutManagerAccount;
 
         public ManagerAccountViewHolder(@NonNull View itemView) {
             super(itemView);
             id =itemView.findViewById(R.id.tv_idqltaikhoan);
-            email =itemView.findViewById(R.id.tv_Email);
+            email =itemView.findViewById(R.id.tv_email);
             status =itemView.findViewById(R.id.tv_trangthaiqltaikhoan);
-            btnHide =itemView.findViewById(R.id.bt_anqltaikhoan);
-            btnAppear =itemView.findViewById(R.id.bt_hienqltaikhoan);
+            btnBlock =itemView.findViewById(R.id.btn_block_account);
+            btnUnblock =itemView.findViewById(R.id.btn_unblock_account);
             linearLayoutManagerAccount =itemView.findViewById(R.id.ll_rcv_qltaikhoan);
         }
     }

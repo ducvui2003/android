@@ -23,7 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CommentManagerActivity extends AppCompatActivity {
+public class CommentManagementActivity extends AppCompatActivity {
     private RecyclerView rcv;
     private CommentManagerAdapter adapter;
     private final int PAGE_SIZE = 10;

@@ -29,7 +29,7 @@ public class DetailComicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_comic);
         Intent intent = getIntent();
-        idComic = intent.getIntExtra(BundleConstraint.ID_COMMIC, 0);
+        idComic = intent.getIntExtra(BundleConstraint.ID_COMIC, 0);
         init();
         bookAPI = RetrofitClient.getInstance(this).create(BookAPI.class);
         FragmentManager fragmentManager=getSupportFragmentManager();

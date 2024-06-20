@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.Comic;
-import com.example.truyenapp.view.activity.ReadChapter;
+import com.example.truyenapp.view.activity.ReadChapterActivity;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.model.ReadingHistory;
@@ -61,7 +61,7 @@ public class TruyenDaDocAdapter extends RecyclerView.Adapter<TruyenDaDocAdapter.
         holder.tv_chaptermoinhat.setText("Chapter mới nhất: "+tenchaptermoinhat);
 
         holder.ll_rcv_truyendadoc.setOnClickListener(view -> {
-            Intent intent=new Intent(holder.itemView.getContext(), ReadChapter.class);
+            Intent intent=new Intent(holder.itemView.getContext(), ReadChapterActivity.class);
             intent.putExtra("id_truyen", comic.getId());
             intent.putExtra("id_chapter",truyendadoc.getIdChapter());
             intent.putExtra("email", account.getEmail());

@@ -50,7 +50,7 @@ public class LuotXemApdapter extends RecyclerView.Adapter<LuotXemApdapter.LuotXe
         holder.tv_pl.setText("Tổng lượt xem: " + truyen.getView());
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
-            intent.putExtra(BundleConstraint.ID_COMMIC, truyen.getId());
+            intent.putExtra(BundleConstraint.ID_COMIC, truyen.getId());
             intent.putExtra("email", email);
             holder.itemView.getContext().startActivity(intent);
         });

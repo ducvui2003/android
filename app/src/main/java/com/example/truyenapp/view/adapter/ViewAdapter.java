@@ -74,7 +74,7 @@ public class ViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rankViewHolder.dateCommic.setText("Ngày đăng: " + publishDate);
             rankViewHolder.detailCommicView.setOnClickListener(view -> {
                 Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
-                intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
+                intent.putExtra(BundleConstraint.ID_COMIC, commic.getId());
                 holder.itemView.getContext().startActivity(intent);
             });
         } else {

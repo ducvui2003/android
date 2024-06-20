@@ -30,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReadChapter extends AppCompatActivity implements View.OnClickListener {
+public class ReadChapterActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
     private DocChapterAdapter rcvAdapter;
     private BinhLuanAdapter rcvCommentAdapter;
@@ -78,7 +78,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
     private void initIntent() {
         this.intent = getIntent();
         this.idChapter = intent.getIntExtra(BundleConstraint.ID_CHAPTER, 0);
-        this.idComic = intent.getIntExtra(BundleConstraint.ID_COMMIC, 0);
+        this.idComic = intent.getIntExtra(BundleConstraint.ID_COMIC, 0);
         this.position = intent.getIntExtra(BundleConstraint.POSITION, 0);
         this.listChapterName = intent.getStringArrayListExtra(BundleConstraint.LIST_CHAPTER_NAME);
         this.chapterName.setText(listChapterName.get(position));
@@ -90,20 +90,20 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
         switch (view.getId()) {
             case R.id.img_pre:
                 if (!isPre()) return;
-                Intent intent = new Intent(this, ReadChapter.class);
+                Intent intent = new Intent(this, ReadChapterActivity.class);
                 setupIntent(intent, position - 1);
                 startActivity(intent);
                 finish();
                 break;
             case R.id.img_next:
                 if (!isNext()) return;
-                Intent intent1 = new Intent(this, ReadChapter.class);
+                Intent intent1 = new Intent(this, ReadChapterActivity.class);
                 setupIntent(intent1, position + 1);
                 startActivity(intent1);
                 break;
             case R.id.img_backdoctruyen:
                 Intent intent2 = new Intent(this, DetailComicActivity.class);
-                intent2.putExtra(BundleConstraint.ID_COMMIC, idComic);
+                intent2.putExtra(BundleConstraint.ID_COMIC, idComic);
                 startActivity(intent2);
                 finish();
                 break;
@@ -132,7 +132,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
                     APIResponse<List<ChapterContentRespone>> apiResponse = response.body();
                     if (apiResponse != null) {
                         List<ChapterContentRespone> chapterContentResponses = apiResponse.getResult();
-                        rcvAdapter = new DocChapterAdapter(chapterContentResponses, ReadChapter.this);
+                        rcvAdapter = new DocChapterAdapter(chapterContentResponses, ReadChapterActivity.this);
                         rcv.setAdapter(rcvAdapter);
                     }
                 }
@@ -155,7 +155,7 @@ public class ReadChapter extends AppCompatActivity implements View.OnClickListen
 
     private void setupIntent(Intent intent, int position) {
         intent.putExtra(BundleConstraint.QUANTITY, listChapterName.size());
-        intent.putExtra(BundleConstraint.ID_COMMIC, idComic);
+        intent.putExtra(BundleConstraint.ID_COMIC, idComic);
         intent.putExtra(BundleConstraint.POSITION, position);
         intent.putExtra(BundleConstraint.LIST_CHAPTER_NAME, listChapterName);
         intent.putIntegerArrayListExtra(BundleConstraint.LIST_CHAPTER_ID, listChapterId);
