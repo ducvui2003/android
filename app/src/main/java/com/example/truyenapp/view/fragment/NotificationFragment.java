@@ -82,7 +82,7 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.notification, container, false);
+        view = inflater.inflate(R.layout.thongbao, container, false);
         Anhxa();
         recyclerViewThongBao();
         return view;

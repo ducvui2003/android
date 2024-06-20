@@ -39,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAdapter.RatingHistoryViewHolder> {
+public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAdapter.ShowDanhGiaViewHolder> {
     private Context context;
     private List<Evaluate> list;
     private List<BookResponse> listBook;
@@ -60,14 +60,14 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
 
     @NonNull
     @Override
-    public RatingHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ShowDanhGiaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_tong, parent, false);
-        return new RatingHistoryViewHolder(view);
+        return new ShowDanhGiaViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull RatingHistoryViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShowDanhGiaViewHolder holder, int position) {
         Evaluate evaluate = list.get(position);
         if (evaluate == null) {
             return;
@@ -79,7 +79,6 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
             holder.btn_rate.setText("Cập nhật");
             holder.tv_sosaochapter.setText("Số sao: " + evaluate.getStar());
             holder.rtb.setRating(evaluate.getStar());
-            setRatingAfterChanged(holder);
         });
         holder.btn_cancel.setOnClickListener(v -> holder.rateComponent.setVisibility(View.GONE));
 
@@ -94,7 +93,7 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
         holder.tv_tong_tentruyen.setText(book.getName());
     }
 
-    private void getChapterInfo(int chapterId, RatingHistoryViewHolder holder) {
+    private void getChapterInfo(int chapterId, ShowDanhGiaViewHolder holder) {
         chapterAPI.getChapter(chapterId).enqueue(new Callback<ChapterResponse>() {
             @Override
             public void onResponse(Call<ChapterResponse> call, Response<ChapterResponse> response) {
@@ -127,14 +126,14 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
         return list != null ? list.size() : 0;
     }
 
-    public class RatingHistoryViewHolder extends RecyclerView.ViewHolder {
+    public class ShowDanhGiaViewHolder extends RecyclerView.ViewHolder {
         private RatingBar rtb;
         private TextView tv_tong_tentruyen, tv_tong_tenchapter, tv_tong_pl, tv_tong_ngaydang, tv_sosaochapter;
         private ImageView img_tong_truyen;
         private Button btn_edit, btn_cancel, btn_rate;
         private View rateComponent;
 
-        public RatingHistoryViewHolder(@NonNull View itemView) {
+        public ShowDanhGiaViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_tong_tentruyen = itemView.findViewById(R.id.tv_tong_tentruyen);
             tv_tong_tenchapter = itemView.findViewById(R.id.tv_tong_tenchapter);
@@ -157,7 +156,7 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
         ratingAPI = RetrofitClient.getInstance(context).create(RatingAPI.class);
     }
 
-    private void updateRating(@NonNull RatingHistoryViewHolder holder, int position) {
+    private void updateRating(@NonNull ShowDanhGiaViewHolder holder, int position) {
         Evaluate evaluate = list.get(position);
         if (evaluate == null) {
             return;
@@ -174,7 +173,6 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
                 public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(context, "Cập nhật đánh giá thành công", Toast.LENGTH_SHORT).show();
-                        setRatingAfterChanged(holder);
                         holder.rateComponent.setVisibility(View.GONE); // Đóng rateComponent
                     } else {
                         int statusCode = response.code();
@@ -193,32 +191,23 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
             });
         }
     }
-    
-    
 
     public LocalDateTime getCurrentDateTime() {
         return LocalDateTime.now();
     }
 
-    private RatingResponse getRatingValue(@NonNull RatingHistoryViewHolder holder, int ratingId, int chapterId, int userId, LocalDateTime evaluateDate) {
+    private RatingResponse getRatingValue(@NonNull ShowDanhGiaViewHolder holder, int ratingId, int chapterId, int userId, LocalDateTime evaluateDate) {
         float rating = getUserRating(holder);
         Date createAt = Date.from(evaluateDate.atZone(ZoneId.systemDefault()).toInstant());
         if (rating == 0) {
             Toast.makeText(context, "Vui lòng chọn số sao muốn đánh giá", Toast.LENGTH_SHORT).show();
             return null;
         }
+        Toast.makeText(context, createAt.toString(), Toast.LENGTH_SHORT).show();
         return new RatingResponse(ratingId, chapterId, userId, rating, createAt, false);
     }
 
-    private float getUserRating(RatingHistoryViewHolder holder) {
+    private float getUserRating(ShowDanhGiaViewHolder holder) {
         return holder.rtb.getRating();
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void setRatingAfterChanged(RatingHistoryViewHolder holder){
-        float ratingChanged = getUserRating(holder);
-        holder.rtb.setRating(ratingChanged);
-        holder.tv_sosaochapter.setText(String.valueOf(ratingChanged));
-        holder.tv_tong_pl.setText("Đánh giá: " + ratingChanged);
     }
 }
