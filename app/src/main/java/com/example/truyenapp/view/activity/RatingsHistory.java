@@ -43,8 +43,7 @@ public class RatingsHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.showdanhgia);
-
+        setContentView(R.layout.rating_history);
         rcv_danhgia = findViewById(R.id.rcv_danhgia_tong);
         rcv_danhgia.setLayoutManager(new LinearLayoutManager(this));
         tv_danhgia_tong = findViewById(R.id.tv_danhgia_tong);
@@ -115,6 +114,31 @@ public class RatingsHistory extends AppCompatActivity {
                 });
     }
 
+    private void fetchBookByChapterId(Evaluate evaluate) {
+        RetrofitClient.getInstance(this).create(BookAPI.class).getBookByChapterId(evaluate.getIdChapter())
+                .enqueue(new Callback<BookResponse>() {
+                    @Override
+                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            listBook.add(response.body());
+                        }
+                        setupAdapter();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BookResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Can not get book by chapterId", Toast.LENGTH_SHORT).show();
+                        setupAdapter();
+                    }
+                });
+    }
+
+    private void setupAdapter() {
+        if (listEvaluate.size() == listBook.size()) {
+            rcv_adapter = new RatingsHistoryAdapter(getApplicationContext(), listEvaluate, listBook);
+            rcv_danhgia.setAdapter(rcv_adapter);
+        }
+    }
     private Evaluate mapRatingResponseToEvaluate(RatingResponse ratingResponse) {
         Evaluate evaluate = new Evaluate();
         evaluate.setId(ratingResponse.getId());

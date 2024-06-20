@@ -64,7 +64,7 @@
             android:name="com.example.truyenapp.admin.CommentManagementActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.QuanLyThongKe"
+            android:name="com.example.truyenapp.admin.StatisticalManagement"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.BookManagement"
@@ -76,7 +76,7 @@
             android:name="com.example.truyenapp.admin.CommentDetailManagementActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ShowThongTinThongKe"
+            android:name="com.example.truyenapp.admin.StatisticalInformation"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.BookDetailManagement"
