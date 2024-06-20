@@ -9,5 +9,4 @@ public class BundleConstraint {
     public static final String LIST_CHAPTER_NAME = "listChapterName";
     public static final String LIST_CHAPTER_ID = "listChapterId";
     public static final String QUANTITY = "quantity";
-
 }
