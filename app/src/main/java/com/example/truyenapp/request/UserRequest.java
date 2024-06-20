@@ -16,6 +16,7 @@ public class UserRequest {
     private String username;
     private String email;
     private String password;
-
+    @Builder.Default
+    private Integer status = 0;
 
 }

@@ -30,7 +30,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText emailField, passwordField, passwordConfirmField, usernameField;
     Button btnSignUp;
     ImageView logoImg;
-    //    RadioButton rb_check;
     private UserAPI userAPI;
 
 
@@ -42,11 +41,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void init() {
-        emailField = findViewById(R.id.emailField);
-        usernameField = findViewById(R.id.usernameField);
-        passwordField = findViewById(R.id.passwordField);
-        passwordConfirmField = findViewById(R.id.passwordConfirmField);
-        btnSignUp = findViewById(R.id.btnSignUp);
+        emailField = findViewById(R.id.email_field);
+        usernameField = findViewById(R.id.username_field);
+        passwordField = findViewById(R.id.password_field);
+        passwordConfirmField = findViewById(R.id.password_confirm_field);
+        btnSignUp = findViewById(R.id.btn_sign_up);
         btnSignUp.setOnClickListener(this);
         userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
     }
@@ -54,17 +53,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.signupBtn:
+            case R.id.sign_up_btn:
                 Intent dialog_box = new Intent(this, SignUpActivity.class);
                 startActivity(dialog_box);
                 finish();
                 break;
-            case R.id.logoImg:
+            case R.id.logo_image:
                 Intent dialog_box1 = new Intent(this, HomeActivity.class);
                 startActivity(dialog_box1);
                 finish();
                 break;
-            case R.id.btnSignUp: {
+            case R.id.btn_sign_up: {
                 String email = emailField.getText().toString();
                 String pass = passwordField.getText().toString();
                 String comfirmPass = passwordConfirmField.getText().toString();
@@ -80,9 +79,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     } else if (!comfirmPass.equals(pass)) {
                         Toast.makeText(this, "Mật khẩu không trùng nhau", Toast.LENGTH_SHORT).show();
                         return;
-//                    } else if (!rb_check.isChecked()) {
-//                        Toast.makeText(this, "Vui lòng đồng ý với các điều khoản!", Toast.LENGTH_SHORT).show();
-//                        return;
+
                     } else {
                         UserRequest userRequest = new UserRequest();
                         userRequest.setEmail(email);
@@ -115,7 +112,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 if (response.isSuccessful()) {
                     APIResponse<Void> apiResponse = response.body();
                     if (apiResponse != null) {
-//                        Toast.makeText(Signup.this, "", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignUpActivity.this, VerifyAccountActivity.class);
                         intent.putExtra("email", userRequest.getEmail());
                         startActivity(intent);

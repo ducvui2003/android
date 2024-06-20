@@ -42,11 +42,11 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void init() {
-        usernameField = findViewById(R.id.usernameField);
-        passwordField = findViewById(R.id.passwordField);
+        usernameField = findViewById(R.id.username_field);
+        passwordField = findViewById(R.id.password_field);
         signinBtn = findViewById(R.id.signinBtn);
-        passwordConfirmField = findViewById(R.id.logoImg);
-        signupBtn = findViewById(R.id.signupBtn);
+        passwordConfirmField = findViewById(R.id.logo_image);
+        signupBtn = findViewById(R.id.sign_up_btn);
         forgotPassBtn = findViewById(R.id.forgotPassBtn);
         signinBtn.setOnClickListener(this);
         passwordConfirmField.setOnClickListener(this);
@@ -58,14 +58,14 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.logoImg:
+            case R.id.logo_image:
                 // Redirect to HomeActivity when logo is clicked
                 Intent dialog_box = new Intent(this, HomeActivity.class);
                 startActivity(dialog_box);
                 finish();
                 break;
 
-            case R.id.signupBtn:
+            case R.id.sign_up_btn:
                 // Redirect to Signup activity when 'signupBtn' is clicked
                 Intent dialog_box1 = new Intent(this, SignUpActivity.class);
                 startActivity(dialog_box1);
