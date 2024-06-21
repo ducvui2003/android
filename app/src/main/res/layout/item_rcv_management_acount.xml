@@ -13,6 +13,7 @@
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="@color/green"
         android:id="@+id/ll_rcv_qltaikhoan">
 
         <TextView
@@ -25,7 +26,7 @@
             android:layout_gravity="center_vertical"/>
 
         <TextView
-            android:id="@+id/tv_emailqltaikhoan"
+            android:id="@+id/tv_email"
             android:layout_width="180dp"
             android:gravity="center"
             android:layout_height="wrap_content"
@@ -44,7 +45,7 @@
             android:textSize="16dp"
             android:layout_gravity="center_vertical"/>
         <Button
-            android:id="@+id/bt_anqltaikhoan"
+            android:id="@+id/btn_block_account"
             android:layout_width="50dp"
             android:layout_height="40dp"
             android:layout_marginLeft="5dp"
@@ -54,7 +55,7 @@
             android:visibility="gone"
             android:layout_gravity="center_vertical"/>
         <Button
-            android:id="@+id/bt_hienqltaikhoan"
+            android:id="@+id/btn_unblock_account"
             android:layout_width="50dp"
             android:textStyle="normal"
             android:layout_height="40dp"

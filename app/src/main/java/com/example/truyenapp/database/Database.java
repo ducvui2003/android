@@ -2423,8 +2423,8 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from taikhoan where loaitk not in (1)",null);
         cursor.moveToFirst();
         while (cursor.isAfterLast() == false){
-            Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
-            list.add(account);
+//            Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
+//            list.add(account);
             cursor.moveToNext();
         }
         return list;
@@ -2434,8 +2434,8 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from taikhoan where email=?", new String[] {email});
         if(cursor != null)
             cursor.moveToFirst();
-        Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
-        return account;
+//        Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
+        return null;
     }
 
     public Account getTaiKhoanId(int id) {
@@ -2443,8 +2443,8 @@ public class Database extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("select * from taikhoan where id=?", new String[] {""+id});
         if(cursor != null)
             cursor.moveToFirst();
-        Account account = new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
-        return account;
+//        Account accountn= new Account(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),cursor.getInt(5),cursor.getInt(6),cursor.getString(7));
+        return null;
     }
 
     public Boolean updateMK(String email, String matkhau){
