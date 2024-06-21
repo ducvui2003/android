@@ -13,18 +13,24 @@ import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RedeemRewardAPI;
 import com.example.truyenapp.api.RetrofitClient;
+import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.enums.ExchangeStatus;
 import com.example.truyenapp.model.Item;
 import com.example.truyenapp.request.ExchangeRequest;
 import com.example.truyenapp.response.APIResponse;
+import com.example.truyenapp.response.ExchangeResponse;
 import com.example.truyenapp.utils.DialogEvent;
 import com.example.truyenapp.utils.DialogHelper;
+import com.example.truyenapp.view.activity.StoreActivity;
+import com.example.truyenapp.view.fragment.StoreFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StoreItemViewHolder extends RecyclerView.ViewHolder {
+    private StoreActivity storeActivity;
+    private StoreFragment storeFragment;
     private View view;
     private ImageView img_vatpham;
     private TextView tv_tenvatpham, tv_diem;
@@ -33,7 +39,7 @@ public class StoreItemViewHolder extends RecyclerView.ViewHolder {
     private RedeemRewardAPI redeemRewardAPI;
     private DialogHelper dialogHelper;
 
-    public StoreItemViewHolder(@NonNull View itemView) {
+    public StoreItemViewHolder(@NonNull View itemView, StoreFragment storeFragment) {
         super(itemView);
         view = itemView;
         img_vatpham = itemView.findViewById(R.id.img_vatpham);
@@ -41,6 +47,8 @@ public class StoreItemViewHolder extends RecyclerView.ViewHolder {
         tv_tenvatpham = itemView.findViewById(R.id.tv_store_item_name);
         bt_doivatpham = itemView.findViewById(R.id.btn_store_item);
         redeemRewardAPI = RetrofitClient.getInstance(itemView.getContext()).create(RedeemRewardAPI.class);
+        storeActivity = (StoreActivity) itemView.getContext();
+        this.storeFragment = storeFragment;
     }
 
     public void setData(Item item) {
@@ -48,17 +56,16 @@ public class StoreItemViewHolder extends RecyclerView.ViewHolder {
         tv_tenvatpham.setText(item.getName());
         tv_diem.setText("Điểm: " + item.getPoint());
         bt_doivatpham.setOnClickListener(view -> {
-            Log.d("click", "onBindViewHolder: 1");
             ExchangeRequest request = new ExchangeRequest(item.getId());
-            showDialog(request);
+            showDialog(request, item.getPoint());
         });
     }
 
-    private void showDialog(ExchangeRequest request) {
+    private void showDialog(ExchangeRequest request, int score) {
         dialogHelper = new DialogHelper(view.getContext(), new DialogEvent() {
             @Override
             public void onPositiveClick() {
-                callAPI(request);
+                callAPI(request, score);
             }
 
             @Override
@@ -93,18 +100,22 @@ public class StoreItemViewHolder extends RecyclerView.ViewHolder {
         this.dialogHelper.showDialogExchangeSuccess(message).show();
     }
 
-    public void callAPI(ExchangeRequest exchangeRequest) {
-        redeemRewardAPI.exchange(exchangeRequest).enqueue(new Callback<APIResponse<ExchangeStatus>>() {
+    public void callAPI(ExchangeRequest exchangeRequest, int score) {
+        redeemRewardAPI.exchange(exchangeRequest).enqueue(new Callback<APIResponse<ExchangeResponse>>() {
             @Override
-            public void onResponse(Call<APIResponse<ExchangeStatus>> call, Response<APIResponse<ExchangeStatus>> response) {
-                APIResponse<ExchangeStatus> data = response.body();
-                if (data.getCode() == 400 || data.getResult() == null) return;
-                exchangeStatus = data.getResult();
+            public void onResponse(Call<APIResponse<ExchangeResponse>> call, Response<APIResponse<ExchangeResponse>> response) {
+                APIResponse<ExchangeResponse> data = response.body();
+                if (data.getResult() == null || data.getCode() == 400) return;
+                exchangeStatus = data.getResult().getStatus();
+                if (exchangeStatus == ExchangeStatus.EXCHANGE_SUCCESS) {
+                    storeActivity.setPoint(data.getResult().getTotalScore());
+                    storeFragment.getInventoryViewModel().setExchangeStatus(exchangeRequest.getItemId());
+                }
                 notifyExchange();
             }
 
             @Override
-            public void onFailure(Call<APIResponse<ExchangeStatus>> call, Throwable t) {
+            public void onFailure(Call<APIResponse<ExchangeResponse>> call, Throwable t) {
 
             }
         });

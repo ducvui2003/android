@@ -24,7 +24,7 @@
         android:textSize="20dp"/>
     <TextView
         android:id="@+id/tv_diemtichluy"
-        android:layout_marginLeft="1dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="500"
