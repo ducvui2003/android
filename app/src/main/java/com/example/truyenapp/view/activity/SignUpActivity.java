@@ -80,9 +80,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     } else if (!comfirmPass.equals(pass)) {
                         Toast.makeText(this, "Mật khẩu không trùng nhau", Toast.LENGTH_SHORT).show();
                         return;
-//                    } else if (!rb_check.isChecked()) {
-//                        Toast.makeText(this, "Vui lòng đồng ý với các điều khoản!", Toast.LENGTH_SHORT).show();
-//                        return;
                     } else {
                         UserRequest userRequest = new UserRequest();
                         userRequest.setEmail(email);

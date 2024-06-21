@@ -58,7 +58,7 @@
             android:name="com.example.truyenapp.view.activity.AccountCommentActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.QuanLyTaiKhoan"
+            android:name="com.example.truyenapp.admin.ManagementAccount"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.CommentManagementActivity"
@@ -70,7 +70,7 @@
             android:name="com.example.truyenapp.admin.BookManagement"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ShowThongTinTaiKhoan"
+            android:name="com.example.truyenapp.admin.ShowInformationOfAccount"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.CommentDetailManagementActivity"
