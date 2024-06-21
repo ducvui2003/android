@@ -71,7 +71,7 @@
             android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="Tên truyện"
+            android:text="Danh sách truyện"
             android:textSize="16dp" />
     </LinearLayout>
     <LinearLayout
