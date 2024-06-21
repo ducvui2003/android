@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     Intent dialog_box4 = new Intent(getActivity(), RedeemRewardActivity.class);
                     startActivity(dialog_box4);
                 } else {
-//                    dialogHelper.showDialogLogin().show();
+                    dialogHelper.showDialogLogin().show();
                 }
                 break;
             case R.id.btn_attendance_home_fragment: {
@@ -261,7 +261,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 } else {
                     if (this.getActivity() instanceof HomeActivity) {
                         DialogHelper dialogHelper = new DialogHelper(this.getContext());
-//                        dialogHelper.showDialogLogin().show();
+                        dialogHelper.showDialogLogin().show();
                     }
                 }
                 break;
@@ -349,9 +349,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 APIResponse<AttendanceResponse> apiResponse = response.body();
                 if (apiResponse.getCode() == 200) {
                     AttendanceResponse attendanceResponse = apiResponse.getResult();
-//                    dialogHelper.showDialogAttendance("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
+                    dialogHelper.showDialogAttendance("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
                 } else {
-//                    dialogHelper.showDialogAttendance("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
+                    dialogHelper.showDialogAttendance("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
                 }
             }
 
