@@ -11,7 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface SearchAPI {
+public interface    SearchAPI {
     @GET("v1/books/rank")
     Call<APIResponse<DataListResponse<BookResponse>>> rank(@Query("type") String type);
 
