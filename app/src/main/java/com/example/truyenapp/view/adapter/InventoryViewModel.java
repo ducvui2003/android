@@ -52,4 +52,17 @@ public class InventoryViewModel extends ViewModel {
             }
         });
     }
+
+    public void setExchangeStatus(Integer itemId) {
+        List<Item> currentItems = data.getValue();
+        if (currentItems != null) {
+            for (Item item : currentItems) {
+                if (item.getId() == itemId) {
+                    item.setExchange(true);
+                    data.setValue(currentItems);
+                    break;
+                }
+            }
+        }
+    }
 }

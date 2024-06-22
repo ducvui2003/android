@@ -12,7 +12,7 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.database.Database;
 import com.example.truyenapp.model.Account;
 
-public class ShowThongTinTaiKhoan extends AppCompatActivity {
+public class ShowInformationOfAccount extends AppCompatActivity {
     ImageView img;
     TextView tv_id,tv_email,tv_matkhau,tv_ten,tv_dienthoai,tv_trangthai,tv_diem;
     Database db;

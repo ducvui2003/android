@@ -22,10 +22,12 @@ import com.example.truyenapp.request.ExchangeRequest;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.utils.DialogEvent;
 import com.example.truyenapp.utils.DialogHelper;
+import com.example.truyenapp.view.fragment.StoreFragment;
 import com.example.truyenapp.view.viewHolder.StoreItemViewHolder;
 
 import java.util.List;
 
+import lombok.Getter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,11 +35,13 @@ import retrofit2.Response;
 public class StoreAdapter extends RecyclerView.Adapter<StoreItemViewHolder> {
     private Context context;
     private List<Item> list;
+    @Getter
+    private StoreFragment storeFragment;
 
-
-    public StoreAdapter(Context context, List<Item> list) {
+    public StoreAdapter(Context context, List<Item> list, StoreFragment storeFragment) {
         this.context = context;
         this.list = list;
+        this.storeFragment = storeFragment;
     }
 
     public void setData(List<Item> list) {
@@ -50,7 +54,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreItemViewHolder> {
     @Override
     public StoreItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_store_item, parent, false);
-        return new StoreItemViewHolder(view);
+        return new StoreItemViewHolder(view, storeFragment);
     }
 
     @Override
@@ -60,6 +64,7 @@ public class StoreAdapter extends RecyclerView.Adapter<StoreItemViewHolder> {
             return;
         }
         holder.setData(item);
+
     }
 
 

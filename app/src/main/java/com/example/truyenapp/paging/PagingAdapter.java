@@ -51,7 +51,7 @@ public abstract class PagingAdapter<T, VH extends RecyclerView.ViewHolder> exten
         isLoading = false;
         int position = list.size() - 1;
         T t = list.get(position);
-        if (t != null) {
+        if (t == null) {
             list.remove(position);
             notifyItemRemoved(position);
         }

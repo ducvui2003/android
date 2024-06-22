@@ -56,6 +56,7 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
         tv_songaydd = findViewById(R.id.tv_songaydd);
         this.userAPI = RetrofitClient.getInstance(this.getApplicationContext()).create(UserAPI.class);
         this.dialogHelper = new DialogHelper(this);
+        getRewardPointOverall();
     }
 
     private void setOnClickListener() {
@@ -73,8 +74,7 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
-        this.isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(this.getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
-
+        getRewardPointOverall();
     }
 
     @Override

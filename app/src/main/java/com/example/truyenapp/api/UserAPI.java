@@ -1,5 +1,6 @@
 package com.example.truyenapp.api;
 
+import com.example.truyenapp.model.Account;
 import com.example.truyenapp.model.AccountVerifyRequest;
 import com.example.truyenapp.model.Notification;
 import com.example.truyenapp.model.RewardPoint;
@@ -13,11 +14,13 @@ import com.example.truyenapp.response.RewardPointResponse;
 import com.example.truyenapp.response.UserResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserAPI {
@@ -50,7 +53,15 @@ public interface UserAPI {
 
     @GET("v1/notifications/all")
     Call<APIResponse<ArrayList<Notification>>> getNotifications();
-
     @GET("v1/notifications/count")
     Call<APIResponse<Integer>> getNumberNotifications();
+
+    @GET("v1/admin/users")
+    Call<APIResponse<List<Account>>> findAll();
+
+    @POST("v1/admin/users/block/{id}")
+    Call<APIResponse<Void>> block(@Path("id") Integer id);
+
+    @POST("v1/admin/users/unblock/{id}")
+    Call<APIResponse<Void>> unblock(@Path("id") Integer id);
 }
