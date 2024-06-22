@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.truyenapp.admin.StatisticalManagement;
 import com.example.truyenapp.model.Comic;
 import com.example.truyenapp.response.AttendanceResponse;
 import com.example.truyenapp.utils.DialogHelper;
@@ -49,7 +50,6 @@ import com.example.truyenapp.view.activity.RedeemRewardActivity;
 import com.example.truyenapp.view.activity.SearchActivity;
 import com.example.truyenapp.admin.CommentManagementActivity;
 import com.example.truyenapp.admin.ManagementAccount;
-import com.example.truyenapp.admin.QuanLyThongKe;
 import com.example.truyenapp.admin.BookManagement;
 import com.example.truyenapp.view.activity.Signin;
 import com.example.truyenapp.view.adapter.ComicSliderAdapter;
@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                     Intent dialog_box4 = new Intent(getActivity(), RedeemRewardActivity.class);
                     startActivity(dialog_box4);
                 } else {
-//                    dialogHelper.showDialogLogin().show();
+                    dialogHelper.showDialogLogin().show();
                 }
                 break;
             case R.id.btn_attendance_home_fragment: {
@@ -261,7 +261,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 } else {
                     if (this.getActivity() instanceof HomeActivity) {
                         DialogHelper dialogHelper = new DialogHelper(this.getContext());
-//                        dialogHelper.showDialogLogin().show();
+                        dialogHelper.showDialogLogin().show();
                     }
                 }
                 break;
@@ -327,7 +327,7 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 startActivity(dialog_box2);
                 break;
             case R.id.it_quanlythongke:
-                Intent dialog_box3 = new Intent(getActivity(), QuanLyThongKe.class);
+                Intent dialog_box3 = new Intent(getActivity(), StatisticalManagement.class);
                 startActivity(dialog_box3);
                 break;
             case R.id.it_xephang:
@@ -349,9 +349,9 @@ public class HomeFragment extends Fragment implements NavigationView.OnNavigatio
                 APIResponse<AttendanceResponse> apiResponse = response.body();
                 if (apiResponse.getCode() == 200) {
                     AttendanceResponse attendanceResponse = apiResponse.getResult();
-//                    dialogHelper.showDialogAttendance("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
+                    dialogHelper.showDialogAttendance("Điểm danh thành công! +" + attendanceResponse.getPoint() + " điểm").show();
                 } else {
-//                    dialogHelper.showDialogAttendance("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
+                    dialogHelper.showDialogAttendance("Hôm nay bạn đã điểm danh, chờ đến ngày mai nhé!").show();
                 }
             }
 

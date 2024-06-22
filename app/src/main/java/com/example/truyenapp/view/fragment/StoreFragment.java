@@ -21,6 +21,7 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.model.Item;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.view.activity.StoreActivity;
 import com.example.truyenapp.view.adapter.InventoryViewModel;
 import com.example.truyenapp.view.adapter.InventoryViewModelFactory;
 import com.example.truyenapp.view.adapter.StoreAdapter;
@@ -28,6 +29,7 @@ import com.example.truyenapp.view.adapter.StoreAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Getter;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,6 +40,7 @@ public class StoreFragment extends Fragment {
     public RecyclerView rcv;
     public StoreAdapter adapter;
     List<Item> itemList = new ArrayList<>();
+    @Getter
     private InventoryViewModel inventoryViewModel;
 
     @Override
@@ -67,7 +70,7 @@ public class StoreFragment extends Fragment {
         rcv = view.findViewById(R.id.rcv_comic_card);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         rcv.setLayoutManager(linearLayoutManager);
-        adapter = new StoreAdapter(getActivity(), itemList);
+        adapter = new StoreAdapter(getActivity(), itemList, this);
         rcv.setAdapter(adapter);
     }
 
@@ -83,4 +86,5 @@ public class StoreFragment extends Fragment {
             }
         });
     }
+
 }
