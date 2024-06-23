@@ -47,7 +47,6 @@ public class ManagerAccountAdapter extends RecyclerView.Adapter<ManagerAccountAd
     @Override
     public void onBindViewHolder(@NonNull ManagerAccountViewHolder holder, int position) {
         Account account = list.get(position);
-
         holder.id.setText(String.valueOf(account.getId()));
         int status= account.getStatus();
         if(status == 0){

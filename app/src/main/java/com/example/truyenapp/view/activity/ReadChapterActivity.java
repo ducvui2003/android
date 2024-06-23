@@ -88,7 +88,6 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         rcv = findViewById(R.id.rcv_read_chapter);
         rcvComment = findViewById(R.id.rcv_read_chapter_comment);
         chapterName = findViewById(R.id.tv_rea_chapter_name);
-        imgBackChapter = findViewById(R.id.image_read_chapter_back);
         imgNext = findViewById(R.id.image_read_chapter_next);
         imgPre = findViewById(R.id.image_read_chapter_prev);
         editTextComment = findViewById(R.id.edit_read_chapter_comment);
@@ -157,12 +156,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
                 setupIntent(intent1, position + 1);
                 startActivity(intent1);
                 break;
-            case R.id.image_read_chapter_back:
-                Intent intent2 = new Intent(this, DetailComicActivity.class);
-                intent2.putExtra(BundleConstraint.ID_COMIC, idComic);
-                startActivity(intent2);
-                finish();
-                break;
+
             case R.id.button_read_chapter_comment:
                 comment();
                 break;

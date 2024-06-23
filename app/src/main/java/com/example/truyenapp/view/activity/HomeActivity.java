@@ -42,7 +42,6 @@ public class HomeActivity extends AppCompatActivity {
         meowBottomNavigation.show(1, true);
         meowBottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_noti));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_book));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_baseline_account));
     }
 
