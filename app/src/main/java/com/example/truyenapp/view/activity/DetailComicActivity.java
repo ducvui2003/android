@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.BookAPI;
 import com.example.truyenapp.api.RetrofitClient;
@@ -22,6 +23,7 @@ public class DetailComicActivity extends AppCompatActivity {
     private FragmentAdapter adapter;
     private ImageView imgComic;
     private Comic comic;
+    private   String linkImage;
     private BookAPI bookAPI;
     private int idComic;
     @Override
@@ -30,11 +32,13 @@ public class DetailComicActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_comic);
         Intent intent = getIntent();
         idComic = intent.getIntExtra(BundleConstraint.ID_COMIC, 0);
+         linkImage = intent.getStringExtra("imageComic");
         init();
         bookAPI = RetrofitClient.getInstance(this).create(BookAPI.class);
         FragmentManager fragmentManager=getSupportFragmentManager();
         adapter=new FragmentAdapter(fragmentManager,getLifecycle());
         pager2.setAdapter(adapter);
+
         tabLayout.addTab(tabLayout.newTab().setText("Chi tiết"));
         tabLayout.addTab(tabLayout.newTab().setText("Chapter"));
 
@@ -68,5 +72,7 @@ public class DetailComicActivity extends AppCompatActivity {
         tabLayout=findViewById(R.id.tab_layout);
         pager2=findViewById(R.id.view_pager2);
         imgComic =findViewById(R.id.img_truyen);
+        Glide.with(this).load(linkImage).into(imgComic);
+
     }
 }

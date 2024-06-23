@@ -19,4 +19,6 @@ public interface ChapterAPI {
     Call<ChapterResponse> getChapter(@Path("id") int id);
     @GET("v1/chapter-{id}")
     Call<APIResponse<List<ChapterContentRespone>>> getChapterContent(@Path("id") Integer id);
+    @GET("v1/chapters/total-view/{id}")
+    Call<APIResponse<Integer>> getTotalView(@Path("id") Integer id);
 }
