@@ -30,19 +30,13 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
         return new NewHolder(view);
     }
 
-
-    public void setData(List<ClassifyStory> list) {
-        this.list = list;
-        notifyDataSetChanged();
-    }
-
     @Override
     protected void bindData(NewHolder holder, ClassifyStory comic) {
         if (comic == null) {
             return;
         }
-        String publishDate = Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
-        Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgComic);
+        if (comic.getLinkImage() != null)
+            Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgComic);
         holder.nameComic.setText(comic.getNameStory());
         holder.dateComic.setText("Ngày đăng: " + Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy"));
         holder.info.setVisibility(View.GONE);
@@ -70,4 +64,5 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
 
         }
     }
+
 }

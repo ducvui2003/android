@@ -1,5 +1,6 @@
 package com.example.truyenapp.paging;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -93,5 +94,17 @@ public abstract class PagingAdapter<T, VH extends RecyclerView.ViewHolder> exten
         if (list != null)
             return list.size();
         return 0;
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void clearData() {
+        list.clear();
+        this.notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(List<T> list) {
+        this.list = list;
+        this.notifyDataSetChanged();
     }
 }

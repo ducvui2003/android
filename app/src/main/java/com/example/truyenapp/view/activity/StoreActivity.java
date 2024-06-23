@@ -71,7 +71,7 @@ public class StoreActivity extends AppCompatActivity {
     private void init() {
         tabLayout = findViewById(R.id.tab_layout_cuahang);
         pager2 = findViewById(R.id.view_pager2_cuahang);
-        tvTotalScore = findViewById(R.id.tv_diemtichluy);
+        tvTotalScore = findViewById(R.id.tv_redeem_reward_total_point);
     }
 
     @Override
