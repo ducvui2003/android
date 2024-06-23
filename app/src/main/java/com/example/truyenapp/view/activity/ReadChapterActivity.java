@@ -171,7 +171,6 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setOnClickListener() {
-        imgBackChapter.setOnClickListener(this);
         imgPre.setOnClickListener(this);
         imgNext.setOnClickListener(this);
         btnComment.setOnClickListener(this);
