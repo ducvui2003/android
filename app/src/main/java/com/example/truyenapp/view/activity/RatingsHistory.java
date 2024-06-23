@@ -1,5 +1,6 @@
 package com.example.truyenapp.view.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class RatingsHistory extends AppCompatActivity {
         RetrofitClient.getInstance(this).create(UserAPI.class)
                 .getUserInfo(SharedPreferencesHelper.getObject(this, SystemConstant.JWT_TOKEN, JWTToken.class).getToken())
                 .enqueue(new Callback<UserResponse>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                         userResponse = response.body();
