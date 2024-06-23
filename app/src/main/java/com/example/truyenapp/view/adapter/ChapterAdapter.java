@@ -48,8 +48,12 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
         if (chapter == null) {
             return;
         }
+        if (chapter.getView() == null){
+            holder.view.setText("Lượt xem: " + 0);
+        } else {
+            holder.view.setText("Lượt xem: " + chapter.getView());
+        }
         holder.textViewChapter.setText(chapter.getName());
-        holder.view.setText("Lượt xem: " + Format.roundNumber(chapter.getView()));
         holder.ngayDang.setText("Ngày đăng: " + Format.formatDate(chapter.getPublishDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
         holder.chapterItem.setOnClickListener(view -> {
             this.isLogin = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(context, SystemConstant.JWT_TOKEN, JWTToken.class));

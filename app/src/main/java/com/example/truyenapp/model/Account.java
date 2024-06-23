@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Account {
     private int id;
-    private String email, password, name, phone, linkImage;
+    private String email, password, name, phone, linkImage, role;
     private int rewardPoint, accoutType, status;
 }
