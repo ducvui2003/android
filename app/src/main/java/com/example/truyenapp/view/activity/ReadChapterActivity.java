@@ -390,7 +390,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
     }
 
     @SuppressLint("SetTextI18n")
-    private void setRatingAfterChanged(){
+    private void setRatingAfterChanged() {
         float ratingChanged = getUserRating();
         rtb.setRating(ratingChanged);
         star.setText(String.valueOf(ratingChanged));
