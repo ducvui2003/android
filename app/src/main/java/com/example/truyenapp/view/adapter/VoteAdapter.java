@@ -53,7 +53,7 @@ public class VoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_rank, parent, false);
             return new VoteViewHolder(view);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_loading, parent, false);
             return new LoadingViewHolder(view);
         }
     }
@@ -73,7 +73,7 @@ public class VoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rankVoteHolder.dateCommic.setText("Ngày đăng: " + publishDate);
             rankVoteHolder.detailCommicView.setOnClickListener(view -> {
                 Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
-                intent.putExtra(BundleConstraint.ID_COMMIC, commic.getId());
+                intent.putExtra(BundleConstraint.ID_COMIC, commic.getId());
                 holder.itemView.getContext().startActivity(intent);
             });
         } else {

@@ -1,7 +1,6 @@
 package com.example.truyenapp.view.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,12 +42,10 @@ public class RatingsHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.showdanhgia);
-
+        setContentView(R.layout.rating_history);
         rcv_danhgia = findViewById(R.id.rcv_danhgia_tong);
         rcv_danhgia.setLayoutManager(new LinearLayoutManager(this));
         tv_danhgia_tong = findViewById(R.id.tv_danhgia_tong);
-
         getAllBooksAndRatings();
     }
 
@@ -61,7 +58,7 @@ public class RatingsHistory extends AppCompatActivity {
                         userResponse = response.body();
                         if (userResponse != null) {
                             tv_danhgia_tong.setText("Tổng đánh giá: " + userResponse.getNumberOfRatings());
-                            fetchBooksAndRatings();
+                            fetchRatings();
                         }
                     }
 
@@ -72,36 +69,17 @@ public class RatingsHistory extends AppCompatActivity {
                 });
     }
 
-    private void fetchBooksAndRatings() {
-        RetrofitClient.getInstance(this).create(BookAPI.class).getAllBooks().enqueue(new Callback<List<BookResponse>>() {
-            @Override
-            public void onResponse(Call<List<BookResponse>> call, Response<List<BookResponse>> response) {
-                listBook = response.body();
-                if (listBook != null) {
-                    fetchRatings();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<BookResponse>> call, Throwable t) {
-                Log.d("TAG", "onFailure: " + t.getMessage());
-            }
-        });
-    }
-
     private void fetchRatings() {
         RetrofitClient.getInstance(this).create(RatingAPI.class).getRatingByUser(userResponse.getId())
                 .enqueue(new Callback<APIResponse<List<RatingResponse>>>() {
                     @Override
                     public void onResponse(Call<APIResponse<List<RatingResponse>>> call, Response<APIResponse<List<RatingResponse>>> response) {
-                        if (response.isSuccessful()) {
-                            APIResponse<List<RatingResponse>> apiResponse = response.body();
-                            if (apiResponse != null && apiResponse.getResult() != null) {
-                                for (RatingResponse ratingResponse : apiResponse.getResult()) {
-                                    listEvaluate.add(mapRatingResponseToEvaluate(ratingResponse));
-                                }
-                                rcv_adapter = new RatingsHistoryAdapter(getApplicationContext(), listEvaluate, listBook);
-                                rcv_danhgia.setAdapter(rcv_adapter);
+                        if (response.isSuccessful() && response.body() != null && response.body().getResult() != null) {
+                            List<RatingResponse> ratingResponses = response.body().getResult();
+                            for (RatingResponse ratingResponse : ratingResponses) {
+                                Evaluate evaluate = mapRatingResponseToEvaluate(ratingResponse);
+                                listEvaluate.add(evaluate);
+                                fetchBookByChapterId(evaluate);
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), "Trống", Toast.LENGTH_SHORT).show();
@@ -115,6 +93,31 @@ public class RatingsHistory extends AppCompatActivity {
                 });
     }
 
+    private void fetchBookByChapterId(Evaluate evaluate) {
+        RetrofitClient.getInstance(this).create(BookAPI.class).getBookByChapterId(evaluate.getIdChapter())
+                .enqueue(new Callback<BookResponse>() {
+                    @Override
+                    public void onResponse(Call<BookResponse> call, Response<BookResponse> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            listBook.add(response.body());
+                        }
+                        setupAdapter();
+                    }
+
+                    @Override
+                    public void onFailure(Call<BookResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Can not get book by chapterId", Toast.LENGTH_SHORT).show();
+                        setupAdapter();
+                    }
+                });
+    }
+
+    private void setupAdapter() {
+        if (listEvaluate.size() == listBook.size()) {
+            rcv_adapter = new RatingsHistoryAdapter(getApplicationContext(), listEvaluate, listBook);
+            rcv_danhgia.setAdapter(rcv_adapter);
+        }
+    }
     private Evaluate mapRatingResponseToEvaluate(RatingResponse ratingResponse) {
         Evaluate evaluate = new Evaluate();
         evaluate.setId(ratingResponse.getId());

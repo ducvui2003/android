@@ -17,4 +17,8 @@ public class Format {
             return "";
         }
     }
+
+    public static double roundNumber(double number) {
+        return Math.round(number * 10.0) / 10.0;
+    }
 }

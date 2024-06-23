@@ -58,7 +58,7 @@ public class ChapterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            idComic = getArguments().getInt(BundleConstraint.ID_COMMIC);
+            idComic = getArguments().getInt(BundleConstraint.ID_COMIC);
         }
 
     }

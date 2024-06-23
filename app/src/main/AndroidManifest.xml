@@ -43,40 +43,40 @@
             android:name="com.example.truyenapp.view.activity.RankActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.ReadChapter"
+            android:name="com.example.truyenapp.view.activity.ReadChapterActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.RedeemRewardActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.CuaHang"
+            android:name="com.example.truyenapp.view.activity.StoreActivity"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.view.activity.RatingsHistory"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.view.activity.ShowBinhLuan"
+            android:name="com.example.truyenapp.view.activity.AccountCommentActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.QuanLyTaiKhoan"
+            android:name="com.example.truyenapp.admin.ManagementAccount"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.CommentManagerActivity"
+            android:name="com.example.truyenapp.admin.CommentManagementActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.QuanLyThongKe"
+            android:name="com.example.truyenapp.admin.StatisticalManagement"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.BookManagement"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ShowThongTinTaiKhoan"
+            android:name="com.example.truyenapp.admin.ShowInformationOfAccount"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.CommentDetailManagerActivity"
+            android:name="com.example.truyenapp.admin.CommentDetailManagementActivity"
             android:exported="true" />
         <activity
-            android:name="com.example.truyenapp.admin.ShowThongTinThongKe"
+            android:name="com.example.truyenapp.admin.StatisticalInformation"
             android:exported="true" />
         <activity
             android:name="com.example.truyenapp.admin.BookDetailManagement"

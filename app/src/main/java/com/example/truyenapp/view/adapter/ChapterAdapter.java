@@ -17,9 +17,10 @@ import com.example.truyenapp.constraints.BundleConstraint;
 import com.example.truyenapp.model.JWTToken;
 import com.example.truyenapp.response.ChapterResponse;
 import com.example.truyenapp.utils.AuthenticationManager;
+import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.utils.SharedPreferencesHelper;
 import com.example.truyenapp.utils.SystemConstant;
-import com.example.truyenapp.view.activity.ReadChapter;
+import com.example.truyenapp.view.activity.ReadChapterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +49,12 @@ public class ChapterAdapter extends RecyclerView.Adapter<ChapterAdapter.ChapterV
             return;
         }
         holder.textViewChapter.setText(chapter.getName());
-        holder.view.setText("Lượt xem: " + chapter.getView());
-        holder.ngayDang.setText("Ngày đăng: " + chapter.getPublishDate());
+        holder.view.setText("Lượt xem: " + Format.roundNumber(chapter.getView()));
+        holder.ngayDang.setText("Ngày đăng: " + Format.formatDate(chapter.getPublishDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
         holder.chapterItem.setOnClickListener(view -> {
             this.isLogin = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(context, SystemConstant.JWT_TOKEN, JWTToken.class));
             if (isLogin) {
-                Intent intent = new Intent(holder.itemView.getContext(), ReadChapter.class);
+                Intent intent = new Intent(holder.itemView.getContext(), ReadChapterActivity.class);
                 intent.putExtra(BundleConstraint.QUANTITY, list.size());
                 intent.putExtra(BundleConstraint.POSITION, position);
                 intent.putStringArrayListExtra(BundleConstraint.LIST_CHAPTER_NAME, getChapterName());

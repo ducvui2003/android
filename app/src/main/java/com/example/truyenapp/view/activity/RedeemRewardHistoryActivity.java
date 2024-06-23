@@ -1,7 +1,6 @@
 package com.example.truyenapp.view.activity;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -9,15 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.api.UserAPI;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.model.RewardPoint;
 import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.response.AttendanceResponse;
-import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.RedeemWardHistoryAdapter;
+import com.example.truyenapp.view.adapter.RedeemRewardHistoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +22,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RedeemRewardHistoryActivity extends AppCompatActivity {
-    String email;
 
     public RecyclerView rcv;
-    public RedeemWardHistoryAdapter rcv_adapter;
+    public RedeemRewardHistoryAdapter rcv_adapter;
     private List<RewardPoint> list;
 
     @Override
@@ -46,7 +40,7 @@ public class RedeemRewardHistoryActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rcv.setLayoutManager(linearLayoutManager);
 
-        rcv_adapter = new RedeemWardHistoryAdapter(this, list);
+        rcv_adapter = new RedeemRewardHistoryAdapter(this, list);
         rcv.setAdapter(rcv_adapter);
     }
 
