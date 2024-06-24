@@ -1,11 +1,7 @@
 package com.example.truyenapp.view.fragment;
 
 
-import static android.content.Intent.getIntent;
-
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +20,11 @@ import com.example.truyenapp.api.BookAPI;
 import com.example.truyenapp.api.ChapterAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
+import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterResponse;
 import com.example.truyenapp.view.adapter.ChapterAdapter;
-import com.example.truyenapp.model.Chapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
