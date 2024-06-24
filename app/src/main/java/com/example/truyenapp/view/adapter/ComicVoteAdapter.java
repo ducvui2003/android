@@ -25,11 +25,6 @@ public class ComicVoteAdapter extends PagingAdapter<ClassifyStory, ComicVoteAdap
         super(context, list);
     }
 
-    public void setData(List<ClassifyStory> list) {
-        this.list = list;
-        notifyDataSetChanged();
-    }
-
     @Override
     protected VoteViewHolder createItemViewHolder(View view) {
         return new VoteViewHolder(view);
