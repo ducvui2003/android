@@ -134,7 +134,8 @@ public class DetailFragment extends Fragment {
                     APIResponse<BookResponse> apiResponse = response.body();
                     if (apiResponse != null) {
                         BookResponse bookResponse = apiResponse.getResult();
-                        rating.setText(String.valueOf(bookResponse.getRating()));
+                        double rate = bookResponse.getRating();
+                        rating.setText(String.valueOf(Format.roundNumber(rate)));
                         totalView.setText(String.valueOf(bookResponse.getView()));
                         description.setText(bookResponse.getDescription());
                         getTotalComment(comicId);

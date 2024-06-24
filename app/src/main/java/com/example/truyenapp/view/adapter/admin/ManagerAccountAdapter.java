@@ -100,7 +100,7 @@ public class ManagerAccountAdapter extends RecyclerView.Adapter<ManagerAccountAd
         });
         holder.linearLayoutManagerAccount.setOnClickListener(view -> {
             Intent intent=new Intent(holder.itemView.getContext(), ShowInformationOfAccount.class);
-            intent.putExtra("email", account.getEmail());
+            intent.putExtra("account", account);
             holder.itemView.getContext().startActivity(intent);
         });
     }
