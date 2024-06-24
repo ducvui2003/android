@@ -10,17 +10,16 @@ import android.widget.AutoCompleteTextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.truyenapp.view.adapter.CategoryViewModel;
 import com.example.truyenapp.view.adapter.FragmentAdapterCategory;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.CategoryResponse;
-import com.example.truyenapp.view.fragment.ComicNewFragment;
-import com.example.truyenapp.view.fragment.ComicViewFragment;
-import com.example.truyenapp.view.fragment.ComicVoteFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -33,6 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CategoryActivity extends AppCompatActivity {
+    CategoryViewModel categoryViewModel;
     TabLayout tabLayout;
     ViewPager2 pager2;
     FragmentAdapterCategory adapter;
@@ -40,17 +40,15 @@ public class CategoryActivity extends AppCompatActivity {
     String category;
     Map<Integer, String> mapCategory;
     AutoCompleteTextView autoCompleteTextView;
-    Integer categoryId;
+    public Integer categoryId;
     private final String[] TAB_TEXT = {"Mới nhất", "Đánh giá ", "Lượt Xem"};
-    private Fragment currentFragment;
+    public static Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_category);
-
         init();
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         adapter = new FragmentAdapterCategory(fragmentManager, getLifecycle());
         pager2.setAdapter(adapter);
@@ -85,9 +83,7 @@ public class CategoryActivity extends AppCompatActivity {
         this.autoCompleteTextView = findViewById(R.id.auto_complete_category);
         categoryAdapter = new ArrayAdapter(this, R.layout.list_item);
         mapCategory = new HashMap<>();
-    }
-
-    private void handleEventSelect() {
+        categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -98,21 +94,8 @@ public class CategoryActivity extends AppCompatActivity {
 
     public void handleSearch() {
         this.category = autoCompleteTextView.getText().toString();
-        this.categoryId = getCategory();
-        currentFragment = adapter.getFragment(pager2.getCurrentItem());
-        if (currentFragment instanceof ComicViewFragment) {
-            ComicViewFragment comicViewFragment = (ComicViewFragment) currentFragment;
-            comicViewFragment.setCategoryId(categoryId);
-            return;
-        }
-        if (currentFragment instanceof ComicVoteFragment) {
-            ComicVoteFragment comicVoteFragment = (ComicVoteFragment) currentFragment;
-            comicVoteFragment.setCategoryId(categoryId);
-        }
-        if (currentFragment instanceof ComicNewFragment) {
-            ComicNewFragment comicNewFragment = (ComicNewFragment) currentFragment;
-            comicNewFragment.setCategoryId(categoryId);
-        }
+        categoryId = getCategory();
+        categoryViewModel.setCategoryId(categoryId);
     }
 
     private Integer getCategory() {
@@ -139,12 +122,10 @@ public class CategoryActivity extends AppCompatActivity {
                 for (CategoryResponse category : data.getResult()) {
                     mapCategory.put(category.getId(), category.getName());
                 }
-                categoryAdapter.add("Tất cả");
+                mapCategory.put(0, "Tất cả");
                 categoryAdapter.addAll(mapCategory.values());
                 categoryAdapter.notifyDataSetChanged();
-                handleEventSelect();
                 autoCompleteTextView.setText(mapCategory.get(0), false);
-                handleSearch();
             }
 
             @Override
