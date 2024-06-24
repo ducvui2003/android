@@ -51,10 +51,13 @@ public abstract class PagingAdapter<T, VH extends RecyclerView.ViewHolder> exten
     public void removeFooterLoading() {
         isLoading = false;
         int position = list.size() - 1;
-        T t = list.get(position);
-        if (t == null) {
-            list.remove(position);
-            notifyItemRemoved(position);
+        try {
+            T t = list.get(position);
+            if (t == null) {
+                list.remove(position);
+                notifyItemRemoved(position);
+            }
+        } catch (Exception ignored) {
         }
     }
 

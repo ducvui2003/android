@@ -91,6 +91,7 @@ public class ComicVoteFragment extends Fragment {
         this.categoryId = integer;
         currentPage = 1;
         totalPage = 0;
+        this.adapter.removeFooterLoading();
         this.adapter.clearData();
         this.isLoading = false;
         this.isLastPage = false;
