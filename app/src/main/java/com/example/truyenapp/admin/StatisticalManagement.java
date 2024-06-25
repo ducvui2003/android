@@ -36,7 +36,7 @@ public class StatisticalManagement extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.statistical_management);
+        setContentView(R.layout.activity_statistical_management);
         connectAPI();
         init();
         getStatistical();

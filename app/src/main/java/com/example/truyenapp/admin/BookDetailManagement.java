@@ -80,7 +80,7 @@ public class BookDetailManagement extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.book_detail_management);
+        setContentView(R.layout.activity_book_detail_management);
         connectAPI();
 
         JWTToken token = SharedPreferencesHelper.getObject(this, SystemConstant.JWT_TOKEN, JWTToken.class);

@@ -20,7 +20,6 @@ import com.example.truyenapp.api.BookAPI;
 import com.example.truyenapp.api.ChapterAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterResponse;
 import com.example.truyenapp.view.adapter.ChapterAdapter;

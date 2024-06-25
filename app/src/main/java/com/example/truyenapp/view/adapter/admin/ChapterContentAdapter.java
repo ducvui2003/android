@@ -27,7 +27,7 @@ public class ChapterContentAdapter extends RecyclerView.Adapter<ChapterContentAd
     @NonNull
     @Override
     public ChapterContentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_management_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_book_management, parent, false);
         return new ChapterContentHolder(view);
     }
 
