@@ -20,7 +20,6 @@ import com.example.truyenapp.api.BookAPI;
 import com.example.truyenapp.api.ChapterAPI;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.model.Chapter;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.ChapterResponse;
 import com.example.truyenapp.view.adapter.ChapterAdapter;
@@ -32,7 +31,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChapterFragment extends Fragment {
-//    Chapter chapter;
     View view;
     TextView textViewChapter, ngayDang, luotXem;
     private RecyclerView rcv;
