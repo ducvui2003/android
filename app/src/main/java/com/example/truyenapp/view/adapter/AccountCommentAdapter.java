@@ -1,9 +1,7 @@
 package com.example.truyenapp.view.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,17 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Comment;
-import com.example.truyenapp.model.Account;
 import com.example.truyenapp.paging.PagingAdapter;
 import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
-public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapter.CommentViewHolder> {
+public class AccountCommentAdapter extends PagingAdapter<CommentResponse, AccountCommentAdapter.CommentViewHolder> {
 
-    public CommentAdapter(Context context, List<CommentResponse> list) {
+    public AccountCommentAdapter(Context context, List<CommentResponse> list) {
         super(context, list);
         setItemRcv(R.layout.item_rcv_comment);
     }
@@ -42,7 +38,7 @@ public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapte
         if (comment == null) {
             return;
         }
-        String link = comment.getUser().getAvatar();
+        String link = comment.getThumbnail();
         String email = comment.getUser().getEmail();
         String nameChapter = comment.getChapterName();
         if (link!= null) {
