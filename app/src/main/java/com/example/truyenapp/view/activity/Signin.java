@@ -36,7 +36,7 @@ public class Signin extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.signin);
+        setContentView(R.layout.activity_sign_in);
         init();
         authAPI = RetrofitClient.getInstance(this).create(AuthAPI.class);
     }

@@ -23,7 +23,6 @@ import com.example.truyenapp.view.fragment.HomeFragment;
 import com.example.truyenapp.R;
 import com.example.truyenapp.view.fragment.AccountFragment;
 import com.example.truyenapp.view.fragment.NotificationFragment;
-import com.example.truyenapp.view.fragment.TuSachFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +41,6 @@ public class HomeActivity extends AppCompatActivity {
         meowBottomNavigation.show(1, true);
         meowBottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_noti));
-        meowBottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_book));
         meowBottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_baseline_account));
     }
 
@@ -79,11 +77,6 @@ public class HomeActivity extends AppCompatActivity {
                     case 2:
                         if (isLoggedIn) {
                             fragment = new NotificationFragment();
-                        }
-                        break;
-                    case 3:
-                        if (isLoggedIn) {
-                            fragment = new TuSachFragment();
                         }
                         break;
                     case 4:

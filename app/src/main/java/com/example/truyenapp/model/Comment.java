@@ -13,7 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Comment {
-
     private int id, idChapter, idAccount;
     private String content, postingDay;
     private int state;
@@ -24,13 +23,4 @@ public class Comment {
     private String email;
     private String username;
     private String avatar;
-    public Comment(int id, int idChapter, int idAccount, String content, String postingDay, int state) {
-        this.id = id;
-        this.idChapter = idChapter;
-        this.idAccount = idAccount;
-        this.content = content;
-        this.postingDay = postingDay;
-        this.state = state;
-    }
-
 }

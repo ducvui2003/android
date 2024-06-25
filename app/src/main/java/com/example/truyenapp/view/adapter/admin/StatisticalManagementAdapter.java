@@ -14,9 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.admin.StatisticalInformation;
 import com.example.truyenapp.R;
-import com.example.truyenapp.database.Database;
-import com.example.truyenapp.model.Comic;
-import com.example.truyenapp.model.Statistical;
 import com.example.truyenapp.response.BookResponse;
 
 import java.util.ArrayList;
@@ -25,7 +22,6 @@ import java.util.List;
 public class StatisticalManagementAdapter extends RecyclerView.Adapter<StatisticalManagementAdapter.QLThongKeViewHolder> {
     private Context context;
     private List<BookResponse> list;
-    private Database db;
 
     public StatisticalManagementAdapter(Context context, List<BookResponse> list) {
         this.context = context;

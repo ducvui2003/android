@@ -30,9 +30,9 @@ import retrofit2.Response;
 
 public class RedeemRewardActivity extends AppCompatActivity implements View.OnClickListener {
 
-    LinearLayout ll_cuahang, ll_lichsu;
+    LinearLayout layoutStore, layoutHistory;
     Button btnAttendance;
-    TextView tv_diemtichluy, tv_songaydd;
+    TextView tvTotalPoint, tvContinuousDay;
     private boolean isLoggedIn;
     private UserAPI userAPI;
     private DialogHelper dialogHelper;
@@ -49,26 +49,27 @@ public class RedeemRewardActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void init() {
-        ll_cuahang = findViewById(R.id.redeem_reward_store);
-        ll_lichsu = findViewById(R.id.redeem_reward_history);
+        layoutStore = findViewById(R.id.redeem_reward_store);
+        layoutHistory = findViewById(R.id.redeem_reward_history);
         btnAttendance = findViewById(R.id.button_attendance_redeem_reward);
-        tv_diemtichluy = findViewById(R.id.tv_diemtichluy);
-        tv_songaydd = findViewById(R.id.tv_songaydd);
+        tvTotalPoint = findViewById(R.id.tv_redeem_reward_total_point);
+        tvContinuousDay = findViewById(R.id.tv_redeem_reward_continous);
         this.userAPI = RetrofitClient.getInstance(this.getApplicationContext()).create(UserAPI.class);
         this.dialogHelper = new DialogHelper(this);
+        this.isLoggedIn = AuthenticationManager.isLoggedIn(SharedPreferencesHelper.getObject(this.getApplicationContext(), SystemConstant.JWT_TOKEN, JWTToken.class));
         getRewardPointOverall();
     }
 
     private void setOnClickListener() {
-        ll_cuahang.setOnClickListener(this);
+        layoutStore.setOnClickListener(this);
         btnAttendance.setOnClickListener(this);
-        ll_lichsu.setOnClickListener(this);
+        layoutHistory.setOnClickListener(this);
     }
 
     @SuppressLint("SetTextI18n")
     private void setData() {
-        tv_songaydd.setText(dayAttendanceContinuous + " ngày liên tiếp");
-        tv_diemtichluy.setText(totalPoint + " điểm");
+        tvContinuousDay.setText(dayAttendanceContinuous + " ngày liên tiếp");
+        tvTotalPoint.setText(totalPoint + " điểm");
     }
 
     @Override

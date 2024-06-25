@@ -24,6 +24,7 @@ import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.view.adapter.CommentAdapter;
 
 import java.util.ArrayList;
@@ -133,7 +134,8 @@ public class DetailFragment extends Fragment {
                     APIResponse<BookResponse> apiResponse = response.body();
                     if (apiResponse != null) {
                         BookResponse bookResponse = apiResponse.getResult();
-                        rating.setText(String.valueOf(bookResponse.getRating()));
+                        double rate = bookResponse.getRating();
+                        rating.setText(String.valueOf(Format.roundNumber(rate)));
                         totalView.setText(String.valueOf(bookResponse.getView()));
                         description.setText(bookResponse.getDescription());
                         getTotalComment(comicId);
@@ -148,6 +150,10 @@ public class DetailFragment extends Fragment {
                 Log.d("DetailFragment", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    private double formatRating(double rating) {
+        return (double) Math.round(rating * 100) / 100;
     }
 
     private void setFirstData(List<CommentResponse> list) {
@@ -200,5 +206,9 @@ public class DetailFragment extends Fragment {
         });
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.setData(this.comments);
+    }
 }

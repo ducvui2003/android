@@ -28,7 +28,7 @@ public interface CommentAPI {
     @GET("v1/comment/chapter")
     public Call<APIResponse<DataListResponse<CommentResponse>>> getComments(@Query("type") String type, @Query("id") Integer chapterId, @Query("page") int page, @Query("size") int size);
 
-    @POST("v1/comment")
+    @POST("v1/comment/create")
     public Call<APIResponse<CommentResponse>> create(@Body CommentCreationRequestDTO request);
 
     @GET("v1/comment/user")
