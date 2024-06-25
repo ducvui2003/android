@@ -32,19 +32,20 @@ public class ComicVoteAdapter extends PagingAdapter<BookResponse, ComicVoteAdapt
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void bindData(VoteViewHolder holder, BookResponse commic) {
-        if (commic == null) {
+    protected void bindData(VoteViewHolder holder, BookResponse comic) {
+        if (comic == null) {
             return;
         }
-        Log.d("date", commic.getPublishDate() + "");
-        String publishDate = Format.formatDate(commic.getPublishDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy");
-        Glide.with(this.context).load(commic.getThumbnail()).into(holder.imgCommic);
-        holder.nameCommic.setText(commic.getName());
-        holder.info.setText("Đánh giá: " + Format.roundNumber(commic.getRating()));
+        Log.d("date", comic.getPublishDate() + "");
+        String publishDate = Format.formatDate(comic.getPublishDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy");
+        Glide.with(this.context).load(comic.getThumbnail()).into(holder.imgCommic);
+        holder.nameCommic.setText(comic.getName());
+        holder.info.setText("Đánh giá: " + Format.roundNumber(comic.getRating()));
         holder.dateCommic.setText("Ngày đăng: " + publishDate);
         holder.detailCommicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
-            intent.putExtra(BundleConstraint.ID_COMIC, commic.getId());
+            intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
+            intent.putExtra(BundleConstraint.LINK_IMG, comic.getThumbnail());
             holder.itemView.getContext().startActivity(intent);
         });
     }

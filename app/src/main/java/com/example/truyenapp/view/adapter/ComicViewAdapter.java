@@ -42,6 +42,7 @@ public class ComicViewAdapter extends PagingAdapter<BookResponse, ComicViewAdapt
         holder.detailComicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
             intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
+            intent.putExtra(BundleConstraint.LINK_IMG, comic.getThumbnail());
             holder.itemView.getContext().startActivity(intent);
         });
     }
