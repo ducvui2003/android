@@ -29,7 +29,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
-        setContentView(R.layout.doimatkhau);
+        setContentView(R.layout.activity_change_password);
         init();
         setOnClickListener();
     }

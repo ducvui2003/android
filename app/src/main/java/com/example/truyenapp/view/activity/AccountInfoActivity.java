@@ -37,7 +37,7 @@ public class AccountInfoActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.thongtintaikhoan);
+        setContentView(R.layout.activity_account_info);
         // create API connection
         userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
         init();
