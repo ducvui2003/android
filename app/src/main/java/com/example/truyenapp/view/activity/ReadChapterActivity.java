@@ -30,7 +30,7 @@ import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.response.RatingResponse;
 import com.example.truyenapp.view.adapter.CommentAdapter;
-import com.example.truyenapp.view.adapter.DocChapterAdapter;
+import com.example.truyenapp.view.adapter.ReadChapterAdapter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class ReadChapterActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
-    private DocChapterAdapter rcvAdapter;
+    private ReadChapterAdapter rcvAdapter;
     public Integer idChapter, idComic;
     TextView chapterName, star;
     ImageView imgBackChapter, imgPre, imgNext;
@@ -190,7 +190,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
                     APIResponse<List<ChapterContentRespone>> apiResponse = response.body();
                     if (apiResponse != null) {
                         List<ChapterContentRespone> chapterContentResponses = apiResponse.getResult();
-                        rcvAdapter = new DocChapterAdapter(chapterContentResponses, ReadChapterActivity.this);
+                        rcvAdapter = new ReadChapterAdapter(chapterContentResponses, ReadChapterActivity.this);
                         rcv.setAdapter(rcvAdapter);
                     }
                 }

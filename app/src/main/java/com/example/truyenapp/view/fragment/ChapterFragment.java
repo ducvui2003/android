@@ -32,7 +32,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ChapterFragment extends Fragment {
-    Chapter chapter;
+//    Chapter chapter;
     View view;
     TextView textViewChapter, ngayDang, luotXem;
     private RecyclerView rcv;

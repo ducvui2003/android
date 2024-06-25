@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookResponse {
-    Integer id;
-    String name;
-    String author;
-    String description;
-    Integer view;
-    Double rating;
-    String thumbnail;
-    Integer quantityChapter;
-    List<String> categoryNames;
-    Date publishDate;
-    String status;
+    private Integer id;
+    private String name;
+    private String author;
+    private String description;
+    private Integer view;
+    private Double rating;
+    private String thumbnail;
+    private Integer quantityChapter;
+    private List<String> categoryNames;
+    private Date publishDate;
+    private String status;
 }

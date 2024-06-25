@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.admin.StatisticalInformation;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.Comic;
-import com.example.truyenapp.model.Statistical;
 import com.example.truyenapp.response.BookResponse;
 
 import java.util.ArrayList;
