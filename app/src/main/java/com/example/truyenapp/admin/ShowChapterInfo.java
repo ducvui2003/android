@@ -42,11 +42,7 @@ public class ShowChapterInfo extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<<<< Temporary merge branch 1
-        setContentView(R.layout.activity_show_information_chapter);
-=========
         setContentView(R.layout.activity_show_chapter_info);
->>>>>>>>> Temporary merge branch 2
         bookAPI = RetrofitClient.getInstance(this).create(BookAPI.class);
         chapterAPI = RetrofitClient.getInstance(this).create(ChapterAPI.class);
 
