@@ -20,7 +20,7 @@ import com.example.truyenapp.R;
 
 import java.util.List;
 
-public class ComicSliderAdapter extends RecyclerView.Adapter<ComicSliderAdapter.TruyenViewHolder>{
+public class ComicSliderAdapter extends RecyclerView.Adapter<ComicSliderAdapter.TruyenViewHolder> {
     private Context context;
     private List<Comic> list;
     private String email;
@@ -30,58 +30,61 @@ public class ComicSliderAdapter extends RecyclerView.Adapter<ComicSliderAdapter.
         this.email = email;
     }
 
-    public ComicSliderAdapter(List<Comic> list, Context context, String email)
-    {
-        this.list=list;
-        this.context=context;
-        this.email=email;
+    public ComicSliderAdapter(List<Comic> list, Context context, String email) {
+        this.list = list;
+        this.context = context;
+        this.email = email;
     }
+
     public void setData(List<Comic> comicList) {
         this.list = comicList;
         this.notifyDataSetChanged();
     }
+
     @NonNull
     @Override
     public ComicSliderAdapter.TruyenViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_slider,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_slider, parent, false);
         return new ComicSliderAdapter.TruyenViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ComicSliderAdapter.TruyenViewHolder holder, int position) {
-        Comic comic =list.get(position);
-        if(comic ==null){
+        Comic comic = list.get(position);
+        if (comic == null) {
             return;
         }
 
         Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgtruyen);
         holder.tv_tentruyen.setText(comic.getNameStory());
         holder.ll_rcv.setOnClickListener(view -> {
-            Intent intent=new Intent(holder.itemView.getContext(), DetailComicActivity.class);
+            Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
             intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
-//            intent.putExtra("email",email);
+            intent.putExtra("imageComic", comic.getLinkImage());
             holder.itemView.getContext().startActivity(intent);
         });
     }
 
     @Override
     public int getItemCount() {
-        if(list!=null){
+        if (list != null) {
             return list.size();
         }
         return 0;
     }
 
-    public class TruyenViewHolder extends RecyclerView.ViewHolder{
+    public class TruyenViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imgtruyen;
         private TextView tv_tentruyen;
         private LinearLayout ll_rcv;
+
         public TruyenViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgtruyen=itemView.findViewById(R.id.img_truyen);
-            tv_tentruyen=itemView.findViewById(R.id.tv_title);
-            ll_rcv=itemView.findViewById(R.id.ll_rcv);
+            imgtruyen = itemView.findViewById(R.id.img_truyen);
+            tv_tentruyen = itemView.findViewById(R.id.tv_title);
+            ll_rcv = itemView.findViewById(R.id.ll_rcv);
         }
     }
 }

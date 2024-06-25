@@ -22,7 +22,6 @@ import java.util.List;
 public class StatisticalManagementAdapter extends RecyclerView.Adapter<StatisticalManagementAdapter.QLThongKeViewHolder> {
     private Context context;
     private List<BookResponse> list;
-    private Database db;
 
     public StatisticalManagementAdapter(Context context, List<BookResponse> list) {
         this.context = context;

@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class BookRequest {
-    Integer id;
-    String name;
-    String author;
-    String description;
-    String thumbnail;
-    List<String> categoryNames;
-    String status;
+    private Integer id;
+    private String name;
+    private String author;
+    private String description;
+    private String thumbnail;
+    private List<String> categoryNames;
+    private String status;
 
 
 }

@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class CommentCreationRequestDTO {
-    Integer chapterId;
-    String content;
+    private Integer chapterId;
+    private String content;
 }

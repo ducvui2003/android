@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,17 +22,20 @@ import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.view.adapter.CategoryViewModel;
 import com.example.truyenapp.view.adapter.ComicNewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ComicNewFragment extends Fragment {
-
+    CategoryViewModel categoryViewModel;
     private View view;
     private RecyclerView rcv;
     private ComicNewAdapter adapter;
@@ -62,6 +66,8 @@ public class ComicNewFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init();
         getData();
+        categoryViewModel = new ViewModelProvider(requireActivity()).get(CategoryViewModel.class);
+        categoryViewModel.getCategoryId().observe(getViewLifecycleOwner(), this::update);
         rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {
             @Override
             public void loadMoreItem() {
@@ -80,15 +86,6 @@ public class ComicNewFragment extends Fragment {
                 return isLastPage;
             }
         });
-    }
-
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-        currentPage = 1;
-        this.listCommic.clear();
-        this.adapter.notifyDataSetChanged();
-        getData();
     }
 
     private void init() {
@@ -125,11 +122,8 @@ public class ComicNewFragment extends Fragment {
     public void getData() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         Call<APIResponse<DataListResponse<BookResponse>>> call;
-        if (categoryId != null) {
-            call = response.getNewComic(categoryId, currentPage, PAGE_SIZE);
-        } else {
-            call = response.getNewComic(currentPage, PAGE_SIZE);
-        }
+        if (categoryId == null) categoryId = 0;
+        call = response.getNewComic(categoryId, currentPage, PAGE_SIZE);
         call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
@@ -161,5 +155,16 @@ public class ComicNewFragment extends Fragment {
                 Toast.makeText(getActivity(), "Lỗi kết nối", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void update(Integer integer) {
+        this.categoryId = integer;
+        currentPage = 1;
+        totalPage = 0;
+        this.adapter.removeFooterLoading();
+        this.adapter.clearData();
+        this.isLoading = false;
+        this.isLastPage = false;
+        this.getData();
     }
 }

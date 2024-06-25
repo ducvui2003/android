@@ -23,7 +23,7 @@
         android:gravity="center"
         android:textColor="@color/black"/>
     <TextView
-        android:id="@+id/tv_diemtichluy"
+        android:id="@+id/tv_redeem_reward_total_point"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="500"
