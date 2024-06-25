@@ -33,13 +33,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class StoreAdapter extends RecyclerView.Adapter<StoreItemViewHolder> {
-    private Context context;
     private List<Item> list;
     @Getter
     private StoreFragment storeFragment;
 
     public StoreAdapter(Context context, List<Item> list, StoreFragment storeFragment) {
-        this.context = context;
         this.list = list;
         this.storeFragment = storeFragment;
     }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.paging.PagingAdapter;
 import com.example.truyenapp.view.viewHolder.CommentManagerViewHolder;

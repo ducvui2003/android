@@ -11,15 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.request.CommentResponseOverall;
 import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CommentResponse;
-import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.CommentAdapter;
-import com.example.truyenapp.model.Comment;
 import com.example.truyenapp.view.adapter.CommentAdapter;
 
 import java.util.ArrayList;

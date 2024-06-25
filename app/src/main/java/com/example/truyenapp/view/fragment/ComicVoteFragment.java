@@ -2,7 +2,6 @@ package com.example.truyenapp.view.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.view.adapter.CategoryViewModel;
@@ -28,8 +26,6 @@ import com.example.truyenapp.view.adapter.ComicVoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,7 +36,7 @@ public class ComicVoteFragment extends Fragment {
     private View view;
     private RecyclerView rcv;
     private ComicVoteAdapter adapter;
-    private List<ClassifyStory> listCommic = new ArrayList<>();
+    private List<BookResponse> listComic = new ArrayList<>();
     private Integer categoryId;
     private boolean isLoading = false;
     private boolean isLastPage = false;
@@ -100,15 +96,15 @@ public class ComicVoteFragment extends Fragment {
 
     private void init() {
         this.rcv = view.findViewById(R.id.rcv_comic_card);
-        this.adapter = new ComicVoteAdapter(getActivity(), listCommic);
+        this.adapter = new ComicVoteAdapter(getActivity(), listComic);
         this.linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);
     }
 
-    private void setFirstData(List<ClassifyStory> list) {
-        this.listCommic.addAll(list);
-        adapter.setData(this.listCommic);
+    private void setFirstData(List<BookResponse> list) {
+        this.listComic.addAll(list);
+        adapter.setData(this.listComic);
         if (currentPage < totalPage) {
             adapter.addFooterLoading();
         } else {
@@ -117,9 +113,9 @@ public class ComicVoteFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadNextPage(List<ClassifyStory> list) {
+    private void loadNextPage(List<BookResponse> list) {
         adapter.removeFooterLoading();
-        this.listCommic.addAll(list);
+        this.listComic.addAll(list);
         adapter.notifyDataSetChanged();
         this.isLoading = false;
         if (currentPage < totalPage) {
@@ -143,14 +139,9 @@ public class ComicVoteFragment extends Fragment {
                 }
                 if (data.getCode() == 400)
                     return;
-                List<ClassifyStory> listTemp = new ArrayList<>();
+                List<BookResponse> listTemp = data.getResult().getData();
                 currentPage = data.getResult().getCurrentPage();
                 totalPage = data.getResult().getTotalPages();
-                for (BookResponse bookResponse : data.getResult().getData()) {
-                    String nameCategory = bookResponse.getCategoryNames().get(0);
-                    ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());
-                    listTemp.add(classifyStory);
-                }
 
                 if (currentPage == 1) {
                     setFirstData(listTemp);

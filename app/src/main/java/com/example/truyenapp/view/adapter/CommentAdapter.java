@@ -42,7 +42,7 @@ public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapte
         if (comment == null) {
             return;
         }
-        String link = comment.getUser().getAvatar();
+        String link = comment.getThumbnail();
         String email = comment.getUser().getEmail();
         String nameChapter = comment.getChapterName();
         if (link!= null) {

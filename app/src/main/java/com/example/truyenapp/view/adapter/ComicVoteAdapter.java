@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingAdapter;
+import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.view.activity.DetailComicActivity;
 
 import java.util.List;
 
-public class ComicVoteAdapter extends PagingAdapter<ClassifyStory, ComicVoteAdapter.VoteViewHolder> {
-    public ComicVoteAdapter(Context context, List<ClassifyStory> list) {
+public class ComicVoteAdapter extends PagingAdapter<BookResponse, ComicVoteAdapter.VoteViewHolder> {
+    public ComicVoteAdapter(Context context, List<BookResponse> list) {
         super(context, list);
     }
 
@@ -32,15 +32,15 @@ public class ComicVoteAdapter extends PagingAdapter<ClassifyStory, ComicVoteAdap
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void bindData(VoteViewHolder holder, ClassifyStory commic) {
+    protected void bindData(VoteViewHolder holder, BookResponse commic) {
         if (commic == null) {
             return;
         }
-        Log.d("date", commic.getPostingDate() + "");
-        String publishDate = Format.formatDate(commic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy");
-        Glide.with(this.context).load(commic.getLinkImage()).into(holder.imgCommic);
-        holder.nameCommic.setText(commic.getNameStory());
-        holder.info.setText("Đánh giá: " + Format.roundNumber(commic.getEvaluate()));
+        Log.d("date", commic.getPublishDate() + "");
+        String publishDate = Format.formatDate(commic.getPublishDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy");
+        Glide.with(this.context).load(commic.getThumbnail()).into(holder.imgCommic);
+        holder.nameCommic.setText(commic.getName());
+        holder.info.setText("Đánh giá: " + Format.roundNumber(commic.getRating()));
         holder.dateCommic.setText("Ngày đăng: " + publishDate);
         holder.detailCommicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);

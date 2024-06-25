@@ -12,16 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingAdapter;
+import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.view.activity.DetailComicActivity;
 
 import java.util.List;
 
-public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapter.NewHolder> {
+public class ComicNewAdapter extends PagingAdapter<BookResponse, ComicNewAdapter.NewHolder> {
 
-    public ComicNewAdapter(Context context, List<ClassifyStory> list) {
+    public ComicNewAdapter(Context context, List<BookResponse> list) {
         super(context, list);
     }
 
@@ -31,14 +31,14 @@ public class ComicNewAdapter extends PagingAdapter<ClassifyStory, ComicNewAdapte
     }
 
     @Override
-    protected void bindData(NewHolder holder, ClassifyStory comic) {
+    protected void bindData(NewHolder holder, BookResponse comic) {
         if (comic == null) {
             return;
         }
-        if (comic.getLinkImage() != null)
-            Glide.with(this.context).load(comic.getLinkImage()).into(holder.imgComic);
-        holder.nameComic.setText(comic.getNameStory());
-        holder.dateComic.setText("Ngày đăng: " + Format.formatDate(comic.getPostingDate(), "yyyy-MM-dd", "dd-MM-yyyy"));
+        if (comic.getThumbnail() != null)
+            Glide.with(this.context).load(comic.getThumbnail()).into(holder.imgComic);
+        holder.nameComic.setText(comic.getName());
+        holder.dateComic.setText("Ngày đăng: " + Format.formatDate(comic.getPublishDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
         holder.info.setVisibility(View.GONE);
         holder.detailComicView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);

@@ -27,10 +27,8 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
 import com.example.truyenapp.mapper.BookMapper;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.model.ModelSearch;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CategoryResponse;
 import com.example.truyenapp.response.DataListResponse;
@@ -53,7 +51,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> categoryAdapter;
     Map<Integer, String> mapCategory;
-    List<ModelSearch> listComic;
+    List<BookResponse> listComic;
     LinearLayoutManager linearLayoutManager;
     public String category;
     public String keyword = "";
@@ -113,7 +111,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
-    private void setFirstData(List<ModelSearch> list) {
+    private void setFirstData(List<BookResponse> list) {
         this.listComic.addAll(list);
         adapter.setData(this.listComic);
         if (currentPage < totalPage) {
@@ -124,7 +122,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadNextPage(List<ModelSearch> list) {
+    private void loadNextPage(List<BookResponse> list) {
         adapter.removeFooterLoading();
         this.listComic.addAll(list);
         adapter.notifyDataSetChanged();
@@ -204,15 +202,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     showNotify("Không có truyện cần tìm!!!");
                     return;
                 }
-                List<ModelSearch> listTemp = new ArrayList<>();
+                List<BookResponse> listTemp = data.getResult().getData();
                 currentPage = data.getResult().getCurrentPage();
                 totalPage = data.getResult().getTotalPages();
-                for (BookResponse bookResponse : data.getResult().getData()) {
-                    String nameCategory = bookResponse.getCategoryNames().get(0);
-                    ModelSearch item = BookMapper.INSTANCE.bookResponseToModelSearch(bookResponse);
-                    item.setCategory(nameCategory);
-                    listTemp.add(item);
-                }
                 showNotify("");
                 if (currentPage == 1) {
                     setFirstData(listTemp);
