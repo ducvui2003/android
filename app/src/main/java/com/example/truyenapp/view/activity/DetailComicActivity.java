@@ -10,33 +10,28 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.api.BookAPI;
-import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.model.Comic;
-import com.example.truyenapp.view.fragment.FragmentAdapter;
+import com.example.truyenapp.view.adapter.FragmentAdapterDetail;
 import com.google.android.material.tabs.TabLayout;
 
 public class DetailComicActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager2 pager2;
-    private FragmentAdapter adapter;
+    private FragmentAdapterDetail adapter;
     private ImageView imgComic;
-    private Comic comic;
-    private   String linkImage;
-    private BookAPI bookAPI;
+    private String linkImage;
     private int idComic;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_comic);
         Intent intent = getIntent();
         idComic = intent.getIntExtra(BundleConstraint.ID_COMIC, 0);
-         linkImage = intent.getStringExtra("imageComic");
+        linkImage = intent.getStringExtra(BundleConstraint.LINK_IMG);
         init();
-        bookAPI = RetrofitClient.getInstance(this).create(BookAPI.class);
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        adapter=new FragmentAdapter(fragmentManager,getLifecycle());
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        adapter = new FragmentAdapterDetail(fragmentManager, getLifecycle());
         pager2.setAdapter(adapter);
 
         tabLayout.addTab(tabLayout.newTab().setText("Chi tiết"));
@@ -68,10 +63,11 @@ public class DetailComicActivity extends AppCompatActivity {
 
         adapter.setIdComic(idComic);
     }
-    private void init(){
-        tabLayout=findViewById(R.id.tab_layout);
-        pager2=findViewById(R.id.view_pager2);
-        imgComic =findViewById(R.id.img_truyen);
+
+    private void init() {
+        tabLayout = findViewById(R.id.tab_layout);
+        pager2 = findViewById(R.id.view_pager2);
+        imgComic = findViewById(R.id.img_truyen);
         Glide.with(this).load(linkImage).into(imgComic);
 
     }

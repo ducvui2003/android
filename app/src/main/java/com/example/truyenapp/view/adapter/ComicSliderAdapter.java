@@ -60,7 +60,7 @@ public class ComicSliderAdapter extends RecyclerView.Adapter<ComicSliderAdapter.
         holder.ll_rcv.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
             intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
-            intent.putExtra("imageComic", comic.getLinkImage());
+            intent.putExtra(BundleConstraint.LINK_IMG, comic.getLinkImage());
             holder.itemView.getContext().startActivity(intent);
         });
     }
