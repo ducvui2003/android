@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.truyenapp.R;
 import com.example.truyenapp.model.RewardPoint;
+import com.example.truyenapp.utils.Format;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class RedeemRewardHistoryAdapter extends RecyclerView.Adapter<RedeemRewar
         }
 
         holder.tvScore.setText("+ " + rewardPoint.getPoint() + " điểm");
-        holder.tvDate.setText(rewardPoint.getDate().toString());
+        holder.tvDate.setText(Format.formatDate(rewardPoint.getDate().toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
     }
 
     @Override

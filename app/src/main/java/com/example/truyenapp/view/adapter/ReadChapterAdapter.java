@@ -11,30 +11,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
-import com.example.truyenapp.model.ContentOfChapter;
 import com.example.truyenapp.response.ChapterContentRespone;
 
 import java.util.List;
 
-public class DocChapterAdapter extends RecyclerView.Adapter<DocChapterAdapter.DocChapterViewHolder> {
+public class ReadChapterAdapter extends RecyclerView.Adapter<ReadChapterAdapter.DocChapterViewHolder> {
 
     private List<ChapterContentRespone> list;
     private Context context;
 
-    public DocChapterAdapter(List<ChapterContentRespone> list, Context context) {
+    public ReadChapterAdapter(List<ChapterContentRespone> list, Context context) {
         this.list = list;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public DocChapterAdapter.DocChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReadChapterAdapter.DocChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rcv_docchapter,parent,false);
-        return new DocChapterAdapter.DocChapterViewHolder(view);
+        return new ReadChapterAdapter.DocChapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DocChapterAdapter.DocChapterViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ReadChapterAdapter.DocChapterViewHolder holder, int position) {
         ChapterContentRespone contentOfChapter =list.get(position);
         if(contentOfChapter ==null){
             return;

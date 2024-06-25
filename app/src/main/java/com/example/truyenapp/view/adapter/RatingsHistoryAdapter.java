@@ -174,8 +174,14 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
                 public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(context, "Cập nhật đánh giá thành công", Toast.LENGTH_SHORT).show();
+
+                        // Cập nhật đối tượng Evaluate trong danh sách
+                        evaluate.setStar(rating);
+
+                        // Cập nhật giao diện
                         setRatingAfterChanged(holder);
                         holder.rateComponent.setVisibility(View.GONE); // Đóng rateComponent
+                        notifyDataSetChanged(); // Thông báo cho RecyclerView rằng dữ liệu đã thay đổi
                     } else {
                         int statusCode = response.code();
                         if (statusCode == 400) {
@@ -193,8 +199,9 @@ public class RatingsHistoryAdapter extends RecyclerView.Adapter<RatingsHistoryAd
             });
         }
     }
-    
-    
+
+
+
 
     public LocalDateTime getCurrentDateTime() {
         return LocalDateTime.now();

@@ -2,6 +2,7 @@ package com.example.truyenapp.view.fragment;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,16 +23,20 @@ import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.DataListResponse;
+import com.example.truyenapp.view.adapter.CategoryViewModel;
 import com.example.truyenapp.view.adapter.ComicVoteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ComicVoteFragment extends Fragment {
+    CategoryViewModel categoryViewModel;
     private View view;
     private RecyclerView rcv;
     private ComicVoteAdapter adapter;
@@ -59,6 +65,8 @@ public class ComicVoteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         this.init();
         getData();
+        categoryViewModel = new ViewModelProvider(requireActivity()).get(CategoryViewModel.class);
+        categoryViewModel.getCategoryId().observe(getViewLifecycleOwner(), this::update);
         rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {
             @Override
             public void loadMoreItem() {
@@ -79,20 +87,23 @@ public class ComicVoteFragment extends Fragment {
         });
     }
 
+    private void update(Integer integer) {
+        this.categoryId = integer;
+        currentPage = 1;
+        totalPage = 0;
+        this.adapter.removeFooterLoading();
+        this.adapter.clearData();
+        this.isLoading = false;
+        this.isLastPage = false;
+        this.getData();
+    }
+
     private void init() {
         this.rcv = view.findViewById(R.id.rcv_comic_card);
         this.adapter = new ComicVoteAdapter(getActivity(), listCommic);
         this.linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-        this.currentPage = 1;
-        this.listCommic.clear();
-        this.adapter.notifyDataSetChanged();
-        getData();
     }
 
     private void setFirstData(List<ClassifyStory> list) {
@@ -121,11 +132,8 @@ public class ComicVoteFragment extends Fragment {
     public void getData() {
         SearchAPI response = RetrofitClient.getInstance(getContext()).create(SearchAPI.class);
         Call<APIResponse<DataListResponse<BookResponse>>> call;
-        if (categoryId != null) {
-            call = response.rank("rating", categoryId, currentPage, PAGE_SIZE);
-        } else {
-            call = response.rank("rating", currentPage, PAGE_SIZE);
-        }
+        if (categoryId == null) categoryId = 0;
+        call = response.rank("rating", categoryId, currentPage, PAGE_SIZE);
         call.enqueue(new Callback<APIResponse<DataListResponse<BookResponse>>>() {
             @Override
             public void onResponse(Call<APIResponse<DataListResponse<BookResponse>>> call, Response<APIResponse<DataListResponse<BookResponse>>> response) {
@@ -141,8 +149,9 @@ public class ComicVoteFragment extends Fragment {
                 for (BookResponse bookResponse : data.getResult().getData()) {
                     String nameCategory = bookResponse.getCategoryNames().get(0);
                     ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());
-                    listCommic.add(classifyStory);
+                    listTemp.add(classifyStory);
                 }
+
                 if (currentPage == 1) {
                     setFirstData(listTemp);
                 } else {

@@ -6,12 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class InventoryViewModelFactory implements  ViewModelProvider.Factory {
+public class InventoryViewModelFactory implements ViewModelProvider.Factory {
     private Context context;
 
     public InventoryViewModelFactory(Context context) {
         this.context = context.getApplicationContext(); // Use application context to avoid memory leaks
     }
+
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {

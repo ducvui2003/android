@@ -30,7 +30,7 @@ import com.example.truyenapp.response.CommentResponse;
 import com.example.truyenapp.response.DataListResponse;
 import com.example.truyenapp.response.RatingResponse;
 import com.example.truyenapp.view.adapter.CommentAdapter;
-import com.example.truyenapp.view.adapter.DocChapterAdapter;
+import com.example.truyenapp.view.adapter.ReadChapterAdapter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class ReadChapterActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView rcv, rcvComment;
-    private DocChapterAdapter rcvAdapter;
+    private ReadChapterAdapter rcvAdapter;
     public Integer idChapter, idComic;
     TextView chapterName, star;
     ImageView imgBackChapter, imgPre, imgNext;
@@ -88,7 +88,6 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
         rcv = findViewById(R.id.rcv_read_chapter);
         rcvComment = findViewById(R.id.rcv_read_chapter_comment);
         chapterName = findViewById(R.id.tv_rea_chapter_name);
-        imgBackChapter = findViewById(R.id.image_read_chapter_back);
         imgNext = findViewById(R.id.image_read_chapter_next);
         imgPre = findViewById(R.id.image_read_chapter_prev);
         editTextComment = findViewById(R.id.edit_read_chapter_comment);
@@ -157,12 +156,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
                 setupIntent(intent1, position + 1);
                 startActivity(intent1);
                 break;
-            case R.id.image_read_chapter_back:
-                Intent intent2 = new Intent(this, DetailComicActivity.class);
-                intent2.putExtra(BundleConstraint.ID_COMIC, idComic);
-                startActivity(intent2);
-                finish();
-                break;
+
             case R.id.button_read_chapter_comment:
                 comment();
                 break;
@@ -177,7 +171,6 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setOnClickListener() {
-        imgBackChapter.setOnClickListener(this);
         imgPre.setOnClickListener(this);
         imgNext.setOnClickListener(this);
         btnComment.setOnClickListener(this);
@@ -197,7 +190,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
                     APIResponse<List<ChapterContentRespone>> apiResponse = response.body();
                     if (apiResponse != null) {
                         List<ChapterContentRespone> chapterContentResponses = apiResponse.getResult();
-                        rcvAdapter = new DocChapterAdapter(chapterContentResponses, ReadChapterActivity.this);
+                        rcvAdapter = new ReadChapterAdapter(chapterContentResponses, ReadChapterActivity.this);
                         rcv.setAdapter(rcvAdapter);
                     }
                 }
@@ -390,7 +383,7 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
     }
 
     @SuppressLint("SetTextI18n")
-    private void setRatingAfterChanged(){
+    private void setRatingAfterChanged() {
         float ratingChanged = getUserRating();
         rtb.setRating(ratingChanged);
         star.setText(String.valueOf(ratingChanged));

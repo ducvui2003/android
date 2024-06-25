@@ -24,11 +24,6 @@ public class ComicViewAdapter extends PagingAdapter<ClassifyStory, ComicViewAdap
         super(context, list);
     }
 
-    public void setData(List<ClassifyStory> list) {
-        this.list = list;
-        notifyDataSetChanged();
-    }
-
     @Override
     protected RankViewHolder createItemViewHolder(View view) {
         return new RankViewHolder(view);

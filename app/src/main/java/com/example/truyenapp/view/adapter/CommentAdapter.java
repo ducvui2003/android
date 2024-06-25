@@ -45,7 +45,9 @@ public class CommentAdapter extends PagingAdapter<CommentResponse, CommentAdapte
         String link = comment.getUser().getAvatar();
         String email = comment.getUser().getEmail();
         String nameChapter = comment.getChapterName();
-        Glide.with(this.context).load(link).into(holder.avatar);
+        if (link!= null) {
+            Glide.with(this.context).load(link).into(holder.avatar);
+        }
         holder.name.setText(email);
         holder.content.setText(comment.getContent());
         holder.date.setText(Format.formatDate(comment.getCreatedAt().toString(), "yyyy-MM-dd", "dd-MM-yyyy"));
