@@ -30,14 +30,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ManagementAccount extends AppCompatActivity {
-    private Account account;
-    private String email;
     private RecyclerView rcv;
     private ManagerAccountAdapter adapter;
     private ImageView imgNewAccount;
-    private Button btnAdd, btnCancel;
-    private EditText edtEmail, edtPassword, name, edtPhone;
-    private CardView cardViewAddAcount;
     private UserAPI userAPI;
 
     @Override
@@ -47,7 +42,6 @@ public class ManagementAccount extends AppCompatActivity {
 
         init();
         Intent intent = getIntent();
-        email = intent.getStringExtra("email");
         userAPI = RetrofitClient.getInstance(this).create(UserAPI.class);
         recyclerViewQLTaiKhoan();
         getAccount();
@@ -60,13 +54,6 @@ public class ManagementAccount extends AppCompatActivity {
 
     private void init() {
         rcv = findViewById(R.id.rcv_manage_account);
-        btnCancel = findViewById(R.id.btn_cancel_add_account);
-        btnAdd = findViewById(R.id.btn_add_account);
-        edtEmail = findViewById(R.id.edt_email_new_account);
-        edtPassword = findViewById(R.id.edt_password);
-        name = findViewById(R.id.edt_name_new_account);
-        edtPhone = findViewById(R.id.edt_phone_new_account);
-        cardViewAddAcount = findViewById(R.id.cv_add_new_account);
     }
 
     public void getAccount() {

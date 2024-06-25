@@ -20,7 +20,7 @@ public class ShowInformationOfAccount extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.showthongtintaikhoan);
+        setContentView(R.layout.activity_show_information_account);
         init();
         Intent intent = getIntent();
         email = intent.getStringExtra("email");
