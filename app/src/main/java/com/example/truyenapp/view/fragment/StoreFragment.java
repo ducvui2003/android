@@ -1,6 +1,9 @@
 package com.example.truyenapp.view.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,18 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.truyenapp.R;
-import com.example.truyenapp.api.RedeemRewardAPI;
-import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.model.Item;
-import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.activity.StoreActivity;
 import com.example.truyenapp.view.adapter.InventoryViewModel;
 import com.example.truyenapp.view.adapter.InventoryViewModelFactory;
 import com.example.truyenapp.view.adapter.StoreAdapter;
@@ -30,9 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class StoreFragment extends Fragment {
 
