@@ -30,7 +30,7 @@ public class StatisticalInformation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.statistical_information);
+        setContentView(R.layout.activity_statistical_information);
         connectAPI();
         init();
         Intent intent = getIntent();

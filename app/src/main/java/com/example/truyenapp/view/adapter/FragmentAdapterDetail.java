@@ -11,9 +11,8 @@ import com.example.truyenapp.view.fragment.DetailFragment;
 
 public class FragmentAdapterDetail extends FragmentStateAdapter {
     private int idComic;
-
-    public FragmentAdapterDetail(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
-        super(fragmentManager, lifecycle);
+    public FragmentAdapterDetail(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle){
+        super(fragmentManager,lifecycle);
     }
 
     public void setIdComic(int idComic) {
@@ -23,7 +22,8 @@ public class FragmentAdapterDetail extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        switch (position) {
+        switch (position)
+        {
             case 1:
                 return new ChapterFragment(idComic);
         }

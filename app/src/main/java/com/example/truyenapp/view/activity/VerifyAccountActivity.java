@@ -15,7 +15,6 @@ import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.UserAPI;
 import com.example.truyenapp.model.AccountVerifyRequest;
-import com.example.truyenapp.request.ChangePasswordRequest;
 import com.example.truyenapp.response.APIResponse;
 
 import retrofit2.Call;
@@ -32,7 +31,7 @@ public class VerifyAccountActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.verify_account);
+        setContentView(R.layout.activity_verify_account);
         email = getIntent().getStringExtra("email");
         init();
         emailVerify.setText(email);

@@ -255,6 +255,9 @@ public class ReadChapterActivity extends AppCompatActivity implements View.OnCli
                 if (data.getCode() == 400)
                     return;
                 List<CommentResponse> listTemp = data.getResult().getData();
+                listTemp.forEach(comment -> {
+                    comment.setChapterName("");
+                });
                 currentPage = data.getResult().getCurrentPage();
                 totalPage = data.getResult().getTotalPages();
                 if (currentPage == 1) {

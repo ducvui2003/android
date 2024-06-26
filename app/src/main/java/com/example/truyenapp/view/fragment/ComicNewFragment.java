@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.RetrofitClient;
 import com.example.truyenapp.api.SearchAPI;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.response.APIResponse;
 import com.example.truyenapp.response.BookResponse;
@@ -27,8 +26,6 @@ import com.example.truyenapp.view.adapter.ComicNewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +36,7 @@ public class ComicNewFragment extends Fragment {
     private View view;
     private RecyclerView rcv;
     private ComicNewAdapter adapter;
-    private List<ClassifyStory> listCommic = new ArrayList<>();
+    private List<BookResponse> listComic = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
     private Integer categoryId;
     private boolean isLoading = false;
@@ -90,15 +87,15 @@ public class ComicNewFragment extends Fragment {
 
     private void init() {
         this.rcv = view.findViewById(R.id.rcv_comic_card);
-        this.adapter = new ComicNewAdapter(getActivity(), listCommic);
+        this.adapter = new ComicNewAdapter(getActivity(), listComic);
         this.linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         this.rcv.setLayoutManager(linearLayoutManager);
         this.rcv.setAdapter(adapter);
     }
 
-    private void setFirstData(List<ClassifyStory> list) {
-        this.listCommic.addAll(list);
-        adapter.setData(this.listCommic);
+    private void setFirstData(List<BookResponse> list) {
+        this.listComic.addAll(list);
+        adapter.setData(this.listComic);
         if (currentPage < totalPage) {
             adapter.addFooterLoading();
         } else {
@@ -107,9 +104,9 @@ public class ComicNewFragment extends Fragment {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private void loadNextPage(List<ClassifyStory> list) {
+    private void loadNextPage(List<BookResponse> list) {
         adapter.removeFooterLoading();
-        this.listCommic.addAll(list);
+        this.listComic.addAll(list);
         adapter.notifyDataSetChanged();
         this.isLoading = false;
         if (currentPage < totalPage) {
@@ -135,14 +132,9 @@ public class ComicNewFragment extends Fragment {
 
                 if (data.getCode() == 400)
                     return;
-                List<ClassifyStory> listTemp = new ArrayList<>();
+                List<BookResponse> listTemp = data.getResult().getData();
                 currentPage = data.getResult().getCurrentPage();
                 totalPage = data.getResult().getTotalPages();
-                for (BookResponse bookResponse : data.getResult().getData()) {
-                    String nameCategory = bookResponse.getCategoryNames().get(0);
-                    ClassifyStory classifyStory = new ClassifyStory(bookResponse.getId(), bookResponse.getView(), bookResponse.getRating().floatValue(), bookResponse.getName(), bookResponse.getPublishDate().toString(), nameCategory, bookResponse.getThumbnail());
-                    listTemp.add(classifyStory);
-                }
                 if (currentPage == 1) {
                     setFirstData(listTemp);
                 } else {

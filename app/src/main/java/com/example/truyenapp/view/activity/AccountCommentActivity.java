@@ -11,15 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.truyenapp.R;
 import com.example.truyenapp.api.CommentAPI;
 import com.example.truyenapp.api.RetrofitClient;
-import com.example.truyenapp.model.ClassifyStory;
 import com.example.truyenapp.paging.PagingScrollListener;
 import com.example.truyenapp.request.CommentResponseOverall;
 import com.example.truyenapp.response.APIResponse;
-import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.response.CommentResponse;
-import com.example.truyenapp.response.DataListResponse;
-import com.example.truyenapp.view.adapter.CommentAdapter;
-import com.example.truyenapp.model.Comment;
+import com.example.truyenapp.view.adapter.AccountCommentAdapter;
 import com.example.truyenapp.view.adapter.CommentAdapter;
 
 import java.util.ArrayList;
@@ -31,7 +27,7 @@ import retrofit2.Response;
 
 public class AccountCommentActivity extends AppCompatActivity {
     private RecyclerView rcv;
-    private CommentAdapter adapter;
+    private AccountCommentAdapter adapter;
     private TextView quantityComment;
     private boolean isLoading = false;
     private boolean isLastPage = false;
@@ -57,7 +53,7 @@ public class AccountCommentActivity extends AppCompatActivity {
         comments = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rcv.setLayoutManager(linearLayoutManager);
-        adapter = new CommentAdapter(this, comments);
+        adapter = new AccountCommentAdapter(this, comments);
         rcv.setAdapter(adapter);
         commentAPI = RetrofitClient.getInstance(this).create(CommentAPI.class);
         rcv.addOnScrollListener(new PagingScrollListener(this.linearLayoutManager) {

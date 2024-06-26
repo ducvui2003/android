@@ -43,7 +43,7 @@ public class RatingsHistory extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rating_history);
+        setContentView(R.layout.activity_rating_history);
         rcv_danhgia = findViewById(R.id.rcv_danhgia_tong);
         rcv_danhgia.setLayoutManager(new LinearLayoutManager(this));
         tv_danhgia_tong = findViewById(R.id.tv_danhgia_tong);

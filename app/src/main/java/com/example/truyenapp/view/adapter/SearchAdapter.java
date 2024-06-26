@@ -4,9 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,20 +14,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.truyenapp.R;
 import com.example.truyenapp.constraints.BundleConstraint;
-import com.example.truyenapp.model.ModelSearch;
 import com.example.truyenapp.paging.PagingAdapter;
+import com.example.truyenapp.response.BookResponse;
 import com.example.truyenapp.utils.Format;
 import com.example.truyenapp.view.activity.DetailComicActivity;
 
 import java.util.List;
 
-public class SearchAdapter extends PagingAdapter<ModelSearch, SearchAdapter.SearchViewHolder> {
-    public SearchAdapter(Context context, List<ModelSearch> list) {
+public class SearchAdapter extends PagingAdapter<BookResponse, SearchAdapter.SearchViewHolder> {
+    public SearchAdapter(Context context, List<BookResponse> list) {
         super(context, list);
         setItemRcv(R.layout.item_rcv_search);
     }
 
-    public void setData(List<ModelSearch> list) {
+    public void setData(List<BookResponse> list) {
         this.list = list;
         this.notifyDataSetChanged();
     }
@@ -41,20 +39,21 @@ public class SearchAdapter extends PagingAdapter<ModelSearch, SearchAdapter.Sear
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void bindData(SearchViewHolder holder, ModelSearch comic) {
+    protected void bindData(SearchViewHolder holder, BookResponse comic) {
         if (comic == null) {
             return;
         }
         Log.d("data", comic.toString());
-        Glide.with(this.context).load(comic.getLinkImage()).into(holder.thumbnail);
-        holder.name.setText(comic.getNameStory());
+        Glide.with(this.context).load(comic.getThumbnail()).into(holder.thumbnail);
+        holder.name.setText(comic.getName());
         holder.view.setText("Lượt xem: " + comic.getView());
-        holder.chapters.setText("Chapter: " + comic.getChapter());
-        holder.review.setText("Đánh giá: " + Format.roundNumber(comic.getEvaluate()));
-        holder.category.setText(comic.getCategory());
+        holder.chapters.setText("Số tập: " + comic.getQuantityChapter());
+        holder.review.setText("Đánh giá: " + Format.roundNumber(comic.getRating()));
+        holder.category.setText(comic.getCategoryNames().stream().findFirst().orElse(""));
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), DetailComicActivity.class);
             intent.putExtra(BundleConstraint.ID_COMIC, comic.getId());
+            intent.putExtra(BundleConstraint.LINK_IMG, comic.getThumbnail());
             holder.itemView.getContext().startActivity(intent);
         });
     }

@@ -2,8 +2,6 @@ package com.example.truyenapp.admin;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -40,14 +38,9 @@ import com.example.truyenapp.utils.UploadImage;
 import com.example.truyenapp.view.adapter.admin.BookManagementAdapter;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.Wave;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -77,7 +70,7 @@ public class BookManagement extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.book_management);
+        setContentView(R.layout.activity_book_management);
         connectAPI();
 
         JWTToken token = SharedPreferencesHelper.getObject(this, SystemConstant.JWT_TOKEN, JWTToken.class);
